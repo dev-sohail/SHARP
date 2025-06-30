@@ -32,13 +32,13 @@ class ControllerProduct extends Controller
         $data['add']    = $this->link('product/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$data['delete'] = $this->link('product/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
-		$data['feedbacks'] = array();
+		$data['products'] = array();
 		$filter_data   = array(
 			'order' => $order,
 		);
 		$results       = $this->model_product->getProducts($this->config->get('config_language_id'), $filter_data);
         foreach ($results as $result) {
-			$data['product'][] = array(
+			$data['products'][] = array(
 				'product_id' => $result['id'],
 				'title'    => $result['title'],
 				'status'    => $result['status'],
@@ -106,15 +106,15 @@ class ControllerProduct extends Controller
 
     public function add()
 	{
-        $this->document->setTitle('Admin - Add Customer Feedback');
+        $this->document->setTitle('Admin - Add Product');
 
-		$this->load_model('customerfeedback');
+		$this->load_model('product');
 
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 
-			$this->model_customerfeedback->addCustomerFeedback($this->request->post);
+			$this->model_product->addProduct($this->request->post);
 
-			$this->session->data['success'] = $this->language->get('Success: You have added a new customer feedback!');
+			$this->session->data['success'] = $this->language->get('Success: You have added a new product!');
 
 			$url = '';
 
@@ -127,18 +127,18 @@ class ControllerProduct extends Controller
 			if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
 			}
-			$this->response->redirect($this->link('customerfeedback', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->response->redirect($this->link('product', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 		$this->getForm();
     }
 
     protected function validateForm()
 	{
-		if (!$this->user->hasPermission('modify', 'customerfeedback')) {
+		if (!$this->user->hasPermission('modify', 'product')) {
 			$this->error['warning'] = 'Warning: You do not have permission for modification!';
 		}
 		$data = $this->request->post;
-        foreach ($data['feedback_description'] as $language_id => $value) {
+        foreach ($data['product_description'] as $language_id => $value) {
             if ((utf8_strlen(trim($value['title'])) < 1)) {
                 $this->error['title'][$language_id] = "Title field is missing";
             }
@@ -149,7 +149,7 @@ class ControllerProduct extends Controller
                 $this->error['designation'][$language_id] = "Designation field is missing";
             }
         }
-        if (!$this->request->get['feedback_id']) {
+        if (!$this->request->get['product_id']) {
             if ($_FILES["icon"]["name"] == "") {
                 $this->error['icon'] = 'Please upload icon image';
             }
@@ -175,11 +175,11 @@ class ControllerProduct extends Controller
 
 	public function edit()
 	{
-		$this->document->setTitle('Admin - Edit Customer Feedback');
+		$this->document->setTitle('Admin - Edit Product');
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
-			$this->load_model('customerfeedback');
-			$this->model_customerfeedback->editCustomerFeedback($this->request->get['feedback_id'], $this->request->post);
-			$this->session->data['success'] = $this->language->get('Success: You have modified customer feedback!');
+			$this->load_model('product');
+			$this->model_product->editProduct($this->request->get['product_id'], $this->request->post);
+			$this->session->data['success'] = $this->language->get('Success: You have modified product!');
 			$url = '';
 			if (isset($this->request->get['sort'])) {
 				$url .= '&sort=' . $this->request->get['sort'];
@@ -190,19 +190,19 @@ class ControllerProduct extends Controller
 			if (isset($this->request->get['page'])) {
 				$url .= '&page=' . $this->request->get['page'];
 			}
-			$this->response->redirect($this->link('customerfeedback', 'token=' . $this->session->data['token'] . $url, 'SSL'));
+			$this->response->redirect($this->link('product', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 		$this->getForm();
 	}
 
 	public function delete()
 	{
-		$this->load_model('customerfeedback');
-		if($this->validateDelete() && isset($this->request->post['feedback_id'])) {
-			$this->model_customerfeedback->deleteCustomerFeedback($this->request->post['feedback_id']);
-			$this->session->data['success'] = $this->language->get('Success: You have deleted a customer feedback!');
+		$this->load_model('product');
+		if($this->validateDelete() && isset($this->request->post['product_id'])) {
+			$this->model_product->deleteProduct($this->request->post['product_id']);
+			$this->session->data['success'] = $this->language->get('Success: You have deleted a product!');
 
-			$this->response->redirect($this->link('customerfeedback', 'token=' . $this->session->data['token'], 'SSL'));
+			$this->response->redirect($this->link('product', 'token=' . $this->session->data['token'], 'SSL'));
 		}
 		
 		$this->getList();
@@ -211,9 +211,9 @@ class ControllerProduct extends Controller
 	protected function getForm()
 	{
 		$data                       = $this->language->getAll();
-		$data['text_form']          = ! isset($this->request->get['feedback_id']) ? 'Add New Customer Feedback' : 'Edit Customer Feedback';
-		$data['img_feild_required'] = ! isset($this->request->get['feedback_id']) ? "required" : "";
-		$data['is_edit']            = ! isset($this->request->get['feedback_id']) ? "no" : "yes";
+		$data['text_form']          = ! isset($this->request->get['product_id']) ? 'Add New Product' : 'Edit Product';
+		$data['img_feild_required'] = ! isset($this->request->get['product_id']) ? "required" : "";
+		$data['is_edit']            = ! isset($this->request->get['product_id']) ? "no" : "yes";
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -241,54 +241,54 @@ class ControllerProduct extends Controller
         }
 		$url = '';
 
-		if (! isset($this->request->get['feedback_id'])) {
-			$data['action'] = $this->link('customerfeedback/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		if (! isset($this->request->get['product_id'])) {
+			$data['action'] = $this->link('product/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		} else {
-			$data['action'] = $this->link('customerfeedback/edit', 'token=' . $this->session->data['token'] . '&feedback_id=' . $this->request->get['feedback_id'] . $url, 'SSL');
+			$data['action'] = $this->link('product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $this->request->get['product_id'] . $url, 'SSL');
 		}
-		$data['cancel'] = $this->link('customerfeedback', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		if (isset($this->request->get['feedback_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
-			$this->load_model('customerfeedback');
-			$feedback_info = $this->model_customerfeedback->getCustomerFeedback($this->request->get['feedback_id']);
+		$data['cancel'] = $this->link('product', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		if (isset($this->request->get['product_id']) && ($this->request->server['REQUEST_METHOD'] != 'POST')) {
+			$this->load_model('product');
+			$product_info = $this->model_product->getProduct($this->request->get['product_id']);
 		}
-		$data['feedback_info'] = $feedback_info;
+		$data['product_info'] = $product_info;
 		$db_filter             = [
 			'order' => 'DESC'
 		];
 		$this->load_model('language');
 		$data['languages'] = $this->model_language->getLanguages($db_filter);
-		if (isset($this->request->post['feedback_description'])) {
-			$data['feedback_description'] = $this->request->post['feedback_description'];
-		} elseif (isset($this->request->get['feedback_id'])) {
-			$data['feedback_description'] = $this->model_customerfeedback->getCustomerFeedbackDescriptions($this->request->get['feedback_id']);
+		if (isset($this->request->post['product_description'])) {
+			$data['product_description'] = $this->request->post['product_description'];
+		} elseif (isset($this->request->get['product_id'])) {
+			$data['product_description'] = $this->model_product->getProductDescriptions($this->request->get['product_id']);
 		} else {
-			$data['feedback_description'] = array();
+			$data['product_description'] = array();
 		}
 		if (isset($this->request->post['sort_order'])) {
 			$data['sort_order'] = $this->request->post['sort_order'];
-		} elseif (! empty($feedback_info)) {
-			$data['sort_order'] = $feedback_info['sort_order'];
+		} elseif (! empty($product_info)) {
+			$data['sort_order'] = $product_info['sort_order'];
 		} else {
 			$data['sort_order'] = '';
 		}
 		if (isset($this->request->post['status'])) {
 			$data['status'] = $this->request->post['status'];
-		} elseif (! empty($feedback_info)) {
-			$data['status'] = $feedback_info['status'];
+		} elseif (! empty($product_info)) {
+			$data['status'] = $product_info['status'];
 		} else {
 			$data['status'] = true;
 		}
 		if (isset($this->request->post['number_of_stars'])) {
 			$data['number_of_stars'] = $this->request->post['number_of_stars'];
-		} elseif (! empty($feedback_info)) {
-			$data['number_of_stars'] = $feedback_info['number_of_stars'];
+		} elseif (! empty($product_info)) {
+			$data['number_of_stars'] = $product_info['number_of_stars'];
 		} else {
 			$data['number_of_stars'] = 5;
 		}
         if (isset($this->request->post['icon'])) {
             $data['icon'] = $this->request->post['icon'];
-        } elseif (! empty($feedback_info)) {
-            $data['icon'] = $feedback_info['icon'];
+        } elseif (! empty($product_info)) {
+            $data['icon'] = $product_info['icon'];
         } else {
             $data['icon'] = '';
         }
@@ -297,7 +297,7 @@ class ControllerProduct extends Controller
 		// echo '</pre>';
 		// exit;
 		$this->data     = $data;
-		$this->template = 'modules/customerfeedback/form.tpl';
+		$this->template = 'modules/product/form.tpl';
 		$this->zones    = array(
 			'header',
 			'columnleft',
@@ -306,14 +306,14 @@ class ControllerProduct extends Controller
 		$this->response->setOutput($this->render());
     }
 
-	public function ajaxupdatefeedbackstatus()
+	public function ajaxupdateproductstatus()
 	{
 		$json = array();
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
-			$this->load_model('customerfeedback');
-			$feedback_id = $this->request->post['feedback_id'];
+			$this->load_model('product');
+			$product_id = $this->request->post['product_id'];
 			$status = $this->request->post['status'];
-			$this->model_customerfeedback->updateFeedbackStatus($feedback_id, $status);
+			$this->model_product->updateProductStatus($product_id, $status);
 			$json['success'] = true;
 			$this->response->addHeader('Content-Type: application/json');
 			$this->response->setOutput(json_encode($json));
@@ -322,7 +322,7 @@ class ControllerProduct extends Controller
 	protected function validateDelete()
 	{
 
-		if (!$this->user->hasPermission('modify', 'customerfeedback')) {
+		if (!$this->user->hasPermission('modify', 'product')) {
 			$this->error['warning'] = 'Warning: You do not have permission for modification!';
 		}
 		

@@ -109,7 +109,7 @@
 </script>
 <!-- DataTables initialization script -->
 <script type="text/javascript">
-    // Initialize DataTables for Feedback table with filters and custom options
+    // Initialize DataTables for product table with filters and custom options
     var table = $('#product-table').DataTable({
         "language": {
             "emptyTable": "No record found."

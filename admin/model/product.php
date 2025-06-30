@@ -18,13 +18,13 @@ class ModelProduct extends Model
         $status = $this->db->escape($data['status']);
 		$sortOrder = $this->db->escape($data['sort_order']);
         $numberOfStars = (int)$data['number_of_stars'];
-        $insertFeedbackQuery = "INSERT INTO `" . DB_PREFIX . "product` SET 
+        $insertProductQuery = "INSERT INTO `" . DB_PREFIX . "product` SET 
         icon = '" . $icon . "',
         number_of_stars = '" . (int)$numberOfStars . "', 
         sort_order = '" . (int)$sortOrder . "',
         status = '" . $status . "',
         date_added = NOW()";
-        $this->db->query($insertFeedbackQuery);
+        $this->db->query($insertProductQuery);
         $productId = $this->db->getLastId();
         foreach ($data['product_description'] as $languageId => $languageValue) {
             $languageId = (int)$languageId;
@@ -32,7 +32,7 @@ class ModelProduct extends Model
             $description = $this->db->escape($languageValue['description']);
             $designation = $this->db->escape($languageValue['designation']);
             $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_description SET 
-            feedback_id = '" . (int)$productId . "',
+            product_id = '" . (int)$productId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
             description = '" . $description . "',
@@ -50,7 +50,7 @@ class ModelProduct extends Model
     public function getProductDescriptions($productId)
     {
         $product_description_data = array();
-		$sql = "SELECT * FROM `" . DB_PREFIX . "product_description` WHERE feedback_id = " . (int)$productId;
+		$sql = "SELECT * FROM `" . DB_PREFIX . "product_description` WHERE product_id = " . (int)$productId;
 		$query = $this->db->query($sql);
 		foreach ($query->rows as $result) {
 			$product_description_data[$result['lang_id']] = array(
@@ -79,7 +79,7 @@ class ModelProduct extends Model
 		return $query->rows;
 	}
 
-	public function getTotalproduct()
+	public function getTotalproducts()
 	{
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "product`");
 		return $query->row['total'];
@@ -109,14 +109,14 @@ class ModelProduct extends Model
         $status = $this->db->escape($data['status']);
 		$sortOrder = $this->db->escape($data['sort_order']);
         $numberOfStars = isset($data['number_of_stars']) ? (int)$data['number_of_stars'] : 5;
-        $updateFeedbackQuery = "UPDATE `" . DB_PREFIX . "product` SET
+        $updateProductQuery = "UPDATE `" . DB_PREFIX . "product` SET
         status = '" . $status . "',
         number_of_stars = '" . $numberOfStars . "',
         sort_order = '" . $sortOrder . "',
         date_modified = NOW()
         WHERE id = '" . (int)$productId . "'";
-        $this->db->query($updateFeedbackQuery);
-        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "product_description WHERE feedback_id = '" . (int)$productId . "'";
+        $this->db->query($updateProductQuery);
+        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "product_description WHERE product_id = '" . (int)$productId . "'";
         $this->db->query($deleteDescriptionQuery);
         foreach ($data['product_description'] as $languageId => $languageValue) {
             $languageId = (int)$languageId;
@@ -124,19 +124,19 @@ class ModelProduct extends Model
             $description = $this->db->escape($languageValue['description']);
             $designation = $this->db->escape($languageValue['designation']);
             $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_description SET 
-            feedback_id = '" . (int)$productId . "',
+            product_id = '" . (int)$productId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
             description = '" . $description . "',
             designation = '" . $designation . "'";
             $this->db->query($updateDescriptionQuery);
         }
-    // die($updateFeedbackQuery);
+    // die($updateProductQuery);
     }
 
     public function deleteProduct($productId)
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "product WHERE id = '" . (int)$productId . "'");
-        $this->db->query("DELETE FROM " . DB_PREFIX . "product_description WHERE feedback_id = '" . (int)$productId . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_description WHERE product_id = '" . (int)$productId . "'");
     }
 }
