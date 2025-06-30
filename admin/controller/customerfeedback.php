@@ -46,7 +46,6 @@ class ControllerCustomerFeedback extends Controller
 				'delete'     => $this->link('customerfeedback/delete', 'token=' . $this->session->data['token'] . $url, 'SSL')
 			);
 		}
-        // $data['feedbacks'] = $results;
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -63,23 +62,7 @@ class ControllerCustomerFeedback extends Controller
 		} else {
 			$data['selected'] = array();
 		}
-        $data['main_slider'] = $results;
-		if (isset($this->error['warning'])) {
-			$data['error_warning'] = $this->error['warning'];
-		} else {
-			$data['error_warning'] = '';
-		}
-		if (isset($this->session->data['success'])) {
-			$data['success'] = $this->session->data['success'];
-			unset($this->session->data['success']);
-		} else {
-			$data['success'] = '';
-		}
-		if (isset($this->request->post['selected'])) {
-			$data['selected'] = (array) $this->request->post['selected'];
-		} else {
-			$data['selected'] = array();
-		}
+        // $data['main_slider'] = $results;
 		$data['groupby'] = 1;
 		$url             = '';
 		if (isset($this->request->get['page'])) {
@@ -175,6 +158,7 @@ class ControllerCustomerFeedback extends Controller
                 $this->error['icon'] = 'Please upload icon image';
             }
         }
+		
 		if ($this->error && ! isset($this->error['warning'])) {
 			$this->error['warning'] = ' Warning: Please check the form carefully for errors!';
 		}

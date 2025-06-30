@@ -43,8 +43,7 @@ class ModelCustomerFeedback extends Model
 
     public function getCustomerFeedback($feedbackId)
 	{
-		$sql = "SELECT * FROM `" . DB_PREFIX . "customer_feedback` WHERE id = " . (int)$feedbackId;
-		$query = $this->db->query($sql);
+		$query = $this->db->query($sql = "SELECT * FROM `" . DB_PREFIX . "customer_feedback` WHERE id = " . (int)$feedbackId);
 		return $query->row;
 	}
 
