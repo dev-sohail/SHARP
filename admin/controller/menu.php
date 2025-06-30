@@ -40,6 +40,7 @@ class ControllerMenu extends Controller
 	    $data['lcareport'] = $this->link('lcareport', 'token=' . $this->session->data['token'], 'SSL');
 	    $data['sustainablepartner'] = $this->link('sustainablepartner', 'token=' . $this->session->data['token'], 'SSL');
 		$data['customerfeedback'] = $this->link('customerfeedback', 'token=' . $this->session->data['token'], 'SSL');
+		$data['product'] = $this->link('product', 'token=' . $this->session->data['token'], 'SSL');
 		if ($this->user->getGroupId() != '1') {
 			$data['viewer'] = true;
 		} else {

@@ -158,6 +158,17 @@
     </li>
 <?php endif; ?>
 
+<?php if ($user->hasPermission('access', 'products')) : ?>
+    <li class="nav-item">
+        <div class="nav-link" title="Products">
+            <a href="<?php echo $products; ?>">
+                <span class="icon-bg_drop">Products</span>
+                <i class="fa fa-box menuIcon" aria-hidden="true"></i>
+            </a>
+        </div>
+    </li>
+<?php endif; ?>
+
 <?php if ($user->hasPermission('access', 'ourhistories')) : ?>
     <li class="nav-item">
         <div class="nav-link" title="History">
