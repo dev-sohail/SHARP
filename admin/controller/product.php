@@ -5,7 +5,7 @@ class ControllerProduct extends Controller
     public function index()
 	{
 		$data = $this->language->getAll();
-		$this->document->setTitle('Admin - Product');
+		$this->document->setTitle('Admin - Products');
 		$this->load_model('product');
 		$this->getList();
 	}
@@ -13,7 +13,7 @@ class ControllerProduct extends Controller
     protected function getList()
 	{
         $data = $this->language->getAll();
-		$data['heading_title'] = 'Product';
+		$data['heading_title'] = 'Products';
         $url = '';
 		$data['breadcrumbs'][] = array(
 			'text' => 'Product',
@@ -83,7 +83,7 @@ class ControllerProduct extends Controller
 		} else {
 			$page = 1;
 		}
-		$data['ajaxupdateproductstatus'] = $this->link('/ajaxupdateproductstatus', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['ajaxupdateproductstatus'] = $this->link('product/ajaxupdateproductstatus', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$bannerTotal        = $this->model_product->getTotalProducts();
 		$pagination         = new Pagination();
 		$pagination->total  = $bannerTotal;
@@ -102,6 +102,9 @@ class ControllerProduct extends Controller
 			'footer'
 		);
 		$this->response->setOutput($this->render());
+		// echo "<script>var ajaxUrl = '" . $data['ajaxupdateproductstatus'] . "';</script>";
+		// echo "<script>alert(ajaxUrl);</script>";
+		// exit;
     }
 
     public function add()
