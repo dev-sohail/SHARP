@@ -15,8 +15,8 @@ class ModelCustomerFeedback extends Model
             move_uploaded_file($_FILES["icon"]["tmp_name"], $targetFile);
             $icon = $this->db->escape($_FILES["icon"]["name"]);
         }
-		$sortOrder = (int)$data['sort_order'];
-		$status = (int)$data['status'];
+        $status = $this->db->escape($data['status']);
+		$sortOrder = $this->db->escape($data['sort_order']);
         $numberOfStars = (int)$data['number_of_stars'];
         $insertFeedbackQuery = "INSERT INTO `" . DB_PREFIX . "customer_feedback` SET 
         icon = '" . $icon . "',
@@ -86,11 +86,14 @@ class ModelCustomerFeedback extends Model
 		return $query->row['total'];
 	}
 
-    public function updateFeedbackStatus($feedback_id, $status)
-	{
-		$sql = "UPDATE `" . DB_PREFIX . "customer_feedback` SET status = '" . (int)$status . "' WHERE id = '" . (int)$feedback_id . "'";
-		$this->db->query($sql);
+    public function updateFeedbackStatus($feedbackId, $status) {
+		$this->db->query("UPDATE `" . DB_PREFIX . "customer_feedback` SET status = '" . (int)$status . "' WHERE id = '" . (int)$feedbackId . "'");
 	}
+    // public function updateFeedbackStatus($feedbackId, $status)
+    // {
+    //     $sql = "UPDATE `" . DB_PREFIX . "customer_feedback` SET status = '" . (int)$status . "' WHERE id = '" . (int)$feedbackId . "'";
+    //     $this->db->query($sql);
+    // }
 
     public function editCustomerFeedback($feedbackId, $data)
     {
@@ -108,8 +111,8 @@ class ModelCustomerFeedback extends Model
             WHERE id = '" . (int)$feedbackId . "'";
             $this->db->query($updateImageQuery);
         }
-        $sortOrder = (int)$data['sort_order'];
-        $status = (int)$data['status'];
+        $status = $this->db->escape($data['status']);
+		$sortOrder = $this->db->escape($data['sort_order']);
         $numberOfStars = isset($data['number_of_stars']) ? (int)$data['number_of_stars'] : 5;
         $updateFeedbackQuery = "UPDATE `" . DB_PREFIX . "customer_feedback` SET
         status = '" . $status . "',
@@ -125,13 +128,13 @@ class ModelCustomerFeedback extends Model
             $title = $this->db->escape($languageValue['title']);
             $description = $this->db->escape($languageValue['description']);
             $designation = $this->db->escape($languageValue['designation']);
-            $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "feedback_description SET 
+            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "feedback_description SET 
             feedback_id = '" . (int)$feedbackId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
             description = '" . $description . "',
             designation = '" . $designation . "'";
-            $this->db->query($insertDescriptionQuery);
+            $this->db->query($updateDescriptionQuery);
         }
     }
 

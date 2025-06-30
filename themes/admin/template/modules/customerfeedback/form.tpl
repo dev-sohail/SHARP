@@ -91,20 +91,6 @@
                         <div class="tab-pane" id="tab-data">
                             <div class="col-lg-6 col-md-6">
                                 <div class="form-group">
-                                    <label class="control-label" for="input-status">status</label>
-                                    <select name="status" id="input-status" class="form-control">
-                                        <?php if ($status) { ?>
-                                            <option value="1" selected="selected">Enabled</option>
-                                            <option value="0">Disabled</option>
-                                        <?php } else { ?>
-                                            <option value="1">Enabled</option>
-                                            <option value="0" selected="selected">Disabled</option>
-                                        <?php } ?>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="form-group">
                                     <label class="control-label" for="input-stars">Number of Stars</label>
                                     <input type="number" name="number_of_stars" value="<?php echo $number_of_stars; ?>" placeholder="Number of Stars" id="input-stars" class="form-control" min="1" max="5" />
                                 </div>
@@ -115,7 +101,7 @@
                                     <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="Sort Order" id="input-sort-order" class="form-control" />
                                 </div>
                             </div>
-                            <div class="row"> 
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group required">
                                         <label class="control-label" for="input-icon">Icon</label>
@@ -137,7 +123,22 @@
                                     <input type="hidden" name="icon" value="<?php echo $icon; ?>">
                                 </div>
                             </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label class="control-label" for="input-status">Status</label>
+                                        <select name="status" id="input-status" class="form-control">
+                                            <?php if ((int)$status) { ?>
+                                                <option value="1" selected="selected">Enabled</option>
+                                                <option value="0">Disabled</option>
+                                            <?php } else { ?>
+                                                <option value="1">Enabled</option>
+                                                <option value="0" selected="selected">Disabled</option>
+                                            <?php } ?>
+                                        </select>
+                                    </div>
+                                </div>
                         </div>
+                    </div>
                         <!-- Bottom action buttons -->
                         <div class="col-lg-6 col-md-6 bottom-inline-btns">
                             <button type="submit" form="form-customerfeedback" data-toggle="tooltip" title="Save" class="btn btn-success"> <i class="fa fa-save"></i> Submit</button>
