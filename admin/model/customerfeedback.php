@@ -89,11 +89,6 @@ class ModelCustomerFeedback extends Model
     public function updateFeedbackStatus($feedbackId, $status) {
 		$this->db->query("UPDATE `" . DB_PREFIX . "customer_feedback` SET status = '" . (int)$status . "' WHERE id = '" . (int)$feedbackId . "'");
 	}
-    // public function updateFeedbackStatus($feedbackId, $status)
-    // {
-    //     $sql = "UPDATE `" . DB_PREFIX . "customer_feedback` SET status = '" . (int)$status . "' WHERE id = '" . (int)$feedbackId . "'";
-    //     $this->db->query($sql);
-    // }
 
     public function editCustomerFeedback($feedbackId, $data)
     {
@@ -118,7 +113,7 @@ class ModelCustomerFeedback extends Model
         status = '" . $status . "',
         number_of_stars = '" . $numberOfStars . "',
         sort_order = '" . $sortOrder . "',
-        modify_date = NOW()
+        date_modified = NOW()
         WHERE id = '" . (int)$feedbackId . "'";
         $this->db->query($updateFeedbackQuery);
         $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "feedback_description WHERE feedback_id = '" . (int)$feedbackId . "'";
@@ -136,6 +131,7 @@ class ModelCustomerFeedback extends Model
             designation = '" . $designation . "'";
             $this->db->query($updateDescriptionQuery);
         }
+    // die($updateFeedbackQuery);
     }
 
     public function deleteCustomerFeedback($feedbackId)

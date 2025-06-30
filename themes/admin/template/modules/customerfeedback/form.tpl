@@ -9,6 +9,7 @@
     - Contains JavaScript for tab switching.
 -->
 <?php echo $header; ?>
+
 <div class="main-panel">
     <div class="sec-head">
         <div class="sec-head-title">
@@ -150,6 +151,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
     // Activate the first language tab by default
     $('#language a:first').tab('show');

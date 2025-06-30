@@ -9,9 +9,7 @@
     - Provides delete confirmation and loader overlay for AJAX.
 -->
 <!-- Header section -->
-<?php echo $header;
-
-?>
+<?php echo $header; ?>
 <!-- Main content section -->
 <div class="main-panel">
     <div class="sec-head">
