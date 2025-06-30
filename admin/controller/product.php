@@ -29,21 +29,21 @@ class ControllerProduct extends Controller
 		} else {
 			$order = 'ASC';
 		}
-        $data['add']    = $this->link('customerfeedback/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$data['delete'] = $this->link('customerfeedback/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
+        $data['add']    = $this->link('product/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['delete'] = $this->link('product/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$data['feedbacks'] = array();
 		$filter_data   = array(
 			'order' => $order,
 		);
-		$results       = $this->model_customerfeedback->getCustomerFeedbacks($this->config->get('config_language_id'), $filter_data);
+		$results       = $this->model_product->getProducts($this->config->get('config_language_id'), $filter_data);
         foreach ($results as $result) {
-			$data['feedbacks'][] = array(
-				'feedback_id' => $result['id'],
+			$data['product'][] = array(
+				'product_id' => $result['id'],
 				'title'    => $result['title'],
 				'status'    => $result['status'],
-				'edit'       => $this->link('customerfeedback/edit', 'token=' . $this->session->data['token'] . '&feedback_id=' . $result['id'] . $url, 'SSL'),
-				'delete'     => $this->link('customerfeedback/delete', 'token=' . $this->session->data['token'] . $url, 'SSL')
+				'edit'       => $this->link('product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $result['id'] . $url, 'SSL'),
+				'delete'     => $this->link('product/delete', 'token=' . $this->session->data['token'] . $url, 'SSL')
 			);
 		}
 		if (isset($this->error['warning'])) {
@@ -68,9 +68,9 @@ class ControllerProduct extends Controller
 		if (isset($this->request->get['page'])) {
 			$url .= '&page=' . $this->request->get['page'];
 		}
-		$data['sort_status']     = $this->link('customerfeedback', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
-		$data['sort_date_added'] = $this->link('customerfeedback', 'token=' . $this->session->data['token'] . '&sort=date_added' . $url, 'SSL');
-        $data['sort_title']   = $this->link('customerfeedback', 'token=' . $this->session->data['token'] . '&sort=title' . $url, 'SSL');
+		$data['sort_status']     = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
+		$data['sort_date_added'] = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=date_added' . $url, 'SSL');
+        $data['sort_title']   = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=title' . $url, 'SSL');
 		$url = '';
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -83,19 +83,19 @@ class ControllerProduct extends Controller
 		} else {
 			$page = 1;
 		}
-		$data['ajaxupdatefeedbackstatus'] = $this->link('customerfeedback/ajaxupdatefeedbackstatus', 'token=' . $this->session->data['token'] . $url, 'SSL');
-		$bannerTotal        = $this->model_customerfeedback->getTotalCustomerFeedbacks();
+		$data['ajaxupdateproductstatus'] = $this->link('/ajaxupdateproductstatus', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$bannerTotal        = $this->model_product->getTotalProducts();
 		$pagination         = new Pagination();
 		$pagination->total  = $bannerTotal;
 		$pagination->page   = $page;
 		$pagination->limit  = $this->config->get('config_limit_admin');
-		$pagination->url    = HTTP_HOST . '?controller=customerfeedback&token=' . $this->session->data['token'] . $url . '&page={page}';
+		$pagination->url    = HTTP_HOST . '?controller=product&token=' . $this->session->data['token'] . $url . '&page={page}';
 		$data['pagination'] = $pagination->render();
 		$data['results']    = sprintf($this->language->get('text_pagination'), ($bannerTotal) ? (($page - 1) * $this->config->get('config_limit_admin')) + 1 : 0, ((($page - 1) * $this->config->get('config_limit_admin')) > ($bannerTotal - $this->config->get('config_limit_admin'))) ? $bannerTotal : ((($page - 1) * $this->config->get('config_limit_admin')) + $this->config->get('config_limit_admin')), $bannerTotal, ceil($bannerTotal / $this->config->get('config_limit_admin')));
-		$data['ajaxUrl']    = HTTP_HOST . '?controller=customerfeedback&token=' . $this->session->data['token'] . '&action=ajaxupdatefeedbackstatus';
+		$data['ajaxUrl']    = HTTP_HOST . '?controller=product&token=' . $this->session->data['token'] . '&action=ajaxupdateproductstatus';
 		$data['token']      = $this->session->data['token'];
 		$this->data         = $data;
-		$this->template     = 'modules/customerfeedback/list.tpl';
+		$this->template     = 'modules/product/list.tpl';
 		$this->zones        = array(
 			'header',
 			'columnleft',

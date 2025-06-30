@@ -79,7 +79,7 @@ class ModelProduct extends Model
 		return $query->rows;
 	}
 
-	public function getTotalProducts()
+	public function getTotalproduct()
 	{
 		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "product`");
 		return $query->row['total'];
