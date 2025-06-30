@@ -14,7 +14,7 @@ A web application project.
 
 1. Clone this repository:
     ```bash
-    git clone https://github.com/yourusername/SHARP.git
+    git clone https://github.com/dev-sohail/SHARP.git
     ```
 2. Place the project folder in your web server's root directory (e.g., `www` for WAMP, `htdocs` for XAMPP).
 3. Set up a virtual host pointing to the project directory.
