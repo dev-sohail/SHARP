@@ -130,7 +130,7 @@
                                 </div>
                                 <div class="col-lg-2 col-md-2">
                                     <?php if (!empty($icon)) { ?>
-                                        <img id="bimage" src="../uploads/image/customer_feedback/<?php echo $icon; ?>" style="width: 100%; height: 89px; margin-top: 12px;" alt="Icon Preview">
+                                        <img id="bimage" src="../uploads/image/customer_feedback/<?php echo $icon; ?>" style="width: 100%; height: 89px; margin-top: 12px;" alt="<?= $icon; ?>">
                                     <?php } else { ?>
                                         <img id="bimage" src="../uploads/image/no-image.png" style="width: 100%; height: 89px; margin-top: 12px;" title="No Image Found" alt="No Image">
                                     <?php } ?>
