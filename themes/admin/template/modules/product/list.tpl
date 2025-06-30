@@ -57,8 +57,8 @@
                                             <td>
                                                 <!-- Status toggle switch -->
                                                 <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input status-toggle" id="statusToggle<?php echo $product['id']; ?>" <?php echo ($product['status']) ? 'checked' : ''; ?> data-product-id="<?php echo $product['id']; ?>">
-                                                    <label class="custom-control-label" for="statusToggle<?php echo $product['id']; ?>">
+                                                    <input type="checkbox" class="custom-control-input status-toggle" id="statusToggle<?php echo $product['product_id']; ?>" <?php echo ($product['status']) ? 'checked' : ''; ?> data-product-id="<?php echo $product['product_id']; ?>">
+                                                    <label class="custom-control-label" for="statusToggle<?php echo $product['product_id']; ?>">
                                                         <?php echo ($product['status']) ? 'Enabled' : 'Disabled'; ?>
                                                     </label>
                                                 </div>
@@ -68,9 +68,9 @@
                                                 <a style="display: inline-block;" href="<?php echo $product['edit']; ?>"
                                                     data-toggle="tooltip" class="btn btn-primary" title="<?php echo $button_edit; ?>"><i class="fa fa-pencil"></i></a>
                                                 <!-- Delete button (with confirmation) -->
-                                                <form style="display: inline-block;" action="<?php echo $product['delete']; ?>" method="post" enctype="multipart/form-data" id="del_product_<?php echo $product['id']; ?>">
-                                                    <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
-                                                    <button type="button" data-toggle="tooltip" class="btn btn-danger" title="<?php echo $button_delete; ?>" onClick='submitDeleteForm("del_product_<?php echo $product['id']; ?>")'><i class="fa fa-trash-o"></i></button>
+                                                <form style="display: inline-block;" action="<?php echo $product['delete']; ?>" method="post" enctype="multipart/form-data" id="del_product_<?php echo $product['product_id']; ?>">
+                                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                                    <button type="button" data-toggle="tooltip" class="btn btn-danger" title="<?php echo $button_delete; ?>" onClick='submitDeleteForm("del_product_<?php echo $product['product_id']; ?>")'><i class="fa fa-trash-o"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
@@ -109,7 +109,7 @@
 </script>
 <!-- DataTables initialization script -->
 <script type="text/javascript">
-    // Initialize DataTables for product table with filters and custom options
+    // Initialize DataTables for Product table with filters and custom options
     var table = $('#product-table').DataTable({
         "language": {
             "emptyTable": "No record found."

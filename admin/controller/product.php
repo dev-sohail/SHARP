@@ -311,9 +311,9 @@ class ControllerProduct extends Controller
 		$json = array();
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 			$this->load_model('product');
-			$product_id = $this->request->post['product_id'];
+			$productId = $this->request->post['product_id'];
 			$status = $this->request->post['status'];
-			$this->model_product->updateProductStatus($product_id, $status);
+			$this->model_product->updateProductStatus($productId, $status);
 			$json['success'] = true;
 			$this->response->addHeader('Content-Type: application/json');
 			$this->response->setOutput(json_encode($json));
