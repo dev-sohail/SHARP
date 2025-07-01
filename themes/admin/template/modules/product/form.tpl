@@ -20,13 +20,15 @@
                     <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i> <?php echo $error_warning; ?>
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                     </div>
-                <?php $_SESSION['error_warning'] = null; } ?>
+                <?php $_SESSION['error_warning'] = null;
+                } ?>
                 <?php if (isset($this->session->data['success'])) { ?>
                     <div class="alert alert-success"><i class="fa fa-check-circle"></i>
                         <?php echo $this->session->data['success']; ?>
                         <button type="button" class="close" data-dismiss="alert">&times;</button>
                     </div>
-                <?php $this->session->data['success'] = null; } ?>
+                <?php $this->session->data['success'] = null;
+                } ?>
                 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
@@ -59,7 +61,7 @@
                                                 <label class="control-label" for="input-short-description-<?php echo $language['language_id']; ?>">
                                                     Short Description
                                                 </label>
-                                                <textarea name="short_description[<?php echo $language['language_id']; ?>][short_description]" placeholder="Short Description" id="input-short-description-<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['short_description']) ? $product_description[$language['language_id']]['short_description'] : ''; ?></textarea>
+                                                <textarea name="product_description[<?php echo $language['language_id']; ?>][short_description]" placeholder="Short Description" id="input-short-description-<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['short_description']) ? $product_description[$language['language_id']]['short_description'] : ''; ?></textarea>
                                                 <?php if (isset($error_short_description[$language['language_id']])) { ?>
                                                     <div class="text-danger"><?php echo $error_short_description[$language['language_id']]; ?></div>
                                                 <?php } ?>
@@ -80,17 +82,17 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-data">
-                                                        <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group required">
                                         <label class="control-label" for="input-icon">Icon</label>
                                         <input onchange="loadFile(event,'bimage')" type="file" name="icon" value="<?php echo $icon; ?>" id="input-icon" accept=".png,.jpg,.jpeg,.gif" class="form-control" style="display: block;">
                                         <small class="form-text text-muted">Upload an icon image (recommended size: 100x100px)</small>
                                     </div>
-                                        <?php if ($error_icon) { ?>
-                                    <div class="text-danger">
-                                        <?php echo $error_icon; ?>
-                                    </div>
+                                    <?php if ($error_icon) { ?>
+                                        <div class="text-danger">
+                                            <?php echo $error_icon; ?>
+                                        </div>
                                     <?php } ?>
                                 </div>
                                 <div class="col-lg-2 col-md-2">
@@ -122,39 +124,39 @@
                                     <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="Sort Order" id="input-sort-order" class="form-control" />
                                 </div>
                             </div>
-                                <div class="col-lg-6 col-md-6">
-                                    <div class="form-group">
-                                        <label class="control-label" for="input-status">Status</label>
-                                        <select name="status" id="input-status" class="form-control">
-                                            <?php if ((int)$status) { ?>
-                                                <option value="1" selected="selected">Enabled</option>
-                                                <option value="0">Disabled</option>
-                                            <?php } else { ?>
-                                                <option value="1">Enabled</option>
-                                                <option value="0" selected="selected">Disabled</option>
-                                            <?php } ?>
-                                        </select>
-                                    </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-status">Status</label>
+                                    <select name="status" id="input-status" class="form-control">
+                                        <?php if ((int)$status) { ?>
+                                            <option value="1" selected="selected">Enabled</option>
+                                            <option value="0">Disabled</option>
+                                        <?php } else { ?>
+                                            <option value="1">Enabled</option>
+                                            <option value="0" selected="selected">Disabled</option>
+                                        <?php } ?>
+                                    </select>
                                 </div>
+                            </div>
                         </div>
                     </div>
-                        <!-- Bottom action buttons -->
-                        <div class="col-lg-6 col-md-6 bottom-inline-btns">
-                            <button type="submit" form="form-product" data-toggle="tooltip" title="Save" class="btn btn-success"> <i class="fa fa-save"></i> Submit</button>
-                            <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="Cancel" class="btn btn-danger"><i class="fa fa-reply"></i> Cancel</a>
-                        </div>
+                    <!-- Bottom action buttons -->
+                    <div class="col-lg-6 col-md-6 bottom-inline-btns">
+                        <button type="submit" form="form-product" data-toggle="tooltip" title="Save" class="btn btn-success"> <i class="fa fa-save"></i> Submit</button>
+                        <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="Cancel" class="btn btn-danger"><i class="fa fa-reply"></i> Cancel</a>
                     </div>
-                </form>
             </div>
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 <script type="text/javascript">
     // Activate the first language tab by default
     $('#language a:first').tab('show');
 </script>
-<?php echo $footer; ?> 
+<?php echo $footer; ?>
 <!-- Image upload script -->
 <script>
     var loadFile = function(event) {

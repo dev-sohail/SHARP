@@ -124,10 +124,8 @@ class ModelProduct extends Model
         $status = $this->db->escape($data['status']);
 		$sortOrder = $this->db->escape($data['sort_order']);
         $made_in = $this->db->escape($data['made_in']);
-        $numberOfStars = isset($data['number_of_stars']) ? (int)$data['number_of_stars'] : 5;
         $updateProductQuery = "UPDATE `" . DB_PREFIX . "product` SET
         status = '" . $status . "',
-        number_of_stars = '" . $numberOfStars . "',
         made_in = '" . $made_in . "',
         sort_order = '" . $sortOrder . "',
         date_modified = NOW()

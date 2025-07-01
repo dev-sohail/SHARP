@@ -180,6 +180,7 @@ class ControllerProduct extends Controller
 	{
 		$this->document->setTitle('Admin - Edit Product');
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
+			// echo '<pre>'; print_r($this->request->post); '</pre>'; exit;
 			$this->load_model('product');
 			$this->model_product->editProduct($this->request->get['product_id'], $this->request->post);
 			$this->session->data['success'] = $this->language->get('Success: You have modified product!');
@@ -267,7 +268,7 @@ class ControllerProduct extends Controller
 		} else {
 			$data['product_description'] = array();
 		}
-		
+
 
 		// fatch dynamic from country
 		$this->load_model('product');
