@@ -29,6 +29,7 @@
                     </div>
                 <?php $this->session->data['success'] = null;
                 } ?>
+
                 <form action="<?php echo $action; ?>" method="post" enctype="multipart/form-data" id="form-product" class="form-horizontal">
                     <ul class="nav nav-tabs">
                         <li class="active"><a href="#tab-general" data-toggle="tab">General</a></li>
@@ -110,18 +111,51 @@
                                     <select name="made_in" id="input-made-in" class="form-control">
                                         <?php if (!empty($made_in_options)) { ?>
                                             <?php foreach ($made_in_options as $option) { ?>
-                                                <option value="<?php echo htmlspecialchars($option['country_id']); ?>" name="made_in" <?php echo ($made_in == $option['country_id']) ? 'selected' : ''; ?>>
+                                                <option value="<?php echo htmlspecialchars($option['country_id']); ?>" <?php echo ($made_in == $option['country_id']) ? 'selected' : ''; ?>>
                                                     <?php echo htmlspecialchars($option['name']); ?>
                                                 </option>
                                             <?php } ?>
                                         <?php } ?>
                                     </select>
+                                    <?php if (isset($error_made_in)) { ?>
+                                        <div class="text-danger"><?php echo $error_made_in; ?></div>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="input-sort-order">Sort Order</label>
-                                    <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="Sort Order" id="input-sort-order" class="form-control" />
+                                    <input type="number" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="Sort Order" id="input-sort-order" class="form-control" />
+                                    <?php if (isset($error_sort_order)) { ?>
+                                        <div class="text-danger"><?php echo $error_sort_order; ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-screen-size">Screen Size (in inches)</label>
+                                    <input type="number" name="screen_size" value="<?php echo $screen_size; ?>" placeholder="Screen Size" id="input-screen-size" class="form-control" step="0.1" />
+                                    <?php if (isset($error_screen_size)) { ?>
+                                        <div class="text-danger"><?php echo $error_screen_size; ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-sku">SKU (Stock Keeping Unit)</label>
+                                    <input type="text" name="sku" value="<?php echo $sku; ?>" placeholder="e.g., SKU-12345" id="input-sku" class="form-control" />
+                                    <?php if (isset($error_sku)) { ?>
+                                        <div class="text-danger"><?php echo $error_sku; ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-video">Video (YouTube/Vimeo) </label>
+                                    <input type="url" name="video" value="<?php echo $video; ?>" placeholder="Video URL" id="input-video" class="form-control" />
+                                    <?php if (isset($error_video)) { ?>
+                                        <div class="text-danger"><?php echo $error_video; ?></div>
+                                    <?php } ?>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6">
@@ -136,8 +170,38 @@
                                             <option value="0" selected="selected">Disabled</option>
                                         <?php } ?>
                                     </select>
+                                    <?php if (isset($error_status)) { ?>
+                                        <div class="text-danger"><?php echo $error_status; ?></div>
+                                    <?php } ?>
                                 </div>
                             </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-publish-date">Publish Date</label>
+                                    <input type="date" name="publish_date" value="<?php echo $publish_date; ?>" placeholder="Publish Date" id="input-publish-date" class="form-control" />
+                                    <?php if (isset($error_publish_date)) { ?>
+                                        <div class="text-danger"><?php echo $error_publish_date; ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-featured">Featured</label>
+                                    <select name="featured" id="input-featured" class="form-control">
+                                        <?php if ((int)$featured) { ?>
+                                            <option value="1" selected="selected">Yes</option>
+                                            <option value="0">No</option>
+                                        <?php } else { ?>
+                                            <option value="1">Yes</option>
+                                            <option value="0" selected="selected">No</option>
+                                        <?php } ?>
+                                    </select>
+                                    <?php if (isset($error_featured)) { ?>
+                                        <div class="text-danger"><?php echo $error_featured; ?></div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                     <!-- Bottom action buttons -->

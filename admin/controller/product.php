@@ -41,6 +41,7 @@ class ControllerProduct extends Controller
 			$data['products'][] = array(
 				'product_id' => $result['id'],
 				'title'    => $result['title'],
+				'publish_date' => $result['publish_date'],
 				'status'    => $result['status'],
 				'edit'       => $this->link('product/edit', 'token=' . $this->session->data['token'] . '&product_id=' . $result['id'] . $url, 'SSL'),
 				'delete'     => $this->link('product/delete', 'token=' . $this->session->data['token'] . $url, 'SSL')
@@ -161,7 +162,29 @@ class ControllerProduct extends Controller
                 $this->error['icon'] = 'Please upload icon image';
             }
         }
-		
+		if (isset($this->request->post['screen_size']) && ! empty($this->request->post['screen_size'])) {
+			$screen_size = $this->request->post['screen_size'];
+			if (!is_numeric($screen_size) || $screen_size <= 0) {
+				$this->error['screen_size'] = 'Screen size must be a positive number!';
+			} else {
+				$this->request->post['screen_size'] = $screen_size;
+			}
+		}
+		if (isset($this->request->post['sku']) && ! empty($this->request->post['sku'])) {
+			$sku = $this->request->post['sku'];
+			// SKU validation: must be 3-32 chars, alphanumeric, dashes or underscores, start with a letter
+			if (!preg_match('/^[a-zA-Z][a-zA-Z0-9_-]{2,31}$/', $sku)) {
+				$this->error['sku'] = 'SKU must start with a letter and be 3-32 characters (letters, numbers, dashes, underscores).';
+			}
+		}
+		if (isset($this->request->post['video']) && ! empty($this->request->post['video'])) {
+			$video = $this->request->post['video'];
+			if (! filter_var($video, FILTER_VALIDATE_URL)) {
+				$this->error['video'] = 'Video URL is not valid!';
+			} else {
+				$this->request->post['video'] = $video;
+			}
+		}
 		if ($this->error && ! isset($this->error['warning'])) {
 			$this->error['warning'] = ' Warning: Please check the form carefully for errors!';
 		}
@@ -243,6 +266,27 @@ class ControllerProduct extends Controller
         } else {
             $data['error_icon'] = '';
         }
+		if (isset($this->error['screen_size'])) {
+			$data['error_screen_size'] = $this->error['screen_size'];
+		} else {
+			$data['error_screen_size'] = '';
+		}
+		if (isset($this->error['sku'])) {
+			$data['error_sku'] = $this->error['sku'];
+		} else {
+			$data['error_sku'] = '';
+		}
+		if (isset($this->error['video'])) {
+			$data['error_video'] = $this->error['video'];
+		} else {
+			$data['error_video'] = '';
+		}
+		if (isset($this->error['made_in'])) {
+			$data['error_made_in'] = $this->error['made_in'];
+		} else {
+			$data['error_made_in'] = '';
+		}
+
 		$url = '';
 
 		if (! isset($this->request->get['product_id'])) {
@@ -269,7 +313,6 @@ class ControllerProduct extends Controller
 			$data['product_description'] = array();
 		}
 
-
 		// fatch dynamic from country
 		$this->load_model('product');
 		$data['made_in_options'] = $this->model_product->getMadeInOptions();
@@ -281,7 +324,6 @@ class ControllerProduct extends Controller
 		} else {
 			$data['made_in'] = '';
 		}
-
 		if (isset($this->request->post['sort_order'])) {
 			$data['sort_order'] = $this->request->post['sort_order'];
 		} elseif (! empty($product_info)) {
@@ -296,13 +338,6 @@ class ControllerProduct extends Controller
 		} else {
 			$data['status'] = true;
 		}
-		// if (isset($this->request->post['number_of_stars'])) {
-		// 	$data['number_of_stars'] = $this->request->post['number_of_stars'];
-		// } elseif (! empty($product_info)) {
-		// 	$data['number_of_stars'] = $product_info['number_of_stars'];
-		// } else {
-		// 	$data['number_of_stars'] = 5;
-		// }
         if (isset($this->request->post['icon'])) {
             $data['icon'] = $this->request->post['icon'];
         } elseif (! empty($product_info)) {
@@ -310,6 +345,41 @@ class ControllerProduct extends Controller
         } else {
             $data['icon'] = '';
         }
+		if (isset($this->request->post['publish_date'])) {
+			$data['publish_date'] = $this->request->post['publish_date'];
+		} elseif (! empty($product_info) && isset($product_info['publish_date'])) {
+			$data['publish_date'] = $product_info['publish_date'];
+		} else {
+			$data['publish_date'] = '';
+		}
+		if (isset($this->request->post['screen_size'])) {
+			$data['screen_size'] = $this->request->post['screen_size'];
+		} elseif (! empty($product_info) && isset($product_info['screen_size'])) {
+			$data['screen_size'] = $product_info['screen_size'];
+		} else {
+			$data['screen_size'] = '';
+		}
+		if (isset($this->request->post['sku'])) {
+			$data['sku'] = $this->request->post['sku'];
+		} elseif (! empty($product_info) && isset($product_info['sku'])) {
+			$data['sku'] = $product_info['sku'];
+		} else {
+			$data['sku'] = '';
+		}
+		if (isset($this->request->post['video'])) {
+			$data['video'] = $this->request->post['video'];
+		} elseif (! empty($product_info) && isset($product_info['video'])) {
+			$data['video'] = $product_info['video'];
+		} else {
+			$data['video'] = '';
+		}
+		if (isset($this->request->post['featured'])) {
+			$data['featured'] = $this->request->post['featured'];
+		} elseif (! empty($product_info) && isset($product_info['featured'])) {
+			$data['featured'] = $product_info['featured'];
+		} else {
+			$data['featured'] = '';
+		}
 		// echo '<pre>';
 		// print_r($data);
 		// echo '</pre>';
@@ -337,6 +407,7 @@ class ControllerProduct extends Controller
 			$this->response->setOutput(json_encode($json));
 		}
 	}
+	
 	protected function validateDelete()
 	{
 

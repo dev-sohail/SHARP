@@ -37,12 +37,14 @@
                                 <thead>
                                     <tr>
                                         <th>Title</th>
+                                        <th>Publish Date</th>
                                         <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                     <tr class="stdfilters">
                                         <!-- Filter inputs for title -->
                                         <th><input type="text" placeholder="Title"></th>
+                                        <th></th>
                                         <th id="drop-searc"></th>
                                         <th></th>
                                     </tr>
@@ -53,6 +55,9 @@
                                         <tr>
                                             <td>
                                                 <?php echo $product['title']; ?>
+                                            </td>
+                                            <td>
+                                                <?php echo date('Y-m-d', strtotime($product['publish_date'])); ?>
                                             </td>
                                             <td>
                                                 <!-- Status toggle switch -->
@@ -181,7 +186,7 @@
                     // Update row status in DataTable
                     var row = $('#product-table').DataTable().row(checkbox.closest('tr'));
                     var rowData = row.data();
-                    rowData[1] = '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input status-toggle" id="statusToggle' + productId + '" ' + (newstatus ? 'checked' : '') + ' data-product-id="' + productId + '"> <label class="custom-control-label" for="statusToggle' + productId + '">' + newStatusText + '</label> </div>';
+                    rowData[2] = '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input status-toggle" id="statusToggle' + productId + '" ' + (newstatus ? 'checked' : '') + ' data-product-id="' + productId + '"> <label class="custom-control-label" for="statusToggle' + productId + '">' + newStatusText + '</label> </div>';
                     row.data(rowData).draw(false);
                 }
                 console.log(response);
