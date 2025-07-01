@@ -55,13 +55,13 @@
                                                 <?php } ?>
                                             </div>
                                             <div class="form-group required">
-                                                <!-- Designation input -->
-                                                <label class="control-label" for="input-designation-<?php echo $language['language_id']; ?>">
-                                                    Designation
+                                                <!-- Short-Description input -->
+                                                <label class="control-label" for="input-short-description-<?php echo $language['language_id']; ?>">
+                                                    Short Description
                                                 </label>
-                                                <input type="text" name="product_description[<?php echo $language['language_id']; ?>][designation]" value="<?php echo isset($product_description[$language['language_id']]['designation']) ? $product_description[$language['language_id']]['designation'] : ''; ?>" placeholder="Designation" id="input-designation-<?php echo $language['language_id']; ?>" class="form-control" />
-                                                <?php if (isset($error_designation[$language['language_id']])) { ?>
-                                                    <div class="text-danger"><?php echo $error_designation[$language['language_id']]; ?></div>
+                                                <textarea name="short_description[<?php echo $language['language_id']; ?>][short_description]" placeholder="Short Description" id="input-short-description-<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['short_description']) ? $product_description[$language['language_id']]['short_description'] : ''; ?></textarea>
+                                                <?php if (isset($error_short_description[$language['language_id']])) { ?>
+                                                    <div class="text-danger"><?php echo $error_short_description[$language['language_id']]; ?></div>
                                                 <?php } ?>
                                             </div>
                                             <div class="form-group required">
@@ -80,19 +80,7 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-data">
-                            <div class="col-lg-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label" for="input-stars">Number of Stars</label>
-                                    <input type="number" name="number_of_stars" value="<?php echo $number_of_stars; ?>" placeholder="Number of Stars" id="input-stars" class="form-control" min="1" max="5" />
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6">
-                                <div class="form-group">
-                                    <label class="control-label" for="input-sort-order">Sort Order</label>
-                                    <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="Sort Order" id="input-sort-order" class="form-control" />
-                                </div>
-                            </div>
-                            <div class="row">
+                                                        <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group required">
                                         <label class="control-label" for="input-icon">Icon</label>
@@ -112,6 +100,26 @@
                                         <img id="bimage" src="../uploads/image/no-image.png" style="width: 100%; height: 89px; margin-top: 12px;" title="No Image Found" alt="No Image">
                                     <?php } ?>
                                     <input type="hidden" name="icon" value="<?php echo $icon; ?>">
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-made-in">Made In</label>
+                                    <select name="made_in" id="input-made-in" class="form-control">
+                                        <?php if (!empty($made_in_options)) { ?>
+                                            <?php foreach ($made_in_options as $option) { ?>
+                                                <option value="<?php echo htmlspecialchars($option['country_id']); ?>" name="made_in" <?php echo ($made_in == $option['country_id']) ? 'selected' : ''; ?>>
+                                                    <?php echo htmlspecialchars($option['name']); ?>
+                                                </option>
+                                            <?php } ?>
+                                        <?php } ?>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    <label class="control-label" for="input-sort-order">Sort Order</label>
+                                    <input type="text" name="sort_order" value="<?php echo $sort_order; ?>" placeholder="Sort Order" id="input-sort-order" class="form-control" />
                                 </div>
                             </div>
                                 <div class="col-lg-6 col-md-6">

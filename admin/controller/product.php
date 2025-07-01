@@ -148,8 +148,8 @@ class ControllerProduct extends Controller
             if ((utf8_strlen(trim($value['description'])) < 1)) {
                 $this->error['description'][$language_id] = "Description field is missing";
             }
-            if ((utf8_strlen(trim($value['designation'])) < 1)) {
-                $this->error['designation'][$language_id] = "Designation field is missing";
+            if ((utf8_strlen(trim($value['short_description'])) < 1)) {
+                $this->error['short_description'][$language_id] = "Short Description field is missing";
             }
         }
         if (!$this->request->get['product_id']) {
@@ -232,11 +232,11 @@ class ControllerProduct extends Controller
 		} else {
 			$data['error_description'] = '';
 		}
-        if (isset($this->error['designation'])) {
-            $data['error_designation'] = $this->error['designation'];
-        } else {
-            $data['error_designation'] = '';
-        }
+		if (isset($this->error['short_description'])) {
+			$data['error_short_description'] = $this->error['short_description'];
+		} else {
+			$data['error_short_description'] = '';
+		}
         if (isset($this->error['icon'])) {
             $data['error_icon'] = $this->error['icon'];
         } else {
@@ -267,6 +267,20 @@ class ControllerProduct extends Controller
 		} else {
 			$data['product_description'] = array();
 		}
+		
+
+		// fatch dynamic from country
+		$this->load_model('product');
+		$data['made_in_options'] = $this->model_product->getMadeInOptions();
+
+		if (isset($this->request->post['made_in'])) {
+			$data['made_in'] = $this->request->post['made_in'];
+		} elseif (!empty($product_info) && isset($product_info['made_in'])) {
+			$data['made_in'] = $product_info['made_in'];
+		} else {
+			$data['made_in'] = '';
+		}
+
 		if (isset($this->request->post['sort_order'])) {
 			$data['sort_order'] = $this->request->post['sort_order'];
 		} elseif (! empty($product_info)) {
@@ -281,13 +295,13 @@ class ControllerProduct extends Controller
 		} else {
 			$data['status'] = true;
 		}
-		if (isset($this->request->post['number_of_stars'])) {
-			$data['number_of_stars'] = $this->request->post['number_of_stars'];
-		} elseif (! empty($product_info)) {
-			$data['number_of_stars'] = $product_info['number_of_stars'];
-		} else {
-			$data['number_of_stars'] = 5;
-		}
+		// if (isset($this->request->post['number_of_stars'])) {
+		// 	$data['number_of_stars'] = $this->request->post['number_of_stars'];
+		// } elseif (! empty($product_info)) {
+		// 	$data['number_of_stars'] = $product_info['number_of_stars'];
+		// } else {
+		// 	$data['number_of_stars'] = 5;
+		// }
         if (isset($this->request->post['icon'])) {
             $data['icon'] = $this->request->post['icon'];
         } elseif (! empty($product_info)) {

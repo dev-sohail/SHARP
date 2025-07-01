@@ -17,10 +17,12 @@ class ModelProduct extends Model
         }
         $status = $this->db->escape($data['status']);
 		$sortOrder = $this->db->escape($data['sort_order']);
+        $made_in = $this->db->escape($data['made_in']);
         $numberOfStars = (int)$data['number_of_stars'];
         $insertProductQuery = "INSERT INTO `" . DB_PREFIX . "product` SET 
         icon = '" . $icon . "',
         number_of_stars = '" . (int)$numberOfStars . "', 
+        made_in = '" . $made_in . "',
         sort_order = '" . (int)$sortOrder . "',
         status = '" . $status . "',
         date_added = NOW()";
@@ -30,13 +32,13 @@ class ModelProduct extends Model
             $languageId = (int)$languageId;
             $title = $this->db->escape($languageValue['title']);
             $description = $this->db->escape($languageValue['description']);
-            $designation = $this->db->escape($languageValue['designation']);
+            $short_description = $this->db->escape($languageValue['short_description']);
             $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_description SET 
             product_id = '" . (int)$productId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
             description = '" . $description . "',
-            designation = '" . $designation . "'";
+            short_description = '" . $short_description . "'";
             $this->db->query($insertDescriptionQuery);
         }
     }
@@ -56,7 +58,7 @@ class ModelProduct extends Model
 			$product_description_data[$result['lang_id']] = array(
 				'title'             => $result['title'],
 				'description'       => $result['description'],
-				'designation'       => $result['designation']
+				'short_description'       => $result['short_description']
 			);
 		}
 		return $product_description_data;
@@ -85,6 +87,19 @@ class ModelProduct extends Model
 		return $query->row['total'];
 	}
 
+    public function getMadeInOptions()
+    {
+        $query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "country` ORDER BY name");
+        $made_in_options = [];
+        foreach ($query->rows as $row) {
+            $made_in_options[] = [
+                'country_id' => $row['country_id'],
+                'name' => $row['name']
+            ];
+        }
+        return $made_in_options;
+    }
+
     public function updateProductStatus($productId, $status) 
     {
 		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET status = '" . (int)$status . "' WHERE id = '" . (int)$productId . "'");
@@ -108,10 +123,12 @@ class ModelProduct extends Model
         }
         $status = $this->db->escape($data['status']);
 		$sortOrder = $this->db->escape($data['sort_order']);
+        $made_in = $this->db->escape($data['made_in']);
         $numberOfStars = isset($data['number_of_stars']) ? (int)$data['number_of_stars'] : 5;
         $updateProductQuery = "UPDATE `" . DB_PREFIX . "product` SET
         status = '" . $status . "',
         number_of_stars = '" . $numberOfStars . "',
+        made_in = '" . $made_in . "',
         sort_order = '" . $sortOrder . "',
         date_modified = NOW()
         WHERE id = '" . (int)$productId . "'";
@@ -122,13 +139,13 @@ class ModelProduct extends Model
             $languageId = (int)$languageId;
             $title = $this->db->escape($languageValue['title']);
             $description = $this->db->escape($languageValue['description']);
-            $designation = $this->db->escape($languageValue['designation']);
+            $short_description = $this->db->escape($languageValue['short_description']);
             $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_description SET 
             product_id = '" . (int)$productId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
             description = '" . $description . "',
-            designation = '" . $designation . "'";
+            short_description = '" . $short_description . "'";
             $this->db->query($updateDescriptionQuery);
         }
     // die($updateProductQuery);
