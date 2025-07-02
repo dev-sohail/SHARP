@@ -83,28 +83,6 @@
                             </div>
                         </div>
                         <div class="tab-pane" id="tab-data">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group required">
-                                        <label class="control-label" for="input-icon">Icon</label>
-                                        <input onchange="loadFile(event,'bimage')" type="file" name="icon" value="<?php echo $icon; ?>" id="input-icon" accept=".png,.jpg,.jpeg,.gif" class="form-control" style="display: block;">
-                                        <small class="form-text text-muted">Upload an icon image (recommended size: 100x100px)</small>
-                                    </div>
-                                    <?php if ($error_icon) { ?>
-                                        <div class="text-danger">
-                                            <?php echo $error_icon; ?>
-                                        </div>
-                                    <?php } ?>
-                                </div>
-                                <div class="col-lg-2 col-md-2">
-                                    <?php if (!empty($icon)) { ?>
-                                        <img id="bimage" src="../uploads/image/product/<?php echo $icon; ?>" style="width: 100%; height: 89px; margin-top: 12px;" alt="<?= $icon; ?>">
-                                    <?php } else { ?>
-                                        <img id="bimage" src="../uploads/image/no-image.png" style="width: 100%; height: 89px; margin-top: 12px;" title="No Image Found" alt="No Image">
-                                    <?php } ?>
-                                    <input type="hidden" name="icon" value="<?php echo $icon; ?>">
-                                </div>
-                            </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="input-made-in">Made In</label>
@@ -201,7 +179,126 @@
                                     <?php } ?>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group required">
+                                        <label class="control-label" for="input-icon">Icon</label>
+                                        <input onchange="loadFile(event,'bimage')" type="file" name="icon" value="<?php echo $icon; ?>" id="input-icon" accept=".png,.jpg,.jpeg,.gif" class="form-control" style="display: block;">
+                                        <small class="form-text text-muted">Upload an icon image (recommended size: 100x100px)</small>
+                                    </div>
+                                    <?php if ($error_icon) { ?>
+                                        <div class="text-danger">
+                                            <?php echo $error_icon; ?>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                                <div class="col-lg-2 col-md-2">
+                                    <?php if (!empty($icon)) { ?>
+                                        <img id="bimage" src="../uploads/image/product/<?php echo $icon; ?>" style="width: 100%; height: 89px; margin-top: 12px;" alt="<?= $icon; ?>">
+                                    <?php } else { ?>
+                                        <img id="bimage" src="../uploads/image/no-image.png" style="width: 100%; height: 89px; margin-top: 12px;" title="No Image Found" alt="No Image">
+                                    <?php } ?>
+                                    <input type="hidden" name="icon" value="<?php echo $icon; ?>">
+                                </div>
+                            </div>
+                            <!-- Gallery -->
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <h3>For Featured</h3>
+                                    <table id="images" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <td class="text-left">Gallery</td>
+                                                <td class="text-right">Sort Order</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
+                                            <?php $image_row = 0;
+                                            foreach ($product_features_images as $product_features_image) {
+                                            ?>
+                                                <tr id="image-row<?php echo $image_row; ?>">
+                                                    <td class="text-left">
+                                                        <a href="" id="thumb-image<?php echo $image_row; ?>" class="image-picker">
+                                                            <img src="<?php echo $product_features_image['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                        </a>
+                                                        <input type="hidden" name="product_features_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_image['image']; ?>" id="input-image<?php echo $image_row; ?>" />
+                                                        <?php if ($error_product_features_image[$image_row]['image']) : ?>
+                                                            <div class="text-danger"><?php echo $error_product_features_image[$image_row]['image']; ?></div>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <input type="text" name="product_features_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" onclick="$('#image-row<?php echo $image_row; ?>').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">
+                                                            <i class="fa fa-minus-circle"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+
+                                                <?php $image_row = $image_row + 1; ?>
+                                            <?php } ?>
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2"></td>
+                                                <td class="text-left"><button type="button" onclick="addImage();" data-toggle="tooltip" title="add" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Benefits -->
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <h3>For Benefits</h3>
+                                    <table id="benefits-images" class="table table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <td class="text-left">Gallery</td>
+                                                <td class="text-right">Sort Order</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php $benefits_image_row = 0;
+                                            foreach ($product_benefits_image as $product_benefits_images) { ?>
+                                                <tr id="benefits-image-row<?php echo $benefits_image_row; ?>">
+                                                    <td class="text-left">
+                                                        <a href="#" id="thumb-benefits-image<?php echo $benefits_image_row; ?>" class="benefits-image-picker">
+                                                            <img src="<?php echo $product_benefits_images['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                        </a>
+                                                        <input type="hidden" name="product_benefits_image[<?php echo $benefits_image_row; ?>][image]" value="<?php echo $product_benefits_image['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
+                                                        <?php if ($error_product_benefits_image[$benefits_image_row]['image']) : ?>
+                                                            <div class="text-danger"><?php echo $error_product_benefits_image[$benefits_image_row]['image']; ?></div>
+                                                        <?php endif; ?>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <input type="text" name="product_benefits_image[<?php echo $benefits_image_row; ?>][sort_order]" value="<?php echo $product_benefits_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
+                                                    </td>
+                                                    <td class="text-left">
+                                                        <button type="button" onclick="$('#benefits-image-row<?php echo $benefits_image_row; ?>').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">
+                                                            <i class="fa fa-minus-circle"></i>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <?php $benefits_image_row = $benefits_image_row + 1; ?>
+                                            <?php } ?>
+                                        </tbody>
+
+                                        <tfoot>
+                                            <tr>
+                                                <td colspan="2"></td>
+                                                <td class="text-left"><button type="button" onclick="addBenefitsImage();" data-toggle="tooltip" title="add" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <!-- Bottom action buttons -->
@@ -209,11 +306,10 @@
                         <button type="submit" form="form-product" data-toggle="tooltip" title="Save" class="btn btn-success"> <i class="fa fa-save"></i> Submit</button>
                         <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="Cancel" class="btn btn-danger"><i class="fa fa-reply"></i> Cancel</a>
                     </div>
-
-            </form>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 </div>
 
 <script type="text/javascript">
@@ -225,11 +321,169 @@
 <script>
     var loadFile = function(event) {
         var output = document.getElementById('bimage');
-        output.src = URL.createObjectURL(event.target.files[0]);
-        output.onload = function() {
-            URL.revokeObjectURL(output.src) // free memory
+        var file = event.target.files[0];
+        var validExtensions = ['png', 'jpeg', 'jpg'];
+        var maxSize = 5 * 1024 * 1024;
+        if (file) {
+            var extension = file.name.split('.').pop().toLowerCase();
+            if (validExtensions.indexOf(extension) === -1 || file.size > maxSize) {
+                event.target.value = '';
+                alert('Please select a valid file (PNG, JPEG, JPG) less than 5 MB.');
+                return false;
+            } else {
+                output.src = URL.createObjectURL(file);
+                output.onload = function() {
+                    URL.revokeObjectURL(output.src);
+                };
+            }
         }
     };
+</script>
+
+<!-- Gallery image upload script for feature images -->
+<script language="javascript" type="text/javascript">
+    var image_row = <?php echo  $image_row; ?>;
+
+    function addImage() {
+        var html = '<tr id="image-row' + image_row + '">';
+        html += '  <td class="text-left">';
+        html += '    <a href="#" id="thumb-image' + image_row + '" class="image-picker">';
+        html += '      <img src="../uploads/image/no-image.png" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;"/>';
+        html += '    </a>';
+        html += '    <input type="hidden" name="product_features_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" />';
+        html += '  </td>';
+        html += '  <td class="text-right">';
+        html += '    <input type="text" name="product_features_image[' + image_row + '][sort_order]" value="" placeholder="sort order" class="form-control" />';
+        html += '  </td>';
+        html += '  <td class="text-left">';
+        html += '    <button type="button" onclick="$(\'#image-row' + image_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">';
+        html += '      <i class="fa fa-minus-circle"></i>';
+        html += '    </button>';
+        html += '  </td>';
+        html += '</tr>';
+
+
+        $('#images tbody').append(html);
+
+        image_row++;
+    }
+    $(document).ready(function() {
+        $('body').on('click', '.image-picker', function(e) {
+            e.preventDefault();
+            var imageRowId = $(this).attr('id');
+            var maxSize = 5 * 1024 * 1024;
+            var fileInput = $('<input type="file" style="display: none;" accept="image/*">');
+            $('body').append(fileInput);
+            fileInput.click();
+            fileInput.on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    if (!file.type.match('image.*')) {
+                        alert('Please select an image file.');
+                        return;
+                    }
+
+                    if (file.size > maxSize) {
+                        alert('The file is too large. Please select a file smaller than ' + maxSize + ' MB.');
+                        return;
+                    }
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    var fd = new FormData();
+                    fd.append('image', file);
+                    $.ajax({
+                        url: '/admin/?controller=product/uploadImages&token=<?php echo $token; ?>',
+                        type: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response['filename']) {
+                                $('#' + imageRowId + ' .image-preview').attr('src', '../uploads/image/product/' + response['filename']);
+                                var imageName = file.name;
+                                $('#input-image' + imageRowId.replace('thumb-image', '')).val(response['filename']);
+                            }
+                        },
+                    });
+                }
+
+            });
+        });
+    });
+</script>
+
+
+<!-- gallery script for benefits images -->
+<script language="javascript" type="text/javascript">
+    var benefits_image_row = <?php echo count($product_benefits_images); ?>;
+
+    function addBenefitsImage() {
+        var html = '<tr id="benefits-image-row' + benefits_image_row + '">';
+        html += '  <td class="text-left">';
+        html += '    <a href="#" id="thumb-benefits-image' + benefits_image_row + '" class="benefits-image-picker">';
+        html += '      <img src="../uploads/image/no-image.png" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;"/>';
+        html += '    </a>';
+        html += '    <input type="hidden" name="product_benefits_image[' + benefits_image_row + '][image]" value="" id="input-benefits-image' + benefits_image_row + '" />';
+        html += '  </td>';
+        html += '  <td class="text-right">';
+        html += '    <input type="text" name="product_benefits_image[' + benefits_image_row + '][sort_order]" value="" placeholder="sort order" class="form-control" />';
+        html += '  </td>';
+        html += '  <td class="text-left">';
+        html += '    <button type="button" onclick="$(\'#benefits-image-row' + benefits_image_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">';
+        html += '      <i class="fa fa-minus-circle"></i>';
+        html += '    </button>';
+        html += '  </td>';
+        html += '</tr>';
+
+        // Find the second images table (for benefits)
+        $('table').eq(1).find('tbody').append(html);
+
+        benefits_image_row++;
+    }
+
+    $(document).ready(function() {
+        $('body').on('click', '.benefits-image-picker', function(e) {
+            e.preventDefault();
+            var imageRowId = $(this).attr('id');
+            var maxSize = 5 * 1024 * 1024;
+            var fileInput = $('<input type="file" style="display: none;" accept="image/*">');
+            $('body').append(fileInput);
+            fileInput.click();
+            fileInput.on('change', function() {
+                var file = this.files[0];
+                if (file) {
+                    if (!file.type.match('image.*')) {
+                        alert('Please select an image file.');
+                        return;
+                    }
+
+                    if (file.size > maxSize) {
+                        alert('The file is too large. Please select a file smaller than ' + maxSize + ' MB.');
+                        return;
+                    }
+
+                    var reader = new FileReader();
+                    reader.readAsDataURL(file);
+                    var fd = new FormData();
+                    fd.append('image', file);
+                    $.ajax({
+                        url: '/admin/?controller=product/uploadImages&token=<?php echo $token; ?>',
+                        type: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function(response) {
+                            if (response['filename']) {
+                                $('#' + imageRowId + ' .image-preview').attr('src', '../uploads/image/product/' + response['filename']);
+                                $('#input-benefits-image' + imageRowId.replace('thumb-benefits-image', '')).val(response['filename']);
+                            }
+                        },
+                    });
+                }
+            });
+        });
+    });
 </script>
 <script>
     // JavaScript/jQuery for dynamic behavior of the show-in-footer checkbox

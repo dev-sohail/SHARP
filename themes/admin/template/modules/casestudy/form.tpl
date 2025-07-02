@@ -416,6 +416,8 @@
         });
     });
 </script> -->
+
+
 <script language="javascript" type="text/javascript">
     var image_row = <?php echo  $image_row; ?>;
 

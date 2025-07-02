@@ -276,6 +276,7 @@ class ControllerFaqs extends Controller
 
 	public function ajaxupdatefaqsstatus()
 	{
+		// die("kjfalds");
 		$json = array();
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 		$this->load_model('faqs');

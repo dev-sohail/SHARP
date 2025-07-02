@@ -49,6 +49,16 @@ class ModelProduct extends Model
             short_description = '" . $short_description . "'";
             $this->db->query($insertDescriptionQuery);
         }
+        if (isset($data['product_feature_image'])) {
+            foreach ($data['product_feature_image'] as $product_feature_image) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_feature_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_feature_image['image']) . "', sort_order = '" . (int)$product_feature_image['sort_order'] . "'");
+            }
+        }
+        if (isset($data['product_benefits_image'])) {
+            foreach ($data['product_benefits_image'] as $product_benefits_image) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_benefits_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_benefits_image['image']) . "', sort_order = '" . (int)$product_benefits_image['sort_order'] . "'");
+            }
+        }
     }
 
     public function getProduct($productId)
@@ -108,6 +118,22 @@ class ModelProduct extends Model
         return $made_in_options;
     }
 
+    public function getProductFeatureImages($product_id)
+    {
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_feature_image WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order ASC");
+
+        return $query->rows;
+    }
+
+    public function getProductBenefitImages($product_id)
+    {
+
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_benefit_image WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order ASC");
+
+        return $query->rows;
+    }
+
     public function updateProductStatus($productId, $status) 
     {
 		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET status = '" . (int)$status . "' WHERE id = '" . (int)$productId . "'");
@@ -164,12 +190,26 @@ class ModelProduct extends Model
             short_description = '" . $short_description . "'";
             $this->db->query($updateDescriptionQuery);
         }
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_feature_image WHERE product_id = '" . (int)$productId . "'");
+        if (isset($data['product_features_image'])) {
+            foreach ($data['product_features_image'] as $product_features_image) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_feature_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_features_image['image']) . "', sort_order = '" . (int)$product_features_image['sort_order'] . "'");
+            }
+        }
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_benefit_image WHERE product_id = '" . (int)$productId . "'");
+        if (isset($data['product_benefit_image'])) {
+            foreach ($data['product_benefit_image'] as $product_benefit_image) {
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_benefit_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_benefit_image['image']) . "', sort_order = '" . (int)$product_benefit_image['sort_order'] . "'");
+            }
+        }
     // die($updateProductQuery);
     }
 
     public function deleteProduct($productId)
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "product WHERE id = '" . (int)$productId . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_feature_image WHERE product_id = '" . (int)$productId . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "product_benefit_image WHERE product_id = '" . (int)$productId . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "product_description WHERE product_id = '" . (int)$productId . "'");
     }
 }

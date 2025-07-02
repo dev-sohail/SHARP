@@ -162,6 +162,13 @@ class ControllerProduct extends Controller
                 $this->error['icon'] = 'Please upload icon image';
             }
         }
+		if (isset($this->request->post['product_features_image']) && !empty($this->request->post['product_features_image'])) {
+			foreach ($this->request->post['product_features_image'] as $option_value_id1 => $option_value1) {
+				if ((utf8_strlen($option_value1['image']) < 1)) {
+					$this->error['product_features_image'][$option_value_id1]['image'] = "Image is missing.";
+				}
+			}
+		}
 		if (isset($this->request->post['screen_size']) && ! empty($this->request->post['screen_size'])) {
 			$screen_size = $this->request->post['screen_size'];
 			if (!is_numeric($screen_size) || $screen_size <= 0) {
@@ -286,6 +293,12 @@ class ControllerProduct extends Controller
 		} else {
 			$data['error_made_in'] = '';
 		}
+		if (isset($this->error['product_features_image'])) {
+			$data['error_product_features_image'] = $this->error['product_features_image'];
+		} else {
+			$data['error_product_features_image'] = '';
+		}
+		// echo '<pre>'; print_r($data['error_product_features_image']); echo '</pre>'; exit;
 
 		$url = '';
 
@@ -380,6 +393,31 @@ class ControllerProduct extends Controller
 		} else {
 			$data['featured'] = '';
 		}
+		if (isset($this->request->post['product_features_image'])) {
+			$product_features_images = $this->request->post['product_features_image'];
+		} elseif (isset($this->request->get['product_id'])) {
+			$product_features_images = $this->model_product->getProductFeatureImages($this->request->get['product_id']);
+		} else {
+			$product_features_images = array();
+		}
+
+		$data['product_features_images'] = array();
+
+		foreach ($product_features_images as $product_features_image) {
+			if (is_file(DIR_IMAGE . 'product/' . $product_features_image['image'])) {
+				$image = $product_features_image['image'];
+				$thumb = '../uploads/image/product/' . $product_features_image['image'];
+			} else {
+				$image = '';
+				$thumb = '../uploads/image/no-image.png';
+			}
+
+			$data['product_features_images'][] = array(
+				'image'      => $image,
+				'thumb'      => $thumb,
+				'sort_order' => $product_features_image['sort_order']
+			);
+		}
 		// echo '<pre>';
 		// print_r($data);
 		// echo '</pre>';
@@ -396,6 +434,7 @@ class ControllerProduct extends Controller
 
 	public function ajaxupdateproductstatus()
 	{
+		
 		$json = array();
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 			$this->load_model('product');
@@ -406,6 +445,30 @@ class ControllerProduct extends Controller
 			$this->response->addHeader('Content-Type: application/json');
 			$this->response->setOutput(json_encode($json));
 		}
+	}
+
+	public function uploadImages()
+	{
+		if (!empty($_FILES["image"]["name"])) {
+			$targetDirectory = DIR_IMAGE . "product/";
+			$filename = time();
+			$path = $_FILES['image']['name'];
+			$ext = pathinfo($path, PATHINFO_EXTENSION);
+			$filename = time();
+
+			$targetFile = $targetDirectory . $filename . '.' . $ext;
+			if (!is_dir($targetDirectory)) {
+				mkdir($targetDirectory, 0755);
+			}
+			if (move_uploaded_file($_FILES["image"]["tmp_name"], $targetFile)) {
+				$json['success'] = true;
+				$json['filename'] = $filename . '.' . $ext;
+			} else {
+				$json['success'] = false;
+			}
+		}
+		$this->response->addHeader('Content-Type: application/json');
+		$this->response->setOutput(json_encode($json));
 	}
 	
 	protected function validateDelete()

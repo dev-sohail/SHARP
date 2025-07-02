@@ -144,7 +144,7 @@ var table = $('#nhealth-table').DataTable({
     $(document).on('change', 'input[type="checkbox"]', function() {
 
         // $('.alert').remove();
-
+        // alert("Testinnnnng");
         var checkbox = $(this);
         var statusLabel = checkbox.next('label');
         var faqId = checkbox.data('status-id');
