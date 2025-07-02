@@ -31,7 +31,7 @@ class ModelCustomerFeedback extends Model
             $title = $this->db->escape($languageValue['title']);
             $description = $this->db->escape($languageValue['description']);
             $designation = $this->db->escape($languageValue['designation']);
-            $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "feedback_description SET 
+            $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "customer_feedback_description SET 
             feedback_id = '" . (int)$feedbackId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
@@ -50,7 +50,7 @@ class ModelCustomerFeedback extends Model
     public function getCustomerFeedbackDescriptions($feedbackId)
     {
         $feedback_description_data = array();
-		$sql = "SELECT * FROM `" . DB_PREFIX . "feedback_description` WHERE feedback_id = " . (int)$feedbackId;
+		$sql = "SELECT * FROM `" . DB_PREFIX . "customer_feedback_description` WHERE feedback_id = " . (int)$feedbackId;
 		$query = $this->db->query($sql);
 		foreach ($query->rows as $result) {
 			$feedback_description_data[$result['lang_id']] = array(
@@ -65,10 +65,10 @@ class ModelCustomerFeedback extends Model
 	public function getCustomerFeedbacks($languageId, $data = array())
 	{
 		$languageId = (int)$languageId;
-		$sql = "SELECT fd.*, cf.* 
+		$sql = "SELECT cd.*, cf.* 
 				FROM `" . DB_PREFIX . "customer_feedback` cf
-				LEFT JOIN `" . DB_PREFIX . "feedback_description` fd ON cf.id = fd.feedback_id
-				WHERE fd.lang_id = '" . $languageId . "' or  fd.lang_id = 1
+				LEFT JOIN `" . DB_PREFIX . "customer_feedback_description` cd ON cf.id = cd.feedback_id
+				WHERE cd.lang_id = '" . $languageId . "' or  cd.lang_id = 1
 				ORDER BY cf.id";
 		if (isset($data['order']) && ($data['order'] == 'DESC')) {
 			$sql .= " DESC";
@@ -115,14 +115,14 @@ class ModelCustomerFeedback extends Model
         date_modified = NOW()
         WHERE id = '" . (int)$feedbackId . "'";
         $this->db->query($updateFeedbackQuery);
-        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "feedback_description WHERE feedback_id = '" . (int)$feedbackId . "'";
+        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "customer_feedback_description WHERE feedback_id = '" . (int)$feedbackId . "'";
         $this->db->query($deleteDescriptionQuery);
         foreach ($data['feedback_description'] as $languageId => $languageValue) {
             $languageId = (int)$languageId;
             $title = $this->db->escape($languageValue['title']);
             $description = $this->db->escape($languageValue['description']);
             $designation = $this->db->escape($languageValue['designation']);
-            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "feedback_description SET 
+            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "customer_feedback_description SET 
             feedback_id = '" . (int)$feedbackId . "',
             lang_id = '" . $languageId . "',
             title = '" . $title . "',
@@ -136,6 +136,6 @@ class ModelCustomerFeedback extends Model
     public function deleteCustomerFeedback($feedbackId)
     {
         $this->db->query("DELETE FROM " . DB_PREFIX . "customer_feedback WHERE id = '" . (int)$feedbackId . "'");
-        $this->db->query("DELETE FROM " . DB_PREFIX . "feedback_description WHERE feedback_id = '" . (int)$feedbackId . "'");
+        $this->db->query("DELETE FROM " . DB_PREFIX . "customer_feedback_description WHERE feedback_id = '" . (int)$feedbackId . "'");
     }
 }

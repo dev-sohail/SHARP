@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 01, 2025 at 12:31 PM
+-- Generation Time: Jul 02, 2025 at 11:27 AM
 -- Server version: 9.1.0
 -- PHP Version: 7.4.33
 
@@ -1383,7 +1383,7 @@ CREATE TABLE IF NOT EXISTS `customer_feedback` (
   `date_added` datetime NOT NULL,
   `date_modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `customer_feedback`
@@ -1391,7 +1391,37 @@ CREATE TABLE IF NOT EXISTS `customer_feedback` (
 
 INSERT INTO `customer_feedback` (`id`, `icon`, `number_of_stars`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
 (1, 'img_left_join.png', 4, 1, 1, '2025-06-26 18:15:24', '2025-06-30 10:02:27'),
-(2, 'img_righ_join.png', 3, 2, 0, '2025-06-26 18:15:24', '2025-06-30 12:17:20');
+(2, 'img_righ_join.png', 3, 2, 0, '2025-06-26 18:15:24', '2025-06-30 12:17:20'),
+(13, 'login-bg.jpg', 5, 0, 1, '2025-07-02 16:21:23', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer_feedback_description`
+--
+
+DROP TABLE IF EXISTS `customer_feedback_description`;
+CREATE TABLE IF NOT EXISTS `customer_feedback_description` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `feedback_id` int NOT NULL,
+  `lang_id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `designation` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `feedback_id` (`feedback_id`),
+  KEY `lang_id` (`lang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=144 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `customer_feedback_description`
+--
+
+INSERT INTO `customer_feedback_description` (`id`, `feedback_id`, `lang_id`, `title`, `designation`, `description`) VALUES
+(105, 1, 1, 'Great Service', 'Customer', 'I am very satisfied with the service provided.'),
+(106, 1, 2, 'يمكن أن يكون أفضل', 'عميل', 'كانت التجربة جيدة، ولكن هناك مجال للتحسين.'),
+(142, 2, 1, 'Could be better', 'Customer', 'The experience was okay, but there is room for improvement..'),
+(143, 13, 1, 'Accusantium qui enim', 'Ut cillum qui eum et', 'Laboris dicta simili');
 
 -- --------------------------------------------------------
 
@@ -1460,34 +1490,6 @@ CREATE TABLE IF NOT EXISTS `faqs_description` (
 INSERT INTO `faqs_description` (`id`, `question`, `answer`, `lang_id`, `faq_id`) VALUES
 (2, 'Error labore molesti', 'Error dolor numquam ', 1, 1),
 (16, 'Question: For testing purpose', 'Answer of this question', 1, 3);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `feedback_description`
---
-
-DROP TABLE IF EXISTS `feedback_description`;
-CREATE TABLE IF NOT EXISTS `feedback_description` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `feedback_id` int NOT NULL,
-  `lang_id` int NOT NULL,
-  `title` varchar(255) NOT NULL,
-  `designation` varchar(255) NOT NULL,
-  `description` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `feedback_id` (`feedback_id`),
-  KEY `lang_id` (`lang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=143 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Dumping data for table `feedback_description`
---
-
-INSERT INTO `feedback_description` (`id`, `feedback_id`, `lang_id`, `title`, `designation`, `description`) VALUES
-(105, 1, 1, 'Great Service', 'Customer', 'I am very satisfied with the service provided.'),
-(106, 1, 2, 'يمكن أن يكون أفضل', 'عميل', 'كانت التجربة جيدة، ولكن هناك مجال للتحسين.'),
-(142, 2, 1, 'Could be better', 'Customer', 'The experience was okay, but there is room for improvement..');
 
 -- --------------------------------------------------------
 
@@ -2534,7 +2536,60 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`id`, `icon`, `made_in`, `sort_order`, `status`, `featured`, `screen_size`, `sku`, `video`, `date_added`, `date_modified`, `publish_date`) VALUES
-(1, 'user.png', 11, 1, 1, 1, '12', '', '', '2025-07-01 17:29:03', NULL, '2025-07-01 00:00:00');
+(1, 'user.png', 11, 1, 0, 1, '12', '', '', '2025-07-01 17:29:03', '2025-07-02 11:20:00', '2025-08-07 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productenquiry`
+--
+
+DROP TABLE IF EXISTS `productenquiry`;
+CREATE TABLE IF NOT EXISTS `productenquiry` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `icon` varchar(255) NOT NULL,
+  `made_in` varchar(100) NOT NULL,
+  `publish_date` date NOT NULL,
+  `screen_size` varchar(100) NOT NULL,
+  `sku` varchar(100) NOT NULL,
+  `video` varchar(255) NOT NULL,
+  `featured` tinyint(1) NOT NULL DEFAULT '0',
+  `sort_order` int NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `productenquiry`
+--
+
+INSERT INTO `productenquiry` (`id`, `icon`, `made_in`, `publish_date`, `screen_size`, `sku`, `video`, `featured`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
+(2, 'no_image-100x100.png', '', '0000-00-00', '432', '', '', 0, 0, 1, '2025-07-02 13:45:40', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `productenquiry_description`
+--
+
+DROP TABLE IF EXISTS `productenquiry_description`;
+CREATE TABLE IF NOT EXISTS `productenquiry_description` (
+  `productenquiry_id` int NOT NULL,
+  `lang_id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `short_description` text NOT NULL,
+  PRIMARY KEY (`productenquiry_id`,`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `productenquiry_description`
+--
+
+INSERT INTO `productenquiry_description` (`productenquiry_id`, `lang_id`, `title`, `description`, `short_description`) VALUES
+(2, 1, 'Optio temporibus cu', '', '');
 
 -- --------------------------------------------------------
 
@@ -2605,14 +2660,120 @@ CREATE TABLE IF NOT EXISTS `product_description` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   KEY `lang_id` (`lang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `product_description`
 --
 
 INSERT INTO `product_description` (`id`, `product_id`, `lang_id`, `title`, `short_description`, `description`) VALUES
-(1, 1, 1, 'Laboriosam dolorem ', 'Laboris doloribus qu', 'Quia unde autem saep');
+(2, 1, 1, 'Laboriosam dolorem ', 'Laboris doloribus qu', 'Quia unde autem saep');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resolution`
+--
+
+DROP TABLE IF EXISTS `resolution`;
+CREATE TABLE IF NOT EXISTS `resolution` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `icon` varchar(255) NOT NULL,
+  `made_in` varchar(100) NOT NULL,
+  `publish_date` date NOT NULL,
+  `screen_size` varchar(100) NOT NULL,
+  `sku` varchar(100) NOT NULL,
+  `video` varchar(255) NOT NULL,
+  `featured` tinyint(1) NOT NULL DEFAULT '0',
+  `sort_order` int NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `resolution`
+--
+
+INSERT INTO `resolution` (`id`, `icon`, `made_in`, `publish_date`, `screen_size`, `sku`, `video`, `featured`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
+(1, '', '', '0000-00-00', '1', '', '', 0, 0, 1, '2025-07-02 13:34:52', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `resolution_description`
+--
+
+DROP TABLE IF EXISTS `resolution_description`;
+CREATE TABLE IF NOT EXISTS `resolution_description` (
+  `resolution_id` int NOT NULL,
+  `lang_id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `short_description` text NOT NULL,
+  PRIMARY KEY (`resolution_id`,`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `resolution_description`
+--
+
+INSERT INTO `resolution_description` (`resolution_id`, `lang_id`, `title`, `description`, `short_description`) VALUES
+(1, 1, 'Non qui ex rerum dol', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `screensize`
+--
+
+DROP TABLE IF EXISTS `screensize`;
+CREATE TABLE IF NOT EXISTS `screensize` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `icon` varchar(255) NOT NULL,
+  `made_in` varchar(100) NOT NULL,
+  `publish_date` date NOT NULL,
+  `screen_size` varchar(100) NOT NULL,
+  `sku` varchar(100) NOT NULL,
+  `video` varchar(255) NOT NULL,
+  `featured` tinyint(1) NOT NULL DEFAULT '0',
+  `sort_order` int NOT NULL DEFAULT '0',
+  `status` tinyint(1) NOT NULL DEFAULT '1',
+  `date_added` datetime NOT NULL,
+  `date_modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `screensize`
+--
+
+INSERT INTO `screensize` (`id`, `icon`, `made_in`, `publish_date`, `screen_size`, `sku`, `video`, `featured`, `sort_order`, `status`, `date_added`, `date_modified`) VALUES
+(2, '', '', '0000-00-00', '123', '', '', 0, 23, 1, '2025-07-02 13:30:40', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `screensize_description`
+--
+
+DROP TABLE IF EXISTS `screensize_description`;
+CREATE TABLE IF NOT EXISTS `screensize_description` (
+  `screensize_id` int NOT NULL,
+  `lang_id` int NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  `short_description` text NOT NULL,
+  PRIMARY KEY (`screensize_id`,`lang_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `screensize_description`
+--
+
+INSERT INTO `screensize_description` (`screensize_id`, `lang_id`, `title`, `description`, `short_description`) VALUES
+(2, 1, 'Architecto iste ut l', '', '');
 
 -- --------------------------------------------------------
 
@@ -2954,7 +3115,7 @@ CREATE TABLE IF NOT EXISTS `user_group` (
 --
 
 INSERT INTO `user_group` (`user_group_id`, `name`, `permission`) VALUES
-(1, 'Administrator', 'a:2:{s:6:\"access\";a:18:{i:0;s:9:\"adminuser\";i:1;s:10:\"affiliates\";i:2;s:15:\"careerenquiries\";i:3;s:7:\"careers\";i:4;s:9:\"casestudy\";i:5;s:23:\"certificatesandresearch\";i:6;s:16:\"customerfeedback\";i:7;s:4:\"faqs\";i:8;s:7:\"jobtype\";i:9;s:9:\"lcareport\";i:10;s:9:\"locations\";i:11;s:11:\"newsletters\";i:12;s:12:\"ourhistories\";i:13;s:7:\"product\";i:14;s:24:\"productlifecycleanalysis\";i:15;s:5:\"roles\";i:16;s:7:\"sliders\";i:17;s:18:\"sustainablepartner\";}s:6:\"modify\";a:19:{i:0;s:9:\"adminuser\";i:1;s:10:\"affiliates\";i:2;s:15:\"careerenquiries\";i:3;s:7:\"careers\";i:4;s:9:\"casestudy\";i:5;s:23:\"certificatesandresearch\";i:6;s:16:\"customerfeedback\";i:7;s:4:\"faqs\";i:8;s:7:\"jobtype\";i:9;s:9:\"lcareport\";i:10;s:9:\"locations\";i:11;s:11:\"newsletters\";i:12;s:12:\"ourhistories\";i:13;s:7:\"product\";i:14;s:24:\"productlifecycleanalysis\";i:15;s:5:\"roles\";i:16;s:7:\"setting\";i:17;s:7:\"sliders\";i:18;s:18:\"sustainablepartner\";}}'),
+(1, 'Administrator', 'a:2:{s:6:\"access\";a:22:{i:0;s:9:\"adminuser\";i:1;s:10:\"affiliates\";i:2;s:15:\"careerenquiries\";i:3;s:7:\"careers\";i:4;s:9:\"casestudy\";i:5;s:23:\"certificatesandresearch\";i:6;s:16:\"customerfeedback\";i:7;s:4:\"faqs\";i:8;s:7:\"jobtype\";i:9;s:9:\"lcareport\";i:10;s:9:\"locations\";i:11;s:11:\"newsletters\";i:12;s:12:\"ourhistories\";i:13;s:7:\"product\";i:14;s:15:\"productcategory\";i:15;s:14:\"productenquiry\";i:16;s:24:\"productlifecycleanalysis\";i:17;s:10:\"resolution\";i:18;s:5:\"roles\";i:19;s:10:\"screensize\";i:20;s:7:\"sliders\";i:21;s:18:\"sustainablepartner\";}s:6:\"modify\";a:23:{i:0;s:9:\"adminuser\";i:1;s:10:\"affiliates\";i:2;s:15:\"careerenquiries\";i:3;s:7:\"careers\";i:4;s:9:\"casestudy\";i:5;s:23:\"certificatesandresearch\";i:6;s:16:\"customerfeedback\";i:7;s:4:\"faqs\";i:8;s:7:\"jobtype\";i:9;s:9:\"lcareport\";i:10;s:9:\"locations\";i:11;s:11:\"newsletters\";i:12;s:12:\"ourhistories\";i:13;s:7:\"product\";i:14;s:15:\"productcategory\";i:15;s:14:\"productenquiry\";i:16;s:24:\"productlifecycleanalysis\";i:17;s:10:\"resolution\";i:18;s:5:\"roles\";i:19;s:10:\"screensize\";i:20;s:7:\"setting\";i:21;s:7:\"sliders\";i:22;s:18:\"sustainablepartner\";}}'),
 (12, 'Manager/Sub-Admin', 'a:1:{s:6:\"access\";a:24:{i:0;s:9:\"adminuser\";i:1;s:10:\"affiliates\";i:2;s:5:\"areas\";i:3;s:6:\"banner\";i:4;s:6:\"blocks\";i:5;s:5:\"blogs\";i:6;s:15:\"careerenquiries\";i:7;s:7:\"careers\";i:8;s:6:\"cities\";i:9;s:10:\"columnleft\";i:10;s:9:\"enquiries\";i:11;s:11:\"experiences\";i:12;s:4:\"faqs\";i:13;s:9:\"frontmenu\";i:14;s:4:\"home\";i:15;s:9:\"locations\";i:16;s:4:\"menu\";i:17;s:6:\"movies\";i:18;s:11:\"newsletters\";i:19;s:5:\"pages\";i:20;s:5:\"roles\";i:21;s:7:\"setting\";i:22;s:7:\"sliders\";i:23;s:12:\"testimonials\";}}');
 
 -- --------------------------------------------------------
