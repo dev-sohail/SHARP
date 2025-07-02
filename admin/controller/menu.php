@@ -41,6 +41,9 @@ class ControllerMenu extends Controller
 	    $data['sustainablepartner'] = $this->link('sustainablepartner', 'token=' . $this->session->data['token'], 'SSL');
 		$data['customerfeedback'] = $this->link('customerfeedback', 'token=' . $this->session->data['token'], 'SSL');
 		$data['product'] = $this->link('product', 'token=' . $this->session->data['token'], 'SSL');
+		$data['screensize'] = $this->link('screensize', 'token=' . $this->session->data['token'], 'SSL');
+		$data['resolution'] = $this->link('resolution', 'token=' . $this->session->data['token'], 'SSL');
+		$data['productenquiry'] = $this->link('productenquiry', 'token=' . $this->session->data['token'], 'SSL');
 		if ($this->user->getGroupId() != '1') {
 			$data['viewer'] = true;
 		} else {

@@ -6,28 +6,30 @@
         transition: transform 0.3s ease;
         /* You can adjust the transition duration and timing function */
     }
+
     /* Add this CSS to your stylesheet */
     .nav-item:not(.active) .menuright {
         /*    display: none;*/
     }
+
     a.navbar-brand.brand-logo img {
         width: 100%;
     }
 </style>
 <script src="https://unpkg.com/feather-icons"></script>
 <li style="padding: 0 20px;"><a class="navbar-brand brand-logo" href="<?php echo $home; ?>" title="Sharp">
-        <img src="/themes/admin/images/cmsloginlogo.png" alt="Sharp"/> <?php echo $viewer; ?></a></li>
-    <li class="nav-item">
-        <div class="nav-link">
-            <a href="<?php echo $home; ?>">
-                <span class="icon-bg_drop">
-                    <i class="fa fa-th-large menuIcon" aria-hidden="true"></i>
-                    Dashboard
-                </span>
-            </a>
-        </div>
-    </li>
- <li class="nav-item">
+        <img src="/themes/admin/images/cmsloginlogo.png" alt="Sharp" /> <?php echo $viewer; ?></a></li>
+<li class="nav-item">
+    <div class="nav-link">
+        <a href="<?php echo $home; ?>">
+            <span class="icon-bg_drop">
+                <i class="fa fa-th-large menuIcon" aria-hidden="true"></i>
+                Dashboard
+            </span>
+        </a>
+    </div>
+</li>
+<li class="nav-item">
     <div class="nav-link" title="CMS">
         <span class="icon-bg">CMS</span>
         <i class="fa fa-cube menuIcon" aria-hidden="true"></i>
@@ -42,21 +44,21 @@
                     </a>
                 </li>
             <?php endif; ?>
-          <?php if ($user->hasPermission('access', 'pages')) : ?>
+            <?php if ($user->hasPermission('access', 'pages')) : ?>
                 <li title="CMS Pages">
                     <a href="<?php echo $pages; ?>">
                         <i class="fa fa-cube"></i>CMS Pages
                     </a>
                 </li>
             <?php endif; ?>
-             <?php if ($user->hasPermission('access', 'frontmenu')) : ?>
+            <?php if ($user->hasPermission('access', 'frontmenu')) : ?>
                 <li title="Front Menu">
                     <a href="<?php echo $frontmenu; ?>">
                         <i class="fa fa-bars"></i> Front Menu
                     </a>
                 </li>
             <?php endif; ?>
-            
+
             <?php if ($user->hasPermission('access', 'blocks')) : ?>
                 <li title="HTML Blocks">
                     <a href="<?php echo $blocks; ?>">
@@ -72,15 +74,15 @@
                 </li>
             <?php endif; ?>
             <?php if ($user->hasPermission('access', 'banner')) : ?>
-                 <li title="Banner">
-				<a href="<?php echo $banner; ?>">
-					<i class="fa fa-picture-o"></i>Banners
-				</a>
-			</li> 
+                <li title="Banner">
+                    <a href="<?php echo $banner; ?>">
+                        <i class="fa fa-picture-o"></i>Banners
+                    </a>
+                </li>
             <?php endif; ?>
         </ul>
     </div>
-</li> 
+</li>
 
 <?php if ($user->hasPermission('access', 'sustainablepartner')) : ?>
     <li class="nav-item">
@@ -104,7 +106,7 @@
     </li>
 <?php endif; ?>
 <?php if ($user->hasPermission('access', 'newsletters')) : ?>
-  <li class="nav-item">
+    <li class="nav-item">
         <div class="nav-link" title="Newsletters">
             <a href="<?php echo $newsletters; ?>">
                 <span class="icon-bg nodropdown">Newsletters</span>
@@ -115,7 +117,7 @@
 <?php endif; ?>
 
 <?php if ($user->hasPermission('access', 'certificatesandresearch')) : ?>
-  <li class="nav-item"> 
+    <li class="nav-item">
         <div class="nav-link" title="Certificates & Research">
             <a href="<?php echo $certificatesandresearch; ?>">
                 <span class="icon-bg nodropdown">Certificates & Research</span>
@@ -157,14 +159,57 @@
         </div>
     </li>
 <?php endif; ?>
-
 <?php if ($user->hasPermission('access', 'product')) : ?>
     <li class="nav-item">
         <div class="nav-link" title="Products">
-            <a href="<?php echo $product; ?>">
-                <span class="icon-bg_drop">Products</span>
-                <i class="fa fa-box menuIcon" aria-hidden="true"></i>
-            </a>
+            <span class="icon-bg">Products</span>
+            <i class="fa fa-box menuIcon" aria-hidden="true"></i>
+        </div>
+        <div class="menuright">
+            <ul>
+
+                <li title="Products">
+                    <a href="<?php echo $product; ?>">
+                        <i class="fa fa-box" aria-hidden="true"></i>
+                        Products
+                    </a>
+                </li>
+
+                <?php if ($user->hasPermission('access', 'screensize')) : ?>
+                    <li title="Screen Sizes">
+                        <a href="<?php echo $screensize; ?>">
+                            <i class="fa fa-desktop" aria-hidden="true"></i>
+                            Screen Sizes
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <?php if ($user->hasPermission('access', 'resolution')) : ?>
+                    <li title="Resolution">
+                        <a href="<?php echo $resolution; ?>">
+                            <i class="fa fa-television" aria-hidden="true"></i>
+                            Resolution
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($user->hasPermission('access', 'productenquiry')) : ?>
+                    <li title="Product Enquiry">
+                        <a href="<?php echo $productenquiry; ?>">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                            Product Enquiry
+                        </a>
+                    </li>
+                <?php endif; ?>
+
+                <?php if ($user->hasPermission('access', 'productcategory')) : ?>
+                    <li title="Product Categories">
+                        <a href="<?php echo $productcategory; ?>">
+                            <i class="fa fa-tags" aria-hidden="true"></i>
+                            Product Categories
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
         </div>
     </li>
 <?php endif; ?>
@@ -234,7 +279,7 @@
 	</div>
 </li> -->
 
- <!-- <?php if ($user->hasPermission('access', 'sectors')) : ?>
+<!-- <?php if ($user->hasPermission('access', 'sectors')) : ?>
     <li class="nav-item">
         <div class="nav-link" title="Sectors">
             <a href="<?php echo $sectors; ?>">
@@ -277,56 +322,56 @@
                 <?php if ($user->hasPermission('access', 'locations')) : ?>
                     <li>
                         <a href="<?php echo $locations; ?>">
-                        <i class="fa fa-map-marker"></i>
+                            <i class="fa fa-map-marker"></i>
                             Locations
                         </a>
                     </li>
-                <?php endif; ?> 
+                <?php endif; ?>
             </ul>
         </div>
     </li>
 <?php endif; ?>
 
 <?php if ($user->hasPermission('access', 'mediacenter')) : ?>
-<li class="nav-item">
-	<div class="nav-link">
-		<span class="icon-bg">
-			<i class="fa fa-cubes menuIcon" aria-hidden="true"></i>
-			Media Center
-		</span>
-	</div>
+    <li class="nav-item">
+        <div class="nav-link">
+            <span class="icon-bg">
+                <i class="fa fa-cubes menuIcon" aria-hidden="true"></i>
+                Media Center
+            </span>
+        </div>
 
-	<div class="menuright">
-		<ul>
-        <?php if ($user->hasPermission('access', 'mediacenter')) : ?>
-			<li>
-				<a href="<?php echo $mediacenter; ?>">
-					<i class="fa fa-play"></i>
-					Media Center
-				</a>
-			</li>
-            <?php endif; ?>
-            <?php if ($user->hasPermission('access', 'mediacentercategories')) : ?>
-			<li>
-				<a href="<?php echo $mediacentercategories; ?>">
-					<i class="fa fa-play"></i>
-					Media Center Categories
-				</a>
-			</li>
-            <?php endif; ?>
-		</ul>
-	</div>
-</li> 
+        <div class="menuright">
+            <ul>
+                <?php if ($user->hasPermission('access', 'mediacenter')) : ?>
+                    <li>
+                        <a href="<?php echo $mediacenter; ?>">
+                            <i class="fa fa-play"></i>
+                            Media Center
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <?php if ($user->hasPermission('access', 'mediacentercategories')) : ?>
+                    <li>
+                        <a href="<?php echo $mediacentercategories; ?>">
+                            <i class="fa fa-play"></i>
+                            Media Center Categories
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </li>
 <?php endif; ?>
 <?php if ($user->hasPermission('access', 'careers')) : ?>
- <li class="nav-item">
-    <div class="nav-link" title="Careers">
-        <span class="icon-bg">Careers</span>
-        <i class="fa fa-graduation-cap menuIcon" aria-hidden="true"></i>
-    </div>
-    <div class="menuright">
-        <ul>
-   
+    <li class="nav-item">
+        <div class="nav-link" title="Careers">
+            <span class="icon-bg">Careers</span>
+            <i class="fa fa-graduation-cap menuIcon" aria-hidden="true"></i>
+        </div>
+        <div class="menuright">
+            <ul>
+
                 <li title="Careers">
                     <a href="<?php echo $careers; ?>">
                         <i class="fa fa-graduation-cap" aria-hidden="true"></i>
@@ -334,34 +379,34 @@
                     </a>
                 </li>
 
-           <?php if ($user->hasPermission('access', 'locations')) : ?>
-                <li title="Locations" >
-                    <a href="<?php echo $locations; ?>">
-                        <i class="fa fa-map-marker" aria-hidden="true"></i>
-                        Locations
-                    </a>
-                </li>
-            <?php endif; ?>
-        <?php if ($user->hasPermission('access', 'jobtype')) : ?>
-                <li title="Job types">
-                    <a href="<?php echo $jobtype; ?>">
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                        Job types
-                    </a>
-                </li>
-            <?php endif; ?>  
+                <?php if ($user->hasPermission('access', 'locations')) : ?>
+                    <li title="Locations">
+                        <a href="<?php echo $locations; ?>">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            Locations
+                        </a>
+                    </li>
+                <?php endif; ?>
+                <?php if ($user->hasPermission('access', 'jobtype')) : ?>
+                    <li title="Job types">
+                        <a href="<?php echo $jobtype; ?>">
+                            <i class="fa fa-university" aria-hidden="true"></i>
+                            Job types
+                        </a>
+                    </li>
+                <?php endif; ?>
 
-           <?php if ($user->hasPermission('access', 'careerenquiries')) : ?>
-                <li title="Career Enquiries" >
-                    <a href="<?php echo $careerenquiries; ?>">
-                        <i class="fa fa-question" aria-hidden="true"></i>
-                        Career Enquiries
-                    </a>
-                </li>
-            <?php endif; ?> 
-        </ul>
-    </div>
-</li> 
+                <?php if ($user->hasPermission('access', 'careerenquiries')) : ?>
+                    <li title="Career Enquiries">
+                        <a href="<?php echo $careerenquiries; ?>">
+                            <i class="fa fa-question" aria-hidden="true"></i>
+                            Career Enquiries
+                        </a>
+                    </li>
+                <?php endif; ?>
+            </ul>
+        </div>
+    </li>
 <?php endif; ?>
 <?php if ($user->hasPermission('access', 'enquiries')) : ?>
     <li class="nav-item">
@@ -372,7 +417,7 @@
             </a>
         </div>
     </li>
-<?php endif; ?> 
+<?php endif; ?>
 
 <?php if ($user->hasPermission('access', 'adminuser')) : ?>
     <li class="nav-item">
@@ -383,7 +428,7 @@
             </a>
         </div>
     </li>
-<?php endif; ?> 
+<?php endif; ?>
 
 <?php if ($user->hasPermission('access', 'setting')) : ?>
     <li class="nav-item">
@@ -394,10 +439,10 @@
             </a>
         </div>
     </li>
-<?php endif; ?> 
+<?php endif; ?>
 
 <?php if ($user->hasPermission('access', 'roles')) : ?>
-                <!-- <li>
+    <!-- <li>
 				<a href="<?php echo $roles; ?>">
 					<svg xmlns="http://www.w3.org/2000/svg" width="13.333" height="12" viewBox="0 0 13.333 12">
 						<path id="_Icon_settings" data-name="settings"

@@ -178,7 +178,7 @@
                             <div class="col-lg-6 col-md-6">
                                 <div class="form-group">
                                     <label class="control-label" for="input-publish-date">Publish Date</label>
-                                    <input type="date" name="publish_date" value="<?php echo $publish_date; ?>" placeholder="Publish Date" id="input-publish-date" class="form-control" />
+                                    <input type="date" name="publish_date" value="<?php echo $publish_date; ?>" id="input-publish-date" class="form-control" />
                                     <?php if (isset($error_publish_date)) { ?>
                                         <div class="text-danger"><?php echo $error_publish_date; ?></div>
                                     <?php } ?>
@@ -209,7 +209,7 @@
                         <button type="submit" form="form-product" data-toggle="tooltip" title="Save" class="btn btn-success"> <i class="fa fa-save"></i> Submit</button>
                         <a href="<?php echo $cancel; ?>" data-toggle="tooltip" title="Cancel" class="btn btn-danger"><i class="fa fa-reply"></i> Cancel</a>
                     </div>
-            </div>
+
             </form>
         </div>
     </div>
