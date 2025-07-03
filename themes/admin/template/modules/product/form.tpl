@@ -201,14 +201,14 @@
                                     <input type="hidden" name="icon" value="<?php echo $icon; ?>">
                                 </div>
                             </div>
-                            <!-- Gallery -->
+                            <!-- Featured -->
                             <div class="row">
                                 <div class="table-responsive">
                                     <h3>For Featured</h3>
                                     <table id="images" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <td class="text-left">Gallery</td>
+                                                <td class="text-left">Image</td>
                                                 <td class="text-right">Sort Order</td>
                                                 <td></td>
                                             </tr>
@@ -216,20 +216,20 @@
                                         <tbody>
 
                                             <?php $image_row = 0;
-                                            foreach ($product_features_images as $product_features_image) {
+                                            foreach ($product_features_image as $product_features_images) {
                                             ?>
                                                 <tr id="image-row<?php echo $image_row; ?>">
                                                     <td class="text-left">
                                                         <a href="" id="thumb-image<?php echo $image_row; ?>" class="image-picker">
-                                                            <img src="<?php echo $product_features_image['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                            <img src="<?php echo $product_features_images['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
                                                         </a>
-                                                        <input type="hidden" name="product_features_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_image['image']; ?>" id="input-image<?php echo $image_row; ?>" />
+                                                        <input type="hidden" name="product_features_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_images['image']; ?>" id="input-image<?php echo $image_row; ?>" />
                                                         <?php if ($error_product_features_image[$image_row]['image']) : ?>
                                                             <div class="text-danger"><?php echo $error_product_features_image[$image_row]['image']; ?></div>
                                                         <?php endif; ?>
                                                     </td>
                                                     <td class="text-right">
-                                                        <input type="text" name="product_features_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
+                                                        <input type="text" name="product_features_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_images['sort_order']; ?>" placeholder="sort order" class="form-control" />
                                                     </td>
                                                     <td class="text-left">
                                                         <button type="button" onclick="$('#image-row<?php echo $image_row; ?>').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">
@@ -259,40 +259,68 @@
                                     <table id="benefits-images" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <td class="text-left">Gallery</td>
-                                                <td class="text-right">Sort Order</td>
+                                                <td class="text-left">Icon</td>
+                                                <td class="text-right">Title</td>
+                                                <td class="text-right">Description</td>
                                                 <td></td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $benefits_image_row = 0;
-                                            foreach ($product_benefits_image as $product_benefits_images) { ?>
+                                            <?php $benefits_image_row = 0; ?>
+                                            <?php foreach ($product_benefits_image as $benefit) { ?>
                                                 <tr id="benefits-image-row<?php echo $benefits_image_row; ?>">
                                                     <td class="text-left">
                                                         <a href="#" id="thumb-benefits-image<?php echo $benefits_image_row; ?>" class="benefits-image-picker">
-                                                            <img src="<?php echo $product_benefits_images['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                            <img src="<?php echo $benefit['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
                                                         </a>
-                                                        <input type="hidden" name="product_benefits_image[<?php echo $benefits_image_row; ?>][image]" value="<?php echo $product_benefits_image['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
-                                                        <?php if ($error_product_benefits_image[$benefits_image_row]['image']) : ?>
+                                                        <input type="hidden" name="product_benefits_image[<?php echo $benefits_image_row; ?>][image]" value="<?php echo $benefit['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
+                                                        <?php if (!empty($error_product_benefits_image[$benefits_image_row]['image'])) : ?>
                                                             <div class="text-danger"><?php echo $error_product_benefits_image[$benefits_image_row]['image']; ?></div>
                                                         <?php endif; ?>
                                                     </td>
-                                                    <td class="text-right">
-                                                        <input type="text" name="product_benefits_image[<?php echo $benefits_image_row; ?>][sort_order]" value="<?php echo $product_benefits_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
-                                                    </td>
+                                                    <?php foreach ($languages as $language) { ?>
+                                                        <td class="text-right">
+                                                            <div style="margin-bottom: 5px;">
+                                                                <img src="/vars/lang/be/<?php echo $language['code']; ?>-<?php echo $language['image']; ?>" style="height:16px;" />
+                                                                <input type="text"
+                                                                    name="product_benefits_description[<?php echo $benefits_image_row; ?>][title][<?php echo $language['language_id']; ?>]"
+                                                                    value="<?php echo isset($product_benefits_description[$benefits_image_row]['title'][$language['language_id']]) ? htmlspecialchars($product_benefits_description[$benefits_image_row]['title'][$language['language_id']]) : ''; ?>"
+                                                                    placeholder="Title (<?php echo $language['name']; ?>)"
+                                                                    class="form-control"
+                                                                    style="display:inline-block; width:85%;" />
+                                                                <?php if (!empty($error_product_benefits_description[$benefits_image_row]['title'][$language['language_id']])) { ?>
+                                                                    <div class="text-danger"><?php echo $error_product_benefits_description[$benefits_image_row]['title'][$language['language_id']]; ?></div>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </td>
+                                                        <td class="text-right">
+                                                            <div style="margin-bottom: 5px;">
+                                                                <img src="/vars/lang/be/<?php echo $language['code']; ?>-<?php echo $language['image']; ?>" style="height:16px;" />
+                                                                <input type="text"
+                                                                    name="product_benefits_description[<?php echo $benefits_image_row; ?>][description][<?php echo $language['language_id']; ?>]"
+                                                                    value="<?php echo isset($product_benefits_description[$benefits_image_row]['description'][$language['language_id']]) ? htmlspecialchars($product_benefits_description[$benefits_image_row]['description'][$language['language_id']]) : ''; ?>"
+                                                                    placeholder="Description (<?php echo $language['name']; ?>)"
+                                                                    class="form-control"
+                                                                    style="display:inline-block; width:85%;" />
+                                                                <?php if (!empty($error_product_benefits_description[$benefits_image_row]['description'][$language['language_id']])) { ?>
+                                                                    <div class="text-danger"><?php echo $error_product_benefits_description[$benefits_image_row]['description'][$language['language_id']]; ?></div>
+                                                                <?php } ?>
+                                                            </div>
+                                                        </td>
+                                                    <?php } ?>
                                                     <td class="text-left">
                                                         <button type="button" onclick="$('#benefits-image-row<?php echo $benefits_image_row; ?>').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">
                                                             <i class="fa fa-minus-circle"></i>
                                                         </button>
                                                     </td>
                                                 </tr>
-                                                <?php $benefits_image_row = $benefits_image_row + 1; ?>
+                                                <?php $benefits_image_row++; ?>
                                             <?php } ?>
                                         </tbody>
 
                                         <tfoot>
                                             <tr>
-                                                <td colspan="2"></td>
+                                                <td colspan="3"></td>
                                                 <td class="text-left"><button type="button" onclick="addBenefitsImage();" data-toggle="tooltip" title="add" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></td>
                                             </tr>
                                         </tfoot>
@@ -416,7 +444,8 @@
 
 <!-- gallery script for benefits images -->
 <script language="javascript" type="text/javascript">
-    var benefits_image_row = <?php echo count($product_benefits_images); ?>;
+    var benefits_image_row = <?php echo isset($benefits_image_row) ? $benefits_image_row : 0; ?>;
+    var languages = <?php echo json_encode($languages); ?>;
 
     function addBenefitsImage() {
         var html = '<tr id="benefits-image-row' + benefits_image_row + '">';
@@ -426,19 +455,28 @@
         html += '    </a>';
         html += '    <input type="hidden" name="product_benefits_image[' + benefits_image_row + '][image]" value="" id="input-benefits-image' + benefits_image_row + '" />';
         html += '  </td>';
-        html += '  <td class="text-right">';
-        html += '    <input type="text" name="product_benefits_image[' + benefits_image_row + '][sort_order]" value="" placeholder="sort order" class="form-control" />';
-        html += '  </td>';
+        for (var i = 0; i < languages.length; i++) {
+            var lang = languages[i];
+            html += '  <td class="text-right">';
+            html += '<div style="margin-bottom: 5px;">';
+            html += '<img src="/vars/lang/be/' + lang.code + '-' + lang.image + '" style="height:16px;" />';
+            html += '<input type="text" name="product_benefits_description[' + benefits_image_row + '][title][' + lang.language_id + ']" value="" placeholder="Title (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
+            html += '</div>';
+            html += '  </td>';
+            html += '  <td class="text-right">';
+            html += '<div style="margin-bottom: 5px;">';
+            html += '<img src="/vars/lang/be/' + lang.code + '-' + lang.image + '" style="height:16px;" />';
+            html += '<input type="text" name="product_benefits_description[' + benefits_image_row + '][description][' + lang.language_id + ']" value="" placeholder="Description (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
+            html += '</div>';
+            html += '  </td>';
+        }
         html += '  <td class="text-left">';
         html += '    <button type="button" onclick="$(\'#benefits-image-row' + benefits_image_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">';
         html += '      <i class="fa fa-minus-circle"></i>';
         html += '    </button>';
         html += '  </td>';
         html += '</tr>';
-
-        // Find the second images table (for benefits)
-        $('table').eq(1).find('tbody').append(html);
-
+        $('#benefits-images tbody').append(html);
         benefits_image_row++;
     }
 
@@ -459,12 +497,10 @@
                     }
 
                     if (file.size > maxSize) {
-                        alert('The file is too large. Please select a file smaller than ' + maxSize + ' MB.');
+                        alert('The file is too large. Please select a file smaller than 5 MB.');
                         return;
                     }
 
-                    var reader = new FileReader();
-                    reader.readAsDataURL(file);
                     var fd = new FormData();
                     fd.append('image', file);
                     $.ajax({

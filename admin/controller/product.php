@@ -298,6 +298,11 @@ class ControllerProduct extends Controller
 		} else {
 			$data['error_product_features_image'] = '';
 		}
+		if (isset($this->error['product_benefits_image'])) {
+			$data['error_product_benefits_image'] = $this->error['product_benefits_image'];
+		} else {
+			$data['error_product_benefits_image'] = '';
+		}
 		// echo '<pre>'; print_r($data['error_product_features_image']); echo '</pre>'; exit;
 
 		$url = '';
@@ -394,16 +399,16 @@ class ControllerProduct extends Controller
 			$data['featured'] = '';
 		}
 		if (isset($this->request->post['product_features_image'])) {
-			$product_features_images = $this->request->post['product_features_image'];
+			$product_features_image = $this->request->post['product_features_image'];
 		} elseif (isset($this->request->get['product_id'])) {
-			$product_features_images = $this->model_product->getProductFeatureImages($this->request->get['product_id']);
+			$product_features_image = $this->model_product->getProductFeatureImages($this->request->get['product_id']);
 		} else {
-			$product_features_images = array();
+			$product_features_image = array();
 		}
 
-		$data['product_features_images'] = array();
+		$data['product_features_image'] = array();
 
-		foreach ($product_features_images as $product_features_image) {
+		foreach ($product_features_image as $product_features_image) {
 			if (is_file(DIR_IMAGE . 'product/' . $product_features_image['image'])) {
 				$image = $product_features_image['image'];
 				$thumb = '../uploads/image/product/' . $product_features_image['image'];
@@ -412,12 +417,50 @@ class ControllerProduct extends Controller
 				$thumb = '../uploads/image/no-image.png';
 			}
 
-			$data['product_features_images'][] = array(
+			$data['product_features_image'][] = array(
 				'image'      => $image,
 				'thumb'      => $thumb,
 				'sort_order' => $product_features_image['sort_order']
 			);
 		}
+
+		if (isset($this->request->post['product_benefits_image'])) {
+			$product_benefits_image = $this->request->post['product_benefits_image'];
+		} elseif (isset($this->request->get['product_id'])) {
+			$product_benefits_image = $this->model_product->getProductBenefitsImage($this->request->get['product_id']);
+		} else {
+			$product_benefits_image = array();
+		}
+
+		$data['product_benefits_image'] = array();
+
+		foreach ($product_benefits_image as $product_benefits_image) {
+			if (is_file(DIR_IMAGE . 'product/' . $product_benefits_image['image'])) {
+				$image = $product_benefits_image['image'];
+				$thumb = '../uploads/image/product/' . $product_benefits_image['image'];
+			} else {
+				$image = '';
+				$thumb = '../uploads/image/no-image.png';
+			}
+
+			$data['product_benefits_image'][] = array(
+				'image'      => $image,
+				'thumb'      => $thumb
+				// 'sort_order' => $product_benefits_image['sort_order']
+			);
+		}
+
+		$this->load_model('language');
+		$data['languages'] = $this->model_language->getLanguages($db_filter);
+		if (isset($this->request->post['product_benefits_description'])) {
+			$data['product_benefits_description'] = $this->request->post['product_benefits_description'];
+		} elseif (isset($this->request->get['product_id'])) {
+			$data['product_benefits_description'] = $this->model_product->getProductBenefitsDescription($this->request->get['product_id']);
+		} else {
+			$data['product_benefits_description'] = array();
+		}
+
+
 		// echo '<pre>';
 		// print_r($data);
 		// echo '</pre>';
