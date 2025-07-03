@@ -86,9 +86,6 @@
                                         </tr>
                                     <?php } ?>
                                     <?php } else { ?>
-                                    <tr>
-                                        <td class="text-center" colspan="3"><?php echo $text_no_results; ?></td>
-                                    </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>

@@ -46,33 +46,37 @@
                             <div class="tab-content">
                                 <?php foreach ($languages as $language) { ?>
                                     <div class="tab-pane" id="language<?php echo $language['language_id'] ?>">
-                                        <div class="col-lg-12 col-md-12">
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-group required">
                                                 <!-- Title input -->
-                                                <label class="control-label" for="input-title-<?php echo $language['language_id']; ?>">
+                                                <label class="control-label" for="input-title<?php echo $language['language_id']; ?>">
                                                     Title
                                                 </label>
-                                                <input type="text" name="product_description[<?php echo $language['language_id']; ?>][title]" value="<?php echo isset($product_description[$language['language_id']]['title']) ? $product_description[$language['language_id']]['title'] : ''; ?>" placeholder="Title" id="input-title-<?php echo $language['language_id']; ?>" class="form-control" />
+                                                <input type="text" name="product_description[<?php echo $language['language_id']; ?>][title]" value="<?php echo isset($product_description[$language['language_id']]) ? $product_description[$language['language_id']]['title'] : ''; ?>" placeholder="Title" id="input-title<?php echo $language['language_id']; ?>" class="form-control" />
                                                 <?php if (isset($error_title[$language['language_id']])) { ?>
                                                     <div class="text-danger"><?php echo $error_title[$language['language_id']]; ?></div>
                                                 <?php } ?>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-group required">
                                                 <!-- Short-Description input -->
-                                                <label class="control-label" for="input-short-description-<?php echo $language['language_id']; ?>">
+                                                <label class="control-label" for="input-short-description<?php echo $language['language_id']; ?>">
                                                     Short Description
                                                 </label>
-                                                <textarea name="product_description[<?php echo $language['language_id']; ?>][short_description]" placeholder="Short Description" id="input-short-description-<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['short_description']) ? $product_description[$language['language_id']]['short_description'] : ''; ?></textarea>
+                                                <textarea name="product_description[<?php echo $language['language_id']; ?>][short_description]" rows="5" placeholder="Short Description" id="input-short-description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['short_description']) ? $product_description[$language['language_id']]['short_description'] : ''; ?></textarea>
                                                 <?php if (isset($error_short_description[$language['language_id']])) { ?>
                                                     <div class="text-danger"><?php echo $error_short_description[$language['language_id']]; ?></div>
                                                 <?php } ?>
                                             </div>
+                                        </div>
+                                        <div class="col-lg-6 col-md-6">
                                             <div class="form-group required">
                                                 <!-- Description input -->
-                                                <label class="control-label" for="input-description-<?php echo $language['language_id']; ?>">
+                                                <label class="control-label" for="input-product_description<?php echo $language['language_id']; ?>">
                                                     Description
                                                 </label>
-                                                <textarea name="product_description[<?php echo $language['language_id']; ?>][description]" placeholder="Description" id="input-description-<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['description']) ? $product_description[$language['language_id']]['description'] : ''; ?></textarea>
+                                                <textarea name="product_description[<?php echo $language['language_id']; ?>][description]" placeholder="Description" id="input-product_description<?php echo $language['language_id']; ?>" class="form-control"><?php echo isset($product_description[$language['language_id']]['description']) ? $product_description[$language['language_id']]['description'] : ''; ?></textarea>
                                                 <?php if (isset($error_description[$language['language_id']])) { ?>
                                                     <div class="text-danger"><?php echo $error_description[$language['language_id']]; ?></div>
                                                 <?php } ?>
@@ -183,7 +187,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group required">
                                         <label class="control-label" for="input-icon">Icon</label>
-                                        <input onchange="loadFile(event,'bimage')" type="file" name="icon" value="<?php echo $icon; ?>" id="input-icon" accept=".png,.jpg,.jpeg,.gif" class="form-control" style="display: block;">
+                                        <input onchange="loadFile(event,'bimage')" type="file" name="icon" value="<?php echo $icon; ?>" id="input-icon" accept=".png,.jpg,.jpeg,.gif" style="display: block;">
                                         <small class="form-text text-muted">Upload an icon image (recommended size: 100x100px)</small>
                                     </div>
                                     <?php if ($error_icon) { ?>
@@ -208,28 +212,31 @@
                                     <table id="images" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <td class="text-left">Image</td>
-                                                <td class="text-right">Sort Order</td>
+                                                <td class="text-left required">Image</td>
+                                                <td class="text-right required">Sort Order</td>
                                                 <td></td>
                                             </tr>
                                         </thead>
                                         <tbody>
 
                                             <?php $image_row = 0;
-                                            foreach ($product_features_image as $product_features_images) {
+                                            foreach ($product_features_images as $product_features_image) {
                                             ?>
                                                 <tr id="image-row<?php echo $image_row; ?>">
                                                     <td class="text-left">
                                                         <a href="" id="thumb-image<?php echo $image_row; ?>" class="image-picker">
-                                                            <img src="<?php echo $product_features_images['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                            <img src="<?php echo $product_features_image['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
                                                         </a>
-                                                        <input type="hidden" name="product_features_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_images['image']; ?>" id="input-image<?php echo $image_row; ?>" />
+                                                        <input type="hidden" name="product_features_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_image['image']; ?>" id="input-image<?php echo $image_row; ?>" />
                                                         <?php if ($error_product_features_image[$image_row]['image']) : ?>
                                                             <div class="text-danger"><?php echo $error_product_features_image[$image_row]['image']; ?></div>
                                                         <?php endif; ?>
                                                     </td>
                                                     <td class="text-right">
-                                                        <input type="text" name="product_features_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_images['sort_order']; ?>" placeholder="sort order" class="form-control" />
+                                                        <input type="text" name="product_features_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
+                                                        <?php if ($error_product_features_image[$image_row]['sort_order']) : ?>
+                                                            <div class="text-danger"><?php echo $error_product_features_image[$image_row]['sort_order']; ?></div>
+                                                        <?php endif; ?>
                                                     </td>
                                                     <td class="text-left">
                                                         <button type="button" onclick="$('#image-row<?php echo $image_row; ?>').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">
@@ -259,37 +266,38 @@
                                     <table id="benefits-images" class="table table-striped table-bordered table-hover">
                                         <thead>
                                             <tr>
-                                                <td class="text-left">Icon</td>
-                                                <td class="text-right">Title</td>
-                                                <td class="text-right">Description</td>
+                                                <td class="text-left required">Icon</td>
+                                                <td class="text-right required">Title</td>
+                                                <td class="text-right required">Description</td>
                                                 <td></td>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $benefits_image_row = 0; ?>
+                                            <?php $benefits_image_row = 1; ?>
                                             <?php foreach ($product_benefits_image as $benefit) { ?>
                                                 <tr id="benefits-image-row<?php echo $benefits_image_row; ?>">
                                                     <td class="text-left">
                                                         <a href="#" id="thumb-benefits-image<?php echo $benefits_image_row; ?>" class="benefits-image-picker">
-                                                            <img src="<?php echo $benefit['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                            <img src="<?php echo $benefit['image']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
                                                         </a>
-                                                        <input type="hidden" name="product_benefits_image[<?php echo $benefits_image_row; ?>][image]" value="<?php echo $benefit['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
+                                                        <input type="hidden" name="product_benefits_image['description'][<?php echo $benefits_image_row; ?>][image]" value="<?php echo $benefit['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
                                                         <?php if (!empty($error_product_benefits_image[$benefits_image_row]['image'])) : ?>
                                                             <div class="text-danger"><?php echo $error_product_benefits_image[$benefits_image_row]['image']; ?></div>
                                                         <?php endif; ?>
                                                     </td>
+                                                    
                                                     <?php foreach ($languages as $language) { ?>
                                                         <td class="text-right">
                                                             <div style="margin-bottom: 5px;">
                                                                 <img src="/vars/lang/be/<?php echo $language['code']; ?>-<?php echo $language['image']; ?>" style="height:16px;" />
                                                                 <input type="text"
-                                                                    name="product_benefits_description[<?php echo $benefits_image_row; ?>][title][<?php echo $language['language_id']; ?>]"
-                                                                    value="<?php echo isset($product_benefits_description[$benefits_image_row]['title'][$language['language_id']]) ? htmlspecialchars($product_benefits_description[$benefits_image_row]['title'][$language['language_id']]) : ''; ?>"
+                                                                    name="benefit[<?php echo $benefits_image_row; ?>][title][<?php echo $language['language_id']; ?>]"
+                                                                    value="<?php echo isset($benefit[$benefits_image_row]['title'][$language['language_id']]) ? htmlspecialchars($benefit[$benefits_image_row]['title'][$language['language_id']]) : ''; ?>"
                                                                     placeholder="Title (<?php echo $language['name']; ?>)"
                                                                     class="form-control"
                                                                     style="display:inline-block; width:85%;" />
-                                                                <?php if (!empty($error_product_benefits_description[$benefits_image_row]['title'][$language['language_id']])) { ?>
-                                                                    <div class="text-danger"><?php echo $error_product_benefits_description[$benefits_image_row]['title'][$language['language_id']]; ?></div>
+                                                                <?php if (!empty($error_benefit[$benefits_image_row]['title'][$language['language_id']])) { ?>
+                                                                    <div class="text-danger"><?php echo $error_benefit[$benefits_image_row]['title'][$language['language_id']]; ?></div>
                                                                 <?php } ?>
                                                             </div>
                                                         </td>
@@ -297,13 +305,13 @@
                                                             <div style="margin-bottom: 5px;">
                                                                 <img src="/vars/lang/be/<?php echo $language['code']; ?>-<?php echo $language['image']; ?>" style="height:16px;" />
                                                                 <input type="text"
-                                                                    name="product_benefits_description[<?php echo $benefits_image_row; ?>][description][<?php echo $language['language_id']; ?>]"
-                                                                    value="<?php echo isset($product_benefits_description[$benefits_image_row]['description'][$language['language_id']]) ? htmlspecialchars($product_benefits_description[$benefits_image_row]['description'][$language['language_id']]) : ''; ?>"
+                                                                    name="benefit[<?php echo $benefits_image_row; ?>][description][<?php echo $language['language_id']; ?>]"
+                                                                    value="<?php echo isset($benefit[$benefits_image_row]['description'][$language['language_id']]) ? htmlspecialchars($benefit[$benefits_image_row]['description'][$language['language_id']]) : ''; ?>"
                                                                     placeholder="Description (<?php echo $language['name']; ?>)"
                                                                     class="form-control"
                                                                     style="display:inline-block; width:85%;" />
-                                                                <?php if (!empty($error_product_benefits_description[$benefits_image_row]['description'][$language['language_id']])) { ?>
-                                                                    <div class="text-danger"><?php echo $error_product_benefits_description[$benefits_image_row]['description'][$language['language_id']]; ?></div>
+                                                                <?php if (!empty($error_benefit[$benefits_image_row]['description'][$language['language_id']])) { ?>
+                                                                    <div class="text-danger"><?php echo $error_benefit[$benefits_image_row]['description'][$language['language_id']]; ?></div>
                                                                 <?php } ?>
                                                             </div>
                                                         </td>
@@ -327,6 +335,7 @@
                                     </table>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                     <!-- Bottom action buttons -->
@@ -460,13 +469,13 @@
             html += '  <td class="text-right">';
             html += '<div style="margin-bottom: 5px;">';
             html += '<img src="/vars/lang/be/' + lang.code + '-' + lang.image + '" style="height:16px;" />';
-            html += '<input type="text" name="product_benefits_description[' + benefits_image_row + '][title][' + lang.language_id + ']" value="" placeholder="Title (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
+            html += '<input type="text" name="benefit[' + benefits_image_row + '][title][' + lang.language_id + ']" value="" placeholder="Title (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
             html += '</div>';
             html += '  </td>';
             html += '  <td class="text-right">';
             html += '<div style="margin-bottom: 5px;">';
             html += '<img src="/vars/lang/be/' + lang.code + '-' + lang.image + '" style="height:16px;" />';
-            html += '<input type="text" name="product_benefits_description[' + benefits_image_row + '][description][' + lang.language_id + ']" value="" placeholder="Description (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
+            html += '<input type="text" name="benefit[' + benefits_image_row + '][description][' + lang.language_id + ']" value="" placeholder="Description (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
             html += '</div>';
             html += '  </td>';
         }
@@ -521,7 +530,20 @@
         });
     });
 </script>
-<script>
+
+<script type="text/javascript">
+    <?php foreach ($languages as $language) { ?>
+        var lang = 'input-product_description<?php echo $language['language_id']; ?>';
+        var code = '<?php echo $language["code"] ?>';
+        var textarea = document.getElementById(lang);
+        CKEDITOR.replace(textarea, {
+            language: code,
+            basicEntities: false
+        });
+    <?php } ?>
+</script>
+
+<script type="text/javascript">
     // JavaScript/jQuery for dynamic behavior of the show-in-footer checkbox
     document.getElementById('input-show-in-footer').addEventListener('change', function() {
         // Change value to 1 when checked, 0 when unchecked

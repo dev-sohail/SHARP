@@ -149,6 +149,17 @@
     </li>
 <?php endif; ?>
 
+<?php if ($user->hasPermission('access', 'business')) : ?>
+    <li class="nav-item">
+        <div class="nav-link" title="Business">
+            <a href="<?php echo $business; ?>">
+                <span class="icon-bg_drop">Business</span>
+                <i class="fa fa-briefcase menuIcon" aria-hidden="true"></i>
+            </a>
+        </div>
+    </li>
+<?php endif; ?>
+
 <?php if ($user->hasPermission('access', 'awards')) : ?>
     <li class="nav-item">
         <div class="nav-link" title="Awards">

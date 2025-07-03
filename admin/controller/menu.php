@@ -44,6 +44,7 @@ class ControllerMenu extends Controller
 		$data['screensize'] = $this->link('screensize', 'token=' . $this->session->data['token'], 'SSL');
 		$data['resolution'] = $this->link('resolution', 'token=' . $this->session->data['token'], 'SSL');
 		$data['productenquiry'] = $this->link('productenquiry', 'token=' . $this->session->data['token'], 'SSL');
+		$data['business'] = $this->link('business', 'token=' . $this->session->data['token'], 'SSL');
 		if ($this->user->getGroupId() != '1') {
 			$data['viewer'] = true;
 		} else {

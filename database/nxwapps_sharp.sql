@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Jul 02, 2025 at 11:27 AM
+-- Generation Time: Jul 03, 2025 at 10:48 AM
 -- Server version: 9.1.0
 -- PHP Version: 7.4.33
 
@@ -2536,7 +2536,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 --
 
 INSERT INTO `product` (`id`, `icon`, `made_in`, `sort_order`, `status`, `featured`, `screen_size`, `sku`, `video`, `date_added`, `date_modified`, `publish_date`) VALUES
-(1, 'user.png', 11, 1, 0, 1, '12', '', '', '2025-07-01 17:29:03', '2025-07-02 11:20:00', '2025-08-07 00:00:00');
+(1, 'user.png', 163, 29, 0, 1, '78', '', 'https://www.takihovohab.mobi', '2025-07-03 15:35:28', NULL, '2015-03-22 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -2646,6 +2646,46 @@ INSERT INTO `productlifecycleanalysis_description` (`id`, `productlife__id`, `la
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `product_benefits_description`
+--
+
+DROP TABLE IF EXISTS `product_benefits_description`;
+CREATE TABLE IF NOT EXISTS `product_benefits_description` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `product_id` int UNSIGNED NOT NULL,
+  `lang_id` int UNSIGNED NOT NULL,
+  `title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `lang_id` (`lang_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Dumping data for table `product_benefits_description`
+--
+
+INSERT INTO `product_benefits_description` (`id`, `product_id`, `lang_id`, `title`, `description`) VALUES
+(1, 1, 0, 'Array', 'Array');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_benefits_image`
+--
+
+DROP TABLE IF EXISTS `product_benefits_image`;
+CREATE TABLE IF NOT EXISTS `product_benefits_image` (
+  `id` int UNSIGNED NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `image` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `product_description`
 --
 
@@ -2660,14 +2700,27 @@ CREATE TABLE IF NOT EXISTS `product_description` (
   PRIMARY KEY (`id`),
   KEY `product_id` (`product_id`),
   KEY `lang_id` (`lang_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Dumping data for table `product_description`
 --
 
 INSERT INTO `product_description` (`id`, `product_id`, `lang_id`, `title`, `short_description`, `description`) VALUES
-(2, 1, 1, 'Laboriosam dolorem ', 'Laboris doloribus qu', 'Quia unde autem saep');
+(1, 1, 1, 'Velit quibusdam cons', 'Earum iusto eos mag', 'Minima commodi ipsam');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `product_features_image`
+--
+
+DROP TABLE IF EXISTS `product_features_image`;
+CREATE TABLE IF NOT EXISTS `product_features_image` (
+  `product_id` int NOT NULL,
+  `image` varchar(255) NOT NULL,
+  `sort_order` int NOT NULL DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
