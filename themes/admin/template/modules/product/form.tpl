@@ -187,7 +187,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group required">
                                         <label class="control-label" for="input-icon">Icon</label>
-                                        <input onchange="loadFile(event,'bimage')" type="file" name="icon" value="<?php echo $icon; ?>" id="input-icon" accept=".png,.jpg,.jpeg,.gif" style="display: block;">
+                                        <input onchange="loadFile(event, 'bimage')" type="file" name="icon" id="input-icon" accept=".png,.jpg,.jpeg,.gif" style="display: block;">
                                         <small class="form-text text-muted">Upload an icon image (recommended size: 100x100px)</small>
                                     </div>
                                     <?php if ($error_icon) { ?>
@@ -202,7 +202,7 @@
                                     <?php } else { ?>
                                         <img id="bimage" src="../uploads/image/no-image.png" style="width: 100%; height: 89px; margin-top: 12px;" title="No Image Found" alt="No Image">
                                     <?php } ?>
-                                    <input type="hidden" name="icon" value="<?php echo $icon; ?>">
+                                    <input type="hidden" name="icon" id="hidden-icon" value="<?php echo $icon; ?>">
                                 </div>
                             </div>
                             <!-- Featured -->
@@ -227,13 +227,13 @@
                                                         <a href="" id="thumb-image<?php echo $image_row; ?>" class="image-picker">
                                                             <img src="<?php echo $product_features_image['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
                                                         </a>
-                                                        <input type="hidden" name="product_features_image[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_image['image']; ?>" id="input-image<?php echo $image_row; ?>" />
+                                                        <input type="hidden" name="product_features_images[<?php echo $image_row; ?>][image]" value="<?php echo $product_features_image['image']; ?>" id="input-image<?php echo $image_row; ?>" />
                                                         <?php if ($error_product_features_image[$image_row]['image']) : ?>
                                                             <div class="text-danger"><?php echo $error_product_features_image[$image_row]['image']; ?></div>
                                                         <?php endif; ?>
                                                     </td>
                                                     <td class="text-right">
-                                                        <input type="text" name="product_features_image[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
+                                                        <input type="text" name="product_features_images[<?php echo $image_row; ?>][sort_order]" value="<?php echo $product_features_image['sort_order']; ?>" placeholder="sort order" class="form-control" />
                                                         <?php if ($error_product_features_image[$image_row]['sort_order']) : ?>
                                                             <div class="text-danger"><?php echo $error_product_features_image[$image_row]['sort_order']; ?></div>
                                                         <?php endif; ?>
@@ -273,31 +273,30 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php $benefits_image_row = 1; ?>
-                                            <?php foreach ($product_benefits_image as $benefit) { ?>
+                                            <?php $benefits_image_row = 0; ?>
+                                            <?php foreach ($product_benefits_images as $product_benefits_image) { ?>
                                                 <tr id="benefits-image-row<?php echo $benefits_image_row; ?>">
                                                     <td class="text-left">
-                                                        <a href="#" id="thumb-benefits-image<?php echo $benefits_image_row; ?>" class="benefits-image-picker">
-                                                            <img src="<?php echo $benefit['image']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
+                                                        <a href="#" id="benefits-thumb-image<?php echo $benefits_image_row; ?>" class="benefits-image-picker">
+                                                            <img src="<?php echo $product_benefits_image['thumb']; ?>" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;" />
                                                         </a>
-                                                        <input type="hidden" name="product_benefits_image['description'][<?php echo $benefits_image_row; ?>][image]" value="<?php echo $benefit['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
-                                                        <?php if (!empty($error_product_benefits_image[$benefits_image_row]['image'])) : ?>
-                                                            <div class="text-danger"><?php echo $error_product_benefits_image[$benefits_image_row]['image']; ?></div>
+                                                        <input type="hidden" name="product_benefits_images[<?php echo $benefits_image_row; ?>][image]" value="<?php echo $product_benefits_image['image']; ?>" id="input-benefits-image<?php echo $benefits_image_row; ?>" />
+                                                        <?php if (!empty($error_product_benefits_images[$benefits_image_row]['image'])) : ?>
+                                                            <div class="text-danger"><?php echo $error_product_benefits_images[$benefits_image_row]['image']; ?></div>
                                                         <?php endif; ?>
                                                     </td>
-                                                    
                                                     <?php foreach ($languages as $language) { ?>
                                                         <td class="text-right">
                                                             <div style="margin-bottom: 5px;">
                                                                 <img src="/vars/lang/be/<?php echo $language['code']; ?>-<?php echo $language['image']; ?>" style="height:16px;" />
                                                                 <input type="text"
-                                                                    name="benefit[<?php echo $benefits_image_row; ?>][title][<?php echo $language['language_id']; ?>]"
-                                                                    value="<?php echo isset($benefit[$benefits_image_row]['title'][$language['language_id']]) ? htmlspecialchars($benefit[$benefits_image_row]['title'][$language['language_id']]) : ''; ?>"
+                                                                    name="product_benefits_images[<?php echo $benefits_image_row; ?>][title][<?php echo $language['language_id']; ?>]"
+                                                                    value="<?php echo isset($product_benefits_image['title'][$language['language_id']]) ? htmlspecialchars($product_benefits_image['title'][$language['language_id']]) : ''; ?>"
                                                                     placeholder="Title (<?php echo $language['name']; ?>)"
                                                                     class="form-control"
                                                                     style="display:inline-block; width:85%;" />
-                                                                <?php if (!empty($error_benefit[$benefits_image_row]['title'][$language['language_id']])) { ?>
-                                                                    <div class="text-danger"><?php echo $error_benefit[$benefits_image_row]['title'][$language['language_id']]; ?></div>
+                                                                <?php if (!empty($error_product_benefits_images[$benefits_image_row]['title'][$language['language_id']])) { ?>
+                                                                    <div class="text-danger"><?php echo $error_product_benefits_images[$benefits_image_row]['title'][$language['language_id']]; ?></div>
                                                                 <?php } ?>
                                                             </div>
                                                         </td>
@@ -305,13 +304,13 @@
                                                             <div style="margin-bottom: 5px;">
                                                                 <img src="/vars/lang/be/<?php echo $language['code']; ?>-<?php echo $language['image']; ?>" style="height:16px;" />
                                                                 <input type="text"
-                                                                    name="benefit[<?php echo $benefits_image_row; ?>][description][<?php echo $language['language_id']; ?>]"
-                                                                    value="<?php echo isset($benefit[$benefits_image_row]['description'][$language['language_id']]) ? htmlspecialchars($benefit[$benefits_image_row]['description'][$language['language_id']]) : ''; ?>"
+                                                                    name="product_benefits_images[<?php echo $benefits_image_row; ?>][description][<?php echo $language['language_id']; ?>]"
+                                                                    value="<?php echo isset($product_benefits_image['description'][$language['language_id']]) ? htmlspecialchars($product_benefits_image['description'][$language['language_id']]) : ''; ?>"
                                                                     placeholder="Description (<?php echo $language['name']; ?>)"
                                                                     class="form-control"
                                                                     style="display:inline-block; width:85%;" />
-                                                                <?php if (!empty($error_benefit[$benefits_image_row]['description'][$language['language_id']])) { ?>
-                                                                    <div class="text-danger"><?php echo $error_benefit[$benefits_image_row]['description'][$language['language_id']]; ?></div>
+                                                                <?php if (!empty($error_product_benefits_images[$benefits_image_row]['description'][$language['language_id']])) { ?>
+                                                                    <div class="text-danger"><?php echo $error_product_benefits_images[$benefits_image_row]['description'][$language['language_id']]; ?></div>
                                                                 <?php } ?>
                                                             </div>
                                                         </td>
@@ -348,7 +347,6 @@
         </div>
     </div>
 </div>
-
 <script type="text/javascript">
     // Activate the first language tab by default
     $('#language a:first').tab('show');
@@ -356,29 +354,32 @@
 <?php echo $footer; ?>
 <!-- Image upload script -->
 <script>
-    var loadFile = function(event) {
-        var output = document.getElementById('bimage');
+    // Improved loadFile function for icon preview and validation
+    var loadFile = function(event, imageId) {
+        var output = document.getElementById(imageId);
         var file = event.target.files[0];
-        var validExtensions = ['png', 'jpeg', 'jpg'];
+        var validExtensions = ['png', 'jpeg', 'jpg', 'gif'];
         var maxSize = 5 * 1024 * 1024;
         if (file) {
             var extension = file.name.split('.').pop().toLowerCase();
             if (validExtensions.indexOf(extension) === -1 || file.size > maxSize) {
                 event.target.value = '';
-                alert('Please select a valid file (PNG, JPEG, JPG) less than 5 MB.');
+                alert('Please select a valid file (PNG, JPEG, JPG, GIF) less than 5 MB.');
                 return false;
             } else {
                 output.src = URL.createObjectURL(file);
                 output.onload = function() {
                     URL.revokeObjectURL(output.src);
                 };
+                // Optionally update the hidden input with the file name (if needed after upload)
+                // document.getElementById('hidden-icon').value = file.name;
             }
         }
     };
 </script>
 
 <!-- Gallery image upload script for feature images -->
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
     var image_row = <?php echo  $image_row; ?>;
 
     function addImage() {
@@ -387,10 +388,10 @@
         html += '    <a href="#" id="thumb-image' + image_row + '" class="image-picker">';
         html += '      <img src="../uploads/image/no-image.png" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;"/>';
         html += '    </a>';
-        html += '    <input type="hidden" name="product_features_image[' + image_row + '][image]" value="" id="input-image' + image_row + '" />';
+        html += '    <input type="hidden" name="product_features_images[' + image_row + '][image]" value="" id="input-image' + image_row + '" />';
         html += '  </td>';
         html += '  <td class="text-right">';
-        html += '    <input type="text" name="product_features_image[' + image_row + '][sort_order]" value="" placeholder="sort order" class="form-control" />';
+        html += '    <input type="text" name="product_features_images[' + image_row + '][sort_order]" value="" placeholder="sort order" class="form-control" />';
         html += '  </td>';
         html += '  <td class="text-left">';
         html += '    <button type="button" onclick="$(\'#image-row' + image_row + '\').remove();" data-toggle="tooltip" title="remove" class="btn btn-danger">';
@@ -419,9 +420,8 @@
                         alert('Please select an image file.');
                         return;
                     }
-
                     if (file.size > maxSize) {
-                        alert('The file is too large. Please select a file smaller than ' + maxSize + ' MB.');
+                        alert('The file is too large. Please select a file smaller than 5 MB.');
                         return;
                     }
 
@@ -435,47 +435,51 @@
                         data: fd,
                         contentType: false,
                         processData: false,
+                        dataType: 'json',
                         success: function(response) {
                             if (response['filename']) {
                                 $('#' + imageRowId + ' .image-preview').attr('src', '../uploads/image/product/' + response['filename']);
                                 var imageName = file.name;
                                 $('#input-image' + imageRowId.replace('thumb-image', '')).val(response['filename']);
+                            } else {
+                                alert('Upload failed. Please try again.');
                             }
                         },
+                        error: function() {
+                            alert('Upload failed. Please try again.');
+                        }
                     });
                 }
-
             });
         });
     });
 </script>
 
-
 <!-- gallery script for benefits images -->
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
     var benefits_image_row = <?php echo isset($benefits_image_row) ? $benefits_image_row : 0; ?>;
     var languages = <?php echo json_encode($languages); ?>;
 
     function addBenefitsImage() {
         var html = '<tr id="benefits-image-row' + benefits_image_row + '">';
         html += '  <td class="text-left">';
-        html += '    <a href="#" id="thumb-benefits-image' + benefits_image_row + '" class="benefits-image-picker">';
+        html += '    <a href="#" id="benefits-thumb-image' + benefits_image_row + '" class="benefits-image-picker">';
         html += '      <img src="../uploads/image/no-image.png" alt="" title="" data-placeholder="" class="image-preview" style="width: 100px; height: 100px;"/>';
         html += '    </a>';
-        html += '    <input type="hidden" name="product_benefits_image[' + benefits_image_row + '][image]" value="" id="input-benefits-image' + benefits_image_row + '" />';
+        html += '    <input type="hidden" name="product_benefits_images[' + benefits_image_row + '][image]" value="" id="input-benefits-image' + benefits_image_row + '" />';
         html += '  </td>';
         for (var i = 0; i < languages.length; i++) {
             var lang = languages[i];
             html += '  <td class="text-right">';
             html += '<div style="margin-bottom: 5px;">';
             html += '<img src="/vars/lang/be/' + lang.code + '-' + lang.image + '" style="height:16px;" />';
-            html += '<input type="text" name="benefit[' + benefits_image_row + '][title][' + lang.language_id + ']" value="" placeholder="Title (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
+            html += '<input type="text" name="product_benefits_images[' + benefits_image_row + '][title][' + lang.language_id + ']" value="" placeholder="Title (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
             html += '</div>';
             html += '  </td>';
             html += '  <td class="text-right">';
             html += '<div style="margin-bottom: 5px;">';
             html += '<img src="/vars/lang/be/' + lang.code + '-' + lang.image + '" style="height:16px;" />';
-            html += '<input type="text" name="benefit[' + benefits_image_row + '][description][' + lang.language_id + ']" value="" placeholder="Description (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
+            html += '<input type="text" name="product_benefits_images[' + benefits_image_row + '][description][' + lang.language_id + ']" value="" placeholder="Description (' + lang.name + ')" class="form-control" style="display:inline-block; width:85%;" />';
             html += '</div>';
             html += '  </td>';
         }
@@ -504,12 +508,10 @@
                         alert('Please select an image file.');
                         return;
                     }
-
                     if (file.size > maxSize) {
                         alert('The file is too large. Please select a file smaller than 5 MB.');
                         return;
                     }
-
                     var fd = new FormData();
                     fd.append('image', file);
                     $.ajax({
@@ -518,12 +520,18 @@
                         data: fd,
                         contentType: false,
                         processData: false,
+                        dataType: 'json',
                         success: function(response) {
                             if (response['filename']) {
                                 $('#' + imageRowId + ' .image-preview').attr('src', '../uploads/image/product/' + response['filename']);
-                                $('#input-benefits-image' + imageRowId.replace('thumb-benefits-image', '')).val(response['filename']);
+                                $('#input-benefits-image' + imageRowId.replace('benefits-thumb-image', '')).val(response['filename']);
+                            } else {
+                                alert('Upload failed. Please try again.');
                             }
                         },
+                        error: function() {
+                            alert('Upload failed. Please try again.');
+                        }
                     });
                 }
             });
