@@ -203,6 +203,9 @@ class ModelProduct extends Model
             ];
         }
         // print_r("SELECT * FROM " . DB_PREFIX . "product_benefits_image WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order ASC");
+        // print_r($description_query);
+        // print_r($description_query->rows);
+        // print("SELECT * FROM `" . DB_PREFIX . "product_benefits_description` WHERE product_id = '" . (int)$imageDescription['product_id'] . "'");
         return $product_benefits_images;
     }
     // public function getProductBenefitsImage($product_id)
@@ -291,27 +294,53 @@ class ModelProduct extends Model
         }
         $this->db->query("DELETE FROM " . DB_PREFIX . "product_benefits_image WHERE product_id = '" . (int)$productId . "'");
         $this->db->query("DELETE FROM " . DB_PREFIX . "product_benefits_description WHERE product_id = '" . (int)$productId . "'");
+
         if (isset($data['product_benefits_images'])) {
             foreach ($data['product_benefits_images'] as $product_benefits_image) {
-                // echo("INSERT INTO " . DB_PREFIX . "product_benefits_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_benefits_image['image']) . "'");
-                // exit;
-                $this->db->query("INSERT INTO " . DB_PREFIX . "product_benefits_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_benefits_image['image']) . "'");
+                // Insert the image row
+                $this->db->query("INSERT INTO " . DB_PREFIX . "product_benefits_image SET 
+                    product_id = '" . (int)$productId . "', 
+                    image = '" . $this->db->escape($product_benefits_image['image']) . "'
+                ");
 
-                foreach ($data['product_benefits_description'] as $languageId => $languageValue) {
-                    $languageId = (int)$languageId;
-                    // $title = $this->db->escape($languageValue['title']);
-                    // $description = $this->db->escape($languageValue['description']);
-                    $description = isset($product_benefits_image['description'][$languageId]) ? $this->db->escape($product_benefits_image['description'][$languageId]) : '';
-                    $title = $this->db->escape($title);
-                    $insertBenefitsDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_benefits_description SET
-                    product_id = '" . (int)$productId . "',
-                    lang_id = '" . (int)$languageId . "',
-                    title = '" . $title . "',
-                    description = '" . $description . "'";
-                    $this->db->query($insertBenefitsDescriptionQuery);
+                // Insert the description for each language for this image
+                if (isset($product_benefits_image['title']) && is_array($product_benefits_image['title'])) {
+                    foreach ($product_benefits_image['title'] as $languageId => $title) {
+                        // echo "INSERT INTO " . DB_PREFIX . "product_benefits_description SET product_id = '" . (int)$productId . "', lang_id = '" . (int)$languageId . "', title = '" . $this->db->escape($title) . "', description = '" . $this->db->escape($product_benefits_image['description'][$languageId]) . "'";
+                        $description = isset($product_benefits_image['description'][$languageId]) ? $this->db->escape($product_benefits_image['description'][$languageId]) : '';
+                        $title = $this->db->escape($title);
+                        $insertBenefitDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_benefits_description SET 
+                            product_id = '" . (int)$productId . "',
+                            lang_id = '" . (int)$languageId . "',
+                            title = '" . $title . "',
+                            description = '" . $description . "'";
+                        $this->db->query($insertBenefitDescriptionQuery);
+                    }
                 }
             }
         }
+
+        // if (isset($data['product_benefits_images'])) {
+        //     foreach ($data['product_benefits_images'] as $product_benefits_image) {
+        //         // echo("INSERT INTO " . DB_PREFIX . "product_benefits_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_benefits_image['image']) . "'");
+        //         // exit;
+        //         $this->db->query("INSERT INTO " . DB_PREFIX . "product_benefits_image SET product_id = '" . (int)$productId . "', image = '" . $this->db->escape($product_benefits_image['image']) . "'");
+
+        //         foreach ($data['product_benefits_description'] as $languageId => $languageValue) {
+        //             $languageId = (int)$languageId;
+        //             // $title = $this->db->escape($languageValue['title']);
+        //             // $description = $this->db->escape($languageValue['description']);
+        //             $description = isset($product_benefits_image['description'][$languageId]) ? $this->db->escape($product_benefits_image['description'][$languageId]) : '';
+        //             $title = $this->db->escape($title);
+        //             $insertBenefitsDescriptionQuery = "INSERT INTO " . DB_PREFIX . "product_benefits_description SET
+        //             product_id = '" . (int)$productId . "',
+        //             lang_id = '" . (int)$languageId . "',
+        //             title = '" . $title . "',
+        //             description = '" . $description . "'";
+        //             $this->db->query($insertBenefitsDescriptionQuery);
+        //         }
+        //     }
+        // }
       
     // die($updateProductQuery);
     // die($insertBenefitsDescriptionQuery);
