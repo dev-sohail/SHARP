@@ -49,9 +49,9 @@
                                         <div class="col-lg-6 col-md-6">
                                             <div class="form-group required">
                                                 <label class="control-label" for="input-title<?php echo $lang['language_id'] ?>">
-                                                    Title
+                                                    Name
                                                 </label>
-                                                <input type="text" name="menus_description[<?php echo $lang['language_id'] ?>][title]" value="<?php echo isset($menus_description[$lang['language_id']]) ? $menus_description[$lang['language_id']]['title'] : ''; ?>" placeholder="Title" id="input-title<?php echo $lang['language_id'] ?>" class="form-control" />
+                                                <input type="text" name="menus_description[<?php echo $lang['language_id'] ?>][title]" value="<?php echo isset($menus_description[$lang['language_id']]) ? $menus_description[$lang['language_id']]['title'] : ''; ?>" placeholder="Name" id="input-title<?php echo $lang['language_id'] ?>" class="form-control" />
                                                 <?php if (isset($error_menutitle[$lang['language_id']])) { ?>
                                                     <div class="text-danger">
                                                         <?php echo $error_menutitle[$lang['language_id']]; ?>

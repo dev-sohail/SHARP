@@ -3,23 +3,51 @@ class ModelResolution extends Model
 {
     public function addResolution($data)
     {
-        $screen_size = $this->db->escape($data['screen_size']);
         $status = $this->db->escape($data['status']);
+        $sort_order = $this->db->escape($data['sort_order']);
         $insertResolutionQuery = "INSERT INTO `" . DB_PREFIX . "resolution` SET 
-        screen_size = '" . $screen_size . "',
         status = '" . $status . "',
+        sort_order = '" . $sort_order . "',
         date_added = NOW()";
         $this->db->query($insertResolutionQuery);
         $resolutionId = $this->db->getLastId();
         foreach ($data['resolution_description'] as $languageId => $languageValue) {
             $languageId = (int)$languageId;
             $title = $this->db->escape($languageValue['title']);
+            $description = $this->db->escape($languageValue['description']);
             $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "resolution_description SET 
             resolution_id = '" . (int)$resolutionId . "',
             lang_id = '" . $languageId . "',
+            description = '" . $description . "',
             title = '" . $title . "'";
             $this->db->query($insertDescriptionQuery);
         }
+    }
+
+       public function editResolution($resolutionId, $data)
+    {
+        $status = $this->db->escape($data['status']);
+        $sort_order = $this->db->escape($data['sort_order']);
+        $updateResolutionQuery = "UPDATE `" . DB_PREFIX . "resolution` SET
+        status = '" . $status . "',
+        sort_order = '" . $sort_order . "',
+        date_modified = NOW()
+        WHERE id = '" . (int)$resolutionId . "'";
+        $this->db->query($updateResolutionQuery);
+        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "resolution_description WHERE resolution_id = '" . (int)$resolutionId . "'";
+        $this->db->query($deleteDescriptionQuery);
+        foreach ($data['resolution_description'] as $languageId => $languageValue) {
+            $languageId = (int)$languageId;
+            $title = $this->db->escape($languageValue['title']);
+            $description = $this->db->escape($languageValue['description']);
+            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "resolution_description SET 
+            resolution_id = '" . (int)$resolutionId . "',
+            lang_id = '" . $languageId . "',
+            description = '" . $description . "',
+            title = '" . $title . "'";
+            $this->db->query($updateDescriptionQuery);
+        }
+        // die($updateResolutionQuery);
     }
 
     public function getResolution($resolutionId)
@@ -35,7 +63,8 @@ class ModelResolution extends Model
         $query = $this->db->query($sql);
         foreach ($query->rows as $result) {
             $resolution_description_data[$result['lang_id']] = array(
-                'title'             => $result['title']
+                'title'             => $result['title'],
+                'description'       => $result['description']
             );
         }
         return $resolution_description_data;
@@ -67,30 +96,6 @@ class ModelResolution extends Model
     public function updateResolutionStatus($resolutionId, $status)
     {
         $this->db->query("UPDATE `" . DB_PREFIX . "resolution` SET status = '" . (int)$status . "' WHERE id = '" . (int)$resolutionId . "'");
-    }
-
-    public function editResolution($resolutionId, $data)
-    {
-        $screen_size = $this->db->escape($data['screen_size']);
-        $status = $this->db->escape($data['status']);
-        $updateResolutionQuery = "UPDATE `" . DB_PREFIX . "resolution` SET
-        status = '" . $status . "',
-        screen_size = '" . $screen_size . "',
-        date_modified = NOW()
-        WHERE id = '" . (int)$resolutionId . "'";
-        $this->db->query($updateResolutionQuery);
-        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "resolution_description WHERE resolution_id = '" . (int)$resolutionId . "'";
-        $this->db->query($deleteDescriptionQuery);
-        foreach ($data['resolution_description'] as $languageId => $languageValue) {
-            $languageId = (int)$languageId;
-            $title = $this->db->escape($languageValue['title']);
-            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "resolution_description SET 
-            resolution_id = '" . (int)$resolutionId . "',
-            lang_id = '" . $languageId . "',
-            title = '" . $title . "'";
-            $this->db->query($updateDescriptionQuery);
-        }
-        // die($updateResolutionQuery);
     }
 
     public function deleteResolution($resolutionId)

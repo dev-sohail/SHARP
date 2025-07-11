@@ -145,20 +145,12 @@ class ControllerResolution extends Controller
             if ((utf8_strlen(trim($value['title'])) < 1)) {
                 $this->error['title'][$language_id] = "Title field is missing";
             }
-            // if ((utf8_strlen(trim($value['description'])) < 1)) {
-            //     $this->error['description'][$language_id] = "Description field is missing";
-            // }
+            if ((utf8_strlen(trim($value['description'])) < 1)) {
+                $this->error['description'][$language_id] = "Description field is missing";
+            }
             // if ((utf8_strlen(trim($value['short_description'])) < 1)) {
             //     $this->error['short_description'][$language_id] = "Short Description field is missing";
             // }
-        }
-        if (isset($this->request->post['screen_size']) && ! empty($this->request->post['screen_size'])) {
-            $screen_size = $this->request->post['screen_size'];
-            if (!is_numeric($screen_size) || $screen_size <= 0) {
-                $this->error['screen_size'] = 'Screen size must be a positive number!';
-            } else {
-                $this->request->post['screen_size'] = $screen_size;
-            }
         }
         if ($this->error && ! isset($this->error['warning'])) {
             $this->error['warning'] = ' Warning: Please check the form carefully for errors!';
@@ -226,6 +218,11 @@ class ControllerResolution extends Controller
         } else {
             $data['error_title'] = '';
         }
+        if (isset($this->error['description'])) {
+            $data['error_description'] = $this->error['description'];
+        } else {
+            $data['error_description'] = '';
+        }
 
         $url = '';
 
@@ -262,12 +259,12 @@ class ControllerResolution extends Controller
         } else {
             $data['status'] = true;
         }
-        if (isset($this->request->post['screen_size'])) {
-            $data['screen_size'] = $this->request->post['screen_size'];
-        } elseif (! empty($resolution_info) && isset($resolution_info['screen_size'])) {
-            $data['screen_size'] = $resolution_info['screen_size'];
+        if (isset($this->request->post['sort_order'])) {
+            $data['sort_order'] = $this->request->post['sort_order'];
+        } elseif (! empty($resolution_info)) {
+            $data['sort_order'] = $resolution_info['sort_order'];
         } else {
-            $data['screen_size'] = '';
+            $data['sort_order'] = true;
         }
         // echo '<pre>';
         // print_r($data);

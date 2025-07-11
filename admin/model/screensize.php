@@ -5,9 +5,7 @@ class ModelScreenSize extends Model
     {
         $status = $this->db->escape($data['status']);
         $sortOrder = $this->db->escape($data['sort_order']);
-        $screen_size = $this->db->escape($data['screen_size']);
         $insertScreenSizeQuery = "INSERT INTO `" . DB_PREFIX . "screensize` SET 
-        screen_size = '" . $screen_size . "',
         sort_order = '" . (int)$sortOrder . "',
         status = '" . $status . "',
         date_added = NOW()";
@@ -16,13 +14,40 @@ class ModelScreenSize extends Model
         foreach ($data['screensize_description'] as $languageId => $languageValue) {
             $languageId = (int)$languageId;
             $title = $this->db->escape($languageValue['title']);
+            $description = $this->db->escape($languageValue['description']);
             $insertDescriptionQuery = "INSERT INTO " . DB_PREFIX . "screensize_description SET 
             screensize_id = '" . (int)$screensizeId . "',
             lang_id = '" . $languageId . "',
+            description = '" . $description . "',
             title = '" . $title . "'";
             $this->db->query($insertDescriptionQuery);
         }
-    // echo '<pre>'; print_r($insertDescriptionQuery); '</pre>';exit;
+    }
+
+     public function editScreenSize($screensizeId, $data)
+    {
+        $status = $this->db->escape($data['status']);
+        $sortOrder = $this->db->escape($data['sort_order']);
+        $updateScreenSizeQuery = "UPDATE `" . DB_PREFIX . "screensize` SET
+        status = '" . $status . "',
+        sort_order = '" . $sortOrder . "',
+        date_modified = NOW()
+        WHERE id = '" . (int)$screensizeId . "'";
+        $this->db->query($updateScreenSizeQuery);
+        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "screensize_description WHERE screensize_id = '" . (int)$screensizeId . "'";
+        $this->db->query($deleteDescriptionQuery);
+        foreach ($data['screensize_description'] as $languageId => $languageValue) {
+            $languageId = (int)$languageId;
+            $title = $this->db->escape($languageValue['title']);
+            $description = $this->db->escape($languageValue['description']);
+            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "screensize_description SET 
+            screensize_id = '" . (int)$screensizeId . "',
+            lang_id = '" . $languageId . "',
+            description = '" . $description . "',
+            title = '" . $title . "'";
+            $this->db->query($updateDescriptionQuery);
+        }
+
     }
 
     public function getScreenSize($screensizeId)
@@ -38,7 +63,8 @@ class ModelScreenSize extends Model
         $query = $this->db->query($sql);
         foreach ($query->rows as $result) {
             $screensize_description_data[$result['lang_id']] = array(
-                'title'             => $result['title']
+                'title'             => $result['title'],
+                'description'       => $result['description']
             );
         }
         return $screensize_description_data;
@@ -70,32 +96,6 @@ class ModelScreenSize extends Model
     public function updateScreenSizeStatus($screensizeId, $status)
     {
         $this->db->query("UPDATE `" . DB_PREFIX . "screensize` SET status = '" . (int)$status . "' WHERE id = '" . (int)$screensizeId . "'");
-    }
-
-    public function editScreenSize($screensizeId, $data)
-    {
-        $status = $this->db->escape($data['status']);
-        $sortOrder = $this->db->escape($data['sort_order']);
-        $screen_size = $this->db->escape($data['screen_size']);
-        $updateScreenSizeQuery = "UPDATE `" . DB_PREFIX . "screensize` SET
-        status = '" . $status . "',
-        screen_size = '" . $screen_size . "',
-        sort_order = '" . $sortOrder . "',
-        date_modified = NOW()
-        WHERE id = '" . (int)$screensizeId . "'";
-        $this->db->query($updateScreenSizeQuery);
-        $deleteDescriptionQuery = "DELETE FROM " . DB_PREFIX . "screensize_description WHERE screensize_id = '" . (int)$screensizeId . "'";
-        $this->db->query($deleteDescriptionQuery);
-        foreach ($data['screensize_description'] as $languageId => $languageValue) {
-            $languageId = (int)$languageId;
-            $title = $this->db->escape($languageValue['title']);
-            $updateDescriptionQuery = "INSERT INTO " . DB_PREFIX . "screensize_description SET 
-            screensize_id = '" . (int)$screensizeId . "',
-            lang_id = '" . $languageId . "',
-            title = '" . $title . "'";
-            $this->db->query($updateDescriptionQuery);
-        }
-        // die($updateScreenSizeQuery);
     }
 
     public function deleteScreenSize($screensizeId)

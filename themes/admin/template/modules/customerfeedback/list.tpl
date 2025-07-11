@@ -1,25 +1,11 @@
-<!--
-    Customer Feedback List Template
-    ------------------------------
-    This template displays the list of customer feedbacks in the admin panel.
-    - Shows title, status, and actions for each feedback.
-    - Includes filtering, sorting, and AJAX status toggle.
-    - Uses DataTables for enhanced table features.
-    - Displays error and success messages.
-    - Provides delete confirmation and loader overlay for AJAX.
--->
-<!-- Header section -->
 <?php echo $header; ?>
-<!-- Main content section -->
 <div class="main-panel">
     <div class="sec-head">
         <div class="sec-head-title">
-            <!-- Page title -->
-            <h3><?php echo $heading_title; ?></h3>
+            <h3>Customer Feedbacks</h3>
         </div>
         <div class="sec-head-btns">
-            <!-- Add Feedback button -->
-            <a href="<?php echo $add; ?>" class="btn bts89067 btn890-890-890 opt"> + Add Customer Feedback </a>
+            <a href="<?php echo $add; ?>" class="btn bts89067 btn890-890-890 opt"> + Add Customer Feedbackd </a>
         </div>
     </div>
     <div class="main-employee-box">
@@ -28,13 +14,13 @@
                 <div class="col-lg-12 col-md-12">
                     <div class="card">
                         <div class="card-bodys">
-                            <!-- Display error and success messages -->
                             <?php if ($error_warning) { ?>
                                 <div class="alert alert-danger"><i class="fa fa-exclamation-circle"></i>
                                     <?php echo $error_warning; ?>
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                                 </div>
-                            <?php $_SESSION['error_warning'] = null; } ?>
+                            <?php $_SESSION['error_warning'] = null;
+                            } ?>
                             <?php $_SESSION['error_warning'] = null;  ?>
                             <?php if ($success) { ?>
                                 <div class="alert alert-success"><i class="fa fa-check-circle"></i>
@@ -42,8 +28,8 @@
                                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                                 </div>
                             <?php  }  ?>
-                            <!-- Feedback table -->
-                            <table id="customerfeedback-table" class="table table-striped table-bordered table-hover" width="100%" cellspacing="0" cellpadding="0" border="0">
+                            <table id="sharp-table" class="table table-striped table-bordered table-hover"
+                                width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
                                     <tr>
                                         <th>Title</th>
@@ -51,41 +37,47 @@
                                         <th>Actions</th>
                                     </tr>
                                     <tr class="stdfilters">
-                                        <!-- Filter inputs for title -->
                                         <th><input type="text" placeholder="Title"></th>
                                         <th id="drop-searc"></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if ($feedbacks) { ?>
-                                    <?php foreach ($feedbacks as $feedback) { ?>
+                                    <?php
+                                    foreach ($feedbacks as $feedback) { ?>
                                         <tr>
                                             <td>
-                                                <?php echo $feedback['title']; ?>
+                                                <?= $feedback['title'] ?>
                                             </td>
                                             <td>
-                                                <!-- Status toggle switch -->
                                                 <div class="custom-control custom-switch">
-                                                    <input type="checkbox" class="custom-control-input status-toggle" id="statusToggle<?php echo $feedback['feedback_id']; ?>" <?php echo ($feedback['status']) ? 'checked' : ''; ?> data-feedback-id="<?php echo $feedback['feedback_id']; ?>">
-                                                    <label class="custom-control-label" for="statusToggle<?php echo $feedback['feedback_id']; ?>">
-                                                        <?php echo ($feedback['status']) ? 'Enabled' : 'Disabled'; ?>
+                                                    <input type="checkbox" class="custom-control-input status-toggle"
+                                                        id="statusToggle<?php echo $feedback['feedback_id']; ?>"
+                                                        <?php echo ($feedback['status']) ? 'checked' : ''; ?>
+                                                        data-status-id="<?php echo $feedback['feedback_id']; ?>">
+                                                    <label class="custom-control-label"
+                                                        for="statusToggle<?php echo $feedback['feedback_id']; ?>">
+                                                        <?php echo ($feedback['status']) ? 'Active' : 'Inactive'; ?>
                                                     </label>
                                                 </div>
                                             </td>
                                             <td class="text-right">
-                                                <!-- Edit button -->
                                                 <a style="display: inline-block;" href="<?php echo $feedback['edit']; ?>"
-                                                    data-toggle="tooltip" class="btn btn-primary" title="<?php echo $button_edit; ?>"><i class="fa fa-pencil"></i></a>
-                                                <!-- Delete button (with confirmation) -->
-                                                <form style="display: inline-block;" action="<?php echo $feedback['delete']; ?>" method="post" enctype="multipart/form-data" id="del_feedback_<?php echo $feedback['feedback_id']; ?>">
-                                                    <input type="hidden" name="feedback_id" value="<?php echo $feedback['feedback_id']; ?>">
-                                                    <button type="button" data-toggle="tooltip" class="btn btn-danger" title="<?php echo $button_delete; ?>" onClick='submitDeleteForm("del_feedback_<?php echo $feedback['feedback_id']; ?>")'><i class="fa fa-trash-o"></i></button>
+                                                    data-toggle="tooltip" title="<?php echo $button_edit; ?>"
+                                                    class="btn btn-primary"><i class="fa fa-pencil"></i></a>
+                                                <form style="display: inline-block;"
+                                                    action="<?php echo $feedback['delete']; ?>" method="post"
+                                                    enctype="multipart/form-data"
+                                                    id="del_feedback<?php echo $feedback['feedback_id']; ?>">
+                                                    <input type="hidden" name="feedback_id"
+                                                        value="<?php echo $feedback['feedback_id']; ?>">
+                                                    <button type="button" data-toggle="tooltip"
+                                                        title="<?php echo $button_delete; ?>" class="btn btn-danger"
+                                                        onClick='submitDeleteForm("del_feedback<?php echo $feedback['feedback_id']; ?>")'><i
+                                                            class="fa fa-trash-o"></i></button>
                                                 </form>
                                             </td>
                                         </tr>
-                                    <?php } ?>
-                                    <?php } else { ?>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -96,15 +88,10 @@
         </div>
     </div>
 </div>
-
-<!-- Loader overlay for AJAX requests -->
 <div id="loader" class="loader-overlay" style="display: none;">
     <div class="loader"></div>
 </div>
-
-<!-- Delete confirmation script -->
 <script language="javascript" type="text/javascript">
-    // Confirm before submitting the delete form
     function submitDeleteForm(formname) {
         var x = confirm("Are you sure you want to delete?");
         if (x) {
@@ -114,10 +101,9 @@
         }
     }
 </script>
-<!-- DataTables initialization script -->
 <script type="text/javascript">
-    // Initialize DataTables for Feedback table with filters and custom options
-    var table = $('#customerfeedback-table').DataTable({
+    // $('#sharp-table thead tr').clone(true).addClass('stdfilters').appendTo('#sharp-table thead');
+    var table = $('#sharp-table').DataTable({
         "language": {
             "emptyTable": "No record found."
         },
@@ -128,55 +114,59 @@
         orderCellsTop: true,
         fixedHeader: true,
         buttons: false,
-        "columnDefs": [{
-                "orderable": false,
-                "targets": [1, 2]
-            } // Disable sorting for the Status and Actions columns
+        "columnDefs": [
+        { "orderable": false, "targets": [2] } // Disable sorting for the 3rd column (Actions)
         ],
         initComplete: function() {
             var api = this.api();
             var i = 1;
             api.columns().eq(0).each(function(colIdx) {
                 var column = this;
-                if (i == 2) {
-                    // Status filter dropdown
-                    var select = $('<select><option value="">Choose</option><option value="Enabled">Enabled</option><option value="Disabled">Disabled</option></select>')
+                if (i == 3) {
+                    var select = $('<select><option value="">Choose</option><option value=" Active ">Active</option><option value="Inactive">Inactive</option></select>')
                         .appendTo($('#drop-searc').empty())
                         .on('change', function() {
                             var val = $(this).val();
                             column.search(val, true, false).draw(true);
                         });
                 } else {
-                    // Text filter for title
                     var cell = $('.stdfilters th').eq($(api.column(colIdx).header()).index());
                     var title = $(cell).text();
                     $('input', $('.stdfilters th').eq($(api.column(colIdx).header()).index()))
                         .off('keyup change')
                         .on('keyup change', function(e) {
                             e.stopPropagation();
-                            var val = $(this).val();
-                            column.search(val, true, false).draw(true);
+                            $(this).attr('title', $(this).val());
+                            var regexr = '({search})';
+                            var cursorPosition = this.selectionStart;
+                            api
+                                .column(colIdx)
+                                .search((this.value != "") ? regexr.replace('{search}', '(((' + this.value + ')))') : "", this.value != "", this.value == "")
+                                .draw();
+                            $(this).focus()[0].setSelectionRange(cursorPosition, cursorPosition);
                         });
                 }
                 i = i + 1;
             });
         }
+
     });
 </script>
-<!-- Status toggle script -->
+
 <script>
-    // Handle status toggle via AJAX
-    $(document).on('change', 'input.status-toggle', function() {
+    $(document).on('change', 'input[type="checkbox"]', function() {
+        // $('.alert').remove();
         var checkbox = $(this);
         var statusLabel = checkbox.next('label');
-        var feedbackId = checkbox.data('feedback-id');
-        var newstatus = checkbox.is(':checked') ? 1 : 0;
-        var newStatusText = newstatus ? 'Enabled' : 'Disabled';
+        var feedbackId = checkbox.data('status-id');
+        var newStatus = checkbox.is(':checked') ? 1 : 0;
+        var newStatusText = newStatus ? 'Active' : 'Inactive';
+        console.log(feedbackId);
         statusLabel.text(newStatusText);
         $('#loader').show();
         let data = {
             feedback_id: feedbackId,
-            status: newstatus
+            status: newStatus
         };
         $.ajax({
             url: '<?php echo $ajaxupdatefeedbackstatus; ?>',
@@ -185,23 +175,34 @@
             success: function(response) {
                 $('#loader').hide();
                 if (response.success) {
-                    // Update row status in DataTable
-                    var row = $('#customerfeedback-table').DataTable().row(checkbox.closest('tr'));
+                    // $('.card').before(
+                    //     '<div class="alert alert-success"><i class="fa fa-check-circle"></i>' +
+                    //     'Status updated successfully.' +
+                    //     '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                    //     '</div>'
+                    // );
+                    var row = $('#sharp-table').DataTable().row(checkbox.closest('tr'));
                     var rowData = row.data();
-                    rowData[1] = '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input status-toggle" id="statusToggle' + feedbackId + '" ' + (newstatus ? 'checked' : '') + ' data-feedback-id="' + feedbackId + '"> <label class="custom-control-label" for="statusToggle' + feedbackId + '">' + newStatusText + '</label> </div>';
+                    rowData[1] =
+                        '<div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input status-toggle" id="statusToggle' +
+                        feedbackId + '" ' + (newStatus ? 'checked' : '') + ' data-status-id="' +
+                        feedbackId + '"> <label class="custom-control-label" for="statusToggle' +
+                        feedbackId + '">' + newStatusText + '</label> </div>';
                     row.data(rowData).draw(false);
+
+                    console.log(response);
+                } else {
+                    checkbox.prop('checked', !checkbox.is(':checked'));
+                    statusLabel.text(checkbox.is(':checked') ? 'Active' : 'Inactive');
                 }
-                console.log(response);
             },
             error: function(xhr, status, error) {
                 $('#loader').hide();
                 console.error('Error updating status:', error);
-                // Revert checkbox and label on error
                 checkbox.prop('checked', !checkbox.is(':checked'));
-                statusLabel.text(checkbox.is(':checked') ? 'Enabled' : 'Disabled');
+                statusLabel.text(checkbox.is(':checked') ? 'Active' : 'Inactive');
             }
         });
     });
 </script>
-<!-- Footer section -->
-<?php echo $footer; ?> 
+<?php echo $footer; ?>

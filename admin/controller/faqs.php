@@ -46,7 +46,7 @@ class ControllerFaqs extends Controller
 				'delete'     => $this->link('faqs/delete', 'token=' . $this->session->data['token'] . $url, 'SSL')
 			);
 		}
-		//$data['main_slider'] = $results;
+		$data['main_slider'] = $results;
 		if (isset($this->error['warning'])) {
 			$data['error_warning'] = $this->error['warning'];
 		} else {
@@ -276,7 +276,6 @@ class ControllerFaqs extends Controller
 
 	public function ajaxupdatefaqsstatus()
 	{
-		// die("kjfalds");
 		$json = array();
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 		$this->load_model('faqs');

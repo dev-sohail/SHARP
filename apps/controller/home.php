@@ -11,7 +11,7 @@ class ControllerHome extends Controller
 	}
 	public function index()
 	{
-        echo 'Coming Soon'; exit;
+        // echo 'Coming Soon'; exit;
 
 		$slugData =  $this->registry->get('slug_data');
 		$this->load_model('home');

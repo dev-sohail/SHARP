@@ -26,7 +26,8 @@ final class router
 
         if (is_readable($this->file) == false) {
 
-            $this->file = DIR_APP . '/controller/error404.php';
+            // $this->file = DIR_APP . '/controller/error404.php';
+            $this->file = DIR_APP . 'controller/error404.php';
             $this->controller = 'error404';
         }
 

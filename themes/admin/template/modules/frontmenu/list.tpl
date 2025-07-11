@@ -24,14 +24,14 @@
                             <table class="table table-striped table-bordered table-hover" id="nhealth-table" width="100%" cellspacing="0" cellpadding="0" border="0">
                                 <thead>
                                     <tr>
-                                        <th class="text-left">Title</th>
+                                        <th class="text-left">Name</th>
                                         <th class="text-left">Region</th>
                                         <!-- <th class="text-left">Sort Order</th> -->
                                         <th class="text-left">Status</th>
                                         <th class="text-right">Action</th>
                                     </tr>
                                     <tr class="stdfilters">
-                                        <th><input type="text" placeholder="Title"></th>
+                                        <th><input type="text" placeholder="Name"></th>
                                         <th><input type="text" placeholder="Region"></th>
                                         <!-- <th><input type="text" placeholder="Sort Order"></th> -->
                                         <th id="menu-status"></th>
@@ -106,7 +106,10 @@
         "ordering": false,
         orderCellsTop: true,
         fixedHeader: true,
-        buttons: false,
+       buttons: false,
+         "columnDefs": [
+        { "orderable": false, "targets": [2] } // Disable sorting for the 3rd column (Actions)
+        ],
         initComplete: function() {
 
             var api = this.api();

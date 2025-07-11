@@ -1,0 +1,7 @@
+/.well-known/*
+/adminer.php
+/html_pages/*
+uploads/
+var/logs/
+includes/db_config.php
+includes/bootstrip.php

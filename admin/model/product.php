@@ -2,10 +2,10 @@
 class ModelProduct extends Model
 {
     public function addProduct($data)
-	{
+    {
         $defaultImageFileName = "no_image-100x100.png";
         $icon = $defaultImageFileName;
- 
+
         if (!empty($_FILES["icon"]["name"])) {
             $targetDirectory = DIR_IMAGE . "product/";
             $targetFile = $targetDirectory . basename($_FILES["icon"]["name"]);
@@ -16,7 +16,7 @@ class ModelProduct extends Model
             $icon = $this->db->escape($_FILES["icon"]["name"]);
         }
         $status = $this->db->escape($data['status']);
-		$sortOrder = $this->db->escape($data['sort_order']);
+        $sortOrder = $this->db->escape($data['sort_order']);
         $made_in = $this->db->escape($data['made_in']);
         $publish_date = $this->db->escape($data['publish_date']);
         $screen_size = $this->db->escape($data['screen_size']);
@@ -117,48 +117,48 @@ class ModelProduct extends Model
     }
 
     public function getProduct($productId)
-	{
-		$query = $this->db->query($sql = "SELECT * FROM `" . DB_PREFIX . "product` WHERE id = " . (int)$productId);
-		return $query->row;
-	}
+    {
+        $query = $this->db->query($sql = "SELECT * FROM `" . DB_PREFIX . "product` WHERE id = " . (int)$productId);
+        return $query->row;
+    }
 
     public function getProductDescriptions($productId)
     {
         $product_description_data = array();
-		$sql = "SELECT * FROM `" . DB_PREFIX . "product_description` WHERE product_id = " . (int)$productId;
-		$query = $this->db->query($sql);
-		foreach ($query->rows as $result) {
-			$product_description_data[$result['lang_id']] = array(
-				'title'             => $result['title'],
-				'description'       => $result['description'],
-				'short_description'       => $result['short_description']
-			);
-		}
-		return $product_description_data;
+        $sql = "SELECT * FROM `" . DB_PREFIX . "product_description` WHERE product_id = " . (int)$productId;
+        $query = $this->db->query($sql);
+        foreach ($query->rows as $result) {
+            $product_description_data[$result['lang_id']] = array(
+                'title'             => $result['title'],
+                'description'       => $result['description'],
+                'short_description'       => $result['short_description']
+            );
+        }
+        return $product_description_data;
     }
 
-	public function getProducts($languageId, $data = array())
-	{
-		$languageId = (int)$languageId;
-		$sql = "SELECT pd.*, p.* 
+    public function getProducts($languageId, $data = array())
+    {
+        $languageId = (int)$languageId;
+        $sql = "SELECT pd.*, p.* 
 				FROM `" . DB_PREFIX . "product` p
 				LEFT JOIN `" . DB_PREFIX . "product_description` pd ON p.id = pd.product_id
 				WHERE pd.lang_id = '" . $languageId . "' or  pd.lang_id = 1
 				ORDER BY p.id";
-		if (isset($data['order']) && ($data['order'] == 'DESC')) {
-			$sql .= " DESC";
-		} else {
-			$sql .= " DESC";
-		}
-		$query = $this->db->query($sql);
-		return $query->rows;
-	}
+        if (isset($data['order']) && ($data['order'] == 'DESC')) {
+            $sql .= " DESC";
+        } else {
+            $sql .= " DESC";
+        }
+        $query = $this->db->query($sql);
+        return $query->rows;
+    }
 
-	public function getTotalproducts()
-	{
-		$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "product`");
-		return $query->row['total'];
-	}
+    public function getTotalproducts()
+    {
+        $query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "product`");
+        return $query->row['total'];
+    }
 
     public function getMadeInOptions()
     {
@@ -184,7 +184,7 @@ class ModelProduct extends Model
     public function getProductBenefitsImage($product_id)
     {
         $product_benefits_images = [];
-        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_benefits_image WHERE product_id = '" . (int)$product_id . "' ORDER BY sort_order ASC");
+        $query = $this->db->query("SELECT * FROM " . DB_PREFIX . "product_benefits_image WHERE product_id = '" . (int)$product_id . "'");
         foreach ($query->rows as $imageDescription) {
             $title_data = [];
             $description_data = [];
@@ -231,10 +231,10 @@ class ModelProduct extends Model
     // }
 
 
-    public function updateProductStatus($productId, $status) 
+    public function updateProductStatus($productId, $status)
     {
-		$this->db->query("UPDATE `" . DB_PREFIX . "product` SET status = '" . (int)$status . "' WHERE id = '" . (int)$productId . "'");
-	}
+        $this->db->query("UPDATE `" . DB_PREFIX . "product` SET status = '" . (int)$status . "' WHERE id = '" . (int)$productId . "'");
+    }
 
     public function editProduct($productId, $data)
     {
@@ -253,7 +253,7 @@ class ModelProduct extends Model
             $this->db->query($updateImageQuery);
         }
         $status = $this->db->escape($data['status']);
-		$sortOrder = $this->db->escape($data['sort_order']);
+        $sortOrder = $this->db->escape($data['sort_order']);
         $publish_date = $this->db->escape($data['publish_date']);
         $screen_size = $this->db->escape($data['screen_size']);
         $sku = $this->db->escape($data['sku']);
@@ -341,10 +341,10 @@ class ModelProduct extends Model
         //         }
         //     }
         // }
-      
-    // die($updateProductQuery);
-    // die($insertBenefitsDescriptionQuery);
-    // die($product_benefits_image);
+
+        // die($updateProductQuery);
+        // die($insertBenefitsDescriptionQuery);
+        // die($product_benefits_image);
     }
 
     public function deleteProduct($productId)

@@ -81,6 +81,9 @@
                                         </tr>
                                     <?php } ?>
                                     <?php } else { ?>
+                                    <tr>
+                                        <td class="text-center" colspan="3"><?php echo $text_no_results; ?></td>
+                                    </tr>
                                     <?php } ?>
                                 </tbody>
                             </table>
@@ -123,10 +126,8 @@
         orderCellsTop: true,
         fixedHeader: true,
         buttons: false,
-        "columnDefs": [{
-                "orderable": false,
-                "targets": [2, 3]
-            } // Disable sorting for the Status and Actions columns
+      "columnDefs": [
+        { "orderable": false, "targets": [2] } // Disable sorting for the 3rd column (Actions)
         ],
         initComplete: function() {
             var api = this.api();

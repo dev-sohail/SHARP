@@ -80,7 +80,7 @@ class ControllerFrontMenu extends Controller
 		$data = $this->request->post;
 		foreach ($data['menus_description'] as $language_id => $value) {
 			if ((utf8_strlen(trim($value['title'])) < 1)) {
-				$this->error['menutitle'][$language_id] = "Title field is missing";
+				$this->error['menutitle'][$language_id] = "Name field is missing";
 			}
 		}
 		if ($this->error && !isset($this->error['warning'])) {

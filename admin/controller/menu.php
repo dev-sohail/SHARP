@@ -24,8 +24,8 @@ class ControllerMenu extends Controller
 		$data['enquiries'] = $this->link('enquiries', 'token=' . $this->session->data['token'], 'SSL');
 		$data['careerenquiries'] = $this->link('careerenquiries', 'token=' . $this->session->data['token'], 'SSL');
 		$data['banner'] = $this->link('banner', 'token=' . $this->session->data['token'], 'SSL');
-		$data['mediacentercategories'] = $this->link('mediacentercategories', 'token=' . $this->session->data['token'], 'SSL');
-		$data['mediacenter'] = $this->link('mediacenter', 'token=' . $this->session->data['token'], 'SSL');
+		$data['newseventscategories'] = $this->link('newseventscategories', 'token=' . $this->session->data['token'], 'SSL');
+		$data['newsevents'] = $this->link('newsevents', 'token=' . $this->session->data['token'], 'SSL');
 		$data['business'] = $this->link('business', 'token=' . $this->session->data['token'], 'SSL');
 		$data['sectors'] = $this->link('sectors', 'token=' . $this->session->data['token'], 'SSL');
 		$data['brands'] = $this->link('brands', 'token=' . $this->session->data['token'], 'SSL');
@@ -38,13 +38,18 @@ class ControllerMenu extends Controller
 		$data['casestudy'] = $this->link('casestudy', 'token=' . $this->session->data['token'], 'SSL');
 		$data['productlifecycleanalysis'] = $this->link('productlifecycleanalysis', 'token=' . $this->session->data['token'], 'SSL');
 	    $data['lcareport'] = $this->link('lcareport', 'token=' . $this->session->data['token'], 'SSL');
+	    $data['downloadcenter'] = $this->link('downloadcenter', 'token=' . $this->session->data['token'], 'SSL');
+		$data['sourcedownload'] = $this->link('sourcedownload', 'token=' . $this->session->data['token'], 'SSL');
+		$data['usermanuals'] = $this->link('usermanuals', 'token=' . $this->session->data['token'], 'SSL');
+		$data['ourlocations'] = $this->link('ourlocations', 'token=' . $this->session->data['token'], 'SSL');
 	    $data['sustainablepartner'] = $this->link('sustainablepartner', 'token=' . $this->session->data['token'], 'SSL');
 		$data['customerfeedback'] = $this->link('customerfeedback', 'token=' . $this->session->data['token'], 'SSL');
+
 		$data['product'] = $this->link('product', 'token=' . $this->session->data['token'], 'SSL');
-		$data['screensize'] = $this->link('screensize', 'token=' . $this->session->data['token'], 'SSL');
-		$data['resolution'] = $this->link('resolution', 'token=' . $this->session->data['token'], 'SSL');
-		$data['productenquiry'] = $this->link('productenquiry', 'token=' . $this->session->data['token'], 'SSL');
-		$data['business'] = $this->link('business', 'token=' . $this->session->data['token'], 'SSL');
+        $data['screensize'] = $this->link('screensize', 'token=' . $this->session->data['token'], 'SSL');
+        $data['resolution'] = $this->link('resolution', 'token=' . $this->session->data['token'], 'SSL');
+        $data['productenquiry'] = $this->link('productenquiry', 'token=' . $this->session->data['token'], 'SSL');
+		$data['categories'] = $this->link('categories', 'token=' . $this->session->data['token'], 'SSL');
 		if ($this->user->getGroupId() != '1') {
 			$data['viewer'] = true;
 		} else {

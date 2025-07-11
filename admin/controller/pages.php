@@ -167,6 +167,9 @@ class ControllerPages extends Controller
 			'mediacenter' => "Media Center",
 			'careers' => "Careers",
 			'brands' => "Our Brand",
+			'test' => "test",
+			'categories' => "Categories",
+			'subcategories' => "Sub Categories"
 		);
 		if (isset($this->request->post['seo_url'])) {
 			$data['seo_url'] = $this->request->post['seo_url'];
@@ -228,7 +231,7 @@ class ControllerPages extends Controller
 			$seo_urls = $this->model_seourl->getSeoUrlsByKeyword($keyword);
 			foreach ($seo_urls as $seo_url) {
 				if (
-					($this->request->get['page_id'] != $seo_url['slog_id']) || !in_array($seo_url['slog'], ['pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands'])
+					($this->request->get['page_id'] != $seo_url['slog_id']) || !in_array($seo_url['slog'], ['pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands', 'test', 'categories'])
 				) {
 					$this->error['seo_url'] = "This URL is already being used";
 					break;

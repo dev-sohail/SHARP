@@ -123,8 +123,8 @@ class ModelPage extends Model
 
 
 		$this->load_model('seourl');
-		
-		$results = $this->db->query("SELECT * FROM aliases WHERE slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands') AND slog_id='" . $pageId . "'");
+		$results = $this->db->query("SELECT * FROM aliases WHERE slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands', 'test', 'categories', 'subcategories') AND slog_id='" . $pageId . "'");
+		// echo("SELECT * FROM aliases WHERE slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands', 'test') AND slog_id='" . $pageId . "'") ;exit;
 		if ($data['seo_url']) {
 			$keyword = $this->model_seourl->seoUrl($data['seo_url']);
 		} else {
@@ -145,7 +145,7 @@ class ModelPage extends Model
 			}
 		}
 		if ($results->rows) {
-			$this->db->query("UPDATE aliases SET url='" . $keyword . "',slog='".$this->db->escape($data['theme'])."' WHERE slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands') AND slog_id='" . $pageId . "'");
+			$this->db->query("UPDATE aliases SET url='" . $keyword . "',slog='".$this->db->escape($data['theme']). "' WHERE slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands', 'test', 'categories', 'subcategories') AND slog_id='" . $pageId . "'");
 		} else {
 			$this->db->query("INSERT INTO aliases SET url='" . $keyword . "',slog='" . $this->db->escape($data['theme']) . "',slog_id='" . $pageId . "'");
 		}
@@ -154,13 +154,13 @@ class ModelPage extends Model
 	{
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "pages_description` WHERE page_id = '" . (int)$id . "'");
 		$this->db->query("DELETE FROM `" . DB_PREFIX . "pages` WHERE id = '" . (int)$id . "'");
-		$this->db->query("DELETE FROM `" . DB_PREFIX . "aliases` WHERE slog_id = '" . (int)$id . "' AND slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands')");
+		$this->db->query("DELETE FROM `" . DB_PREFIX . "aliases` WHERE slog_id = '" . (int)$id . "' AND slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands', 'test', 'categories', 'subcategories')");
 	}
 	
 	public function getBanner($id)
 	{
 		$sql = "SELECT p.*, a.url AS seo_url,a.slog FROM `" . DB_PREFIX . "pages` p 
-        LEFT JOIN aliases a ON a.slog_id = p.id AND a.slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands') 
+        LEFT JOIN aliases a ON a.slog_id = p.id AND a.slog IN ('pages', 'generalpages', 'about', 'contact', 'mediacenter', 'careers', 'brands', 'test', 'categories', 'subcategories') 
         WHERE p.id = " . (int)$id;
 		$query = $this->db->query($sql);
 		return $query->row;

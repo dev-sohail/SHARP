@@ -145,22 +145,14 @@ class ControllerScreenSize extends Controller
             if ((utf8_strlen(trim($value['title'])) < 1)) {
                 $this->error['title'][$language_id] = "Title field is missing";
             }
-        }
-        if (isset($this->request->post['screen_size']) && ! empty($this->request->post['screen_size'])) {
-            $screen_size = $this->request->post['screen_size'];
-            if (!is_numeric($screen_size) || $screen_size <= 0) {
-                $this->error['screen_size'] = 'Screen size must be a positive number!';
-            } else {
-                $this->request->post['screen_size'] = $screen_size;
+            if ((utf8_strlen(trim($value['description'])) < 1)) {
+                $this->error['description'][$language_id] = "Description field is missing";
             }
         }
         if ($this->error && ! isset($this->error['warning'])) {
             $this->error['warning'] = ' Warning: Please check the form carefully for errors!';
         }
-        // echo "<pre>";
-        // print_r($this->error);  
-        // echo "</pre>";
-        // exit;
+        
         if (! $this->error) {
             return true;
         } else {
@@ -220,7 +212,11 @@ class ControllerScreenSize extends Controller
         } else {
             $data['error_title'] = '';
         }
-
+       if (isset($this->error['description'])) {
+            $data['error_description'] = $this->error['description'];
+        } else {
+            $data['error_description'] = '';
+        }
         $url = '';
 
         if (! isset($this->request->get['screensize_id'])) {
@@ -234,7 +230,7 @@ class ControllerScreenSize extends Controller
             $screensize_info = $this->model_screensize->getScreenSize($this->request->get['screensize_id']);
         }
         $data['screensize_info'] = $screensize_info;
-        $db_filter             = [
+        $db_filter  = [
             'order' => 'DESC'
         ];
         $this->load_model('language');
@@ -260,14 +256,6 @@ class ControllerScreenSize extends Controller
             $data['status'] = $screensize_info['status'];
         } else {
             $data['status'] = true;
-        }
-
-        if (isset($this->request->post['screen_size'])) {
-            $data['screen_size'] = $this->request->post['screen_size'];
-        } elseif (! empty($screensize_info) && isset($screensize_info['screen_size'])) {
-            $data['screen_size'] = $screensize_info['screen_size'];
-        } else {
-            $data['screen_size'] = '';
         }
         // echo '<pre>';
         // print_r($data);

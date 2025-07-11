@@ -1,8 +1,8 @@
 <?php
 class ControllerProduct extends Controller
 {
-    private $error = array();
-    public function index()
+	private $error = array();
+	public function index()
 	{
 		$data = $this->language->getAll();
 		$this->document->setTitle('Admin - Products');
@@ -10,16 +10,16 @@ class ControllerProduct extends Controller
 		$this->getList();
 	}
 
-    protected function getList()
+	protected function getList()
 	{
-        $data = $this->language->getAll();
+		$data = $this->language->getAll();
 		$data['heading_title'] = 'Products';
-        $url = '';
+		$url = '';
 		$data['breadcrumbs'][] = array(
 			'text' => 'Product',
 			'href' => $this->link('product', 'token=' . $this->session->data['token'] . $url, 'SSL')
 		);
-        if (isset($this->request->get['page'])) {
+		if (isset($this->request->get['page'])) {
 			$page = (int) $this->request->get['page'];
 		} else {
 			$page = 1;
@@ -29,7 +29,7 @@ class ControllerProduct extends Controller
 		} else {
 			$order = 'ASC';
 		}
-        $data['add']    = $this->link('product/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
+		$data['add']    = $this->link('product/add', 'token=' . $this->session->data['token'] . $url, 'SSL');
 		$data['delete'] = $this->link('product/delete', 'token=' . $this->session->data['token'] . $url, 'SSL');
 
 		$data['products'] = array();
@@ -37,7 +37,7 @@ class ControllerProduct extends Controller
 			'order' => $order,
 		);
 		$results       = $this->model_product->getProducts($this->config->get('config_language_id'), $filter_data);
-        foreach ($results as $result) {
+		foreach ($results as $result) {
 			$data['products'][] = array(
 				'product_id' => $result['id'],
 				'title'    => $result['title'],
@@ -63,7 +63,7 @@ class ControllerProduct extends Controller
 		} else {
 			$data['selected'] = array();
 		}
-        // $data['main_slider'] = $results;
+		// $data['main_slider'] = $results;
 		$data['groupby'] = 1;
 		$url             = '';
 		if (isset($this->request->get['page'])) {
@@ -71,7 +71,7 @@ class ControllerProduct extends Controller
 		}
 		$data['sort_status']     = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=status' . $url, 'SSL');
 		$data['sort_date_added'] = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=date_added' . $url, 'SSL');
-        $data['sort_title']   = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=title' . $url, 'SSL');
+		$data['sort_title']   = $this->link('product', 'token=' . $this->session->data['token'] . '&sort=title' . $url, 'SSL');
 		$url = '';
 		if (isset($this->request->get['sort'])) {
 			$url .= '&sort=' . $this->request->get['sort'];
@@ -106,14 +106,14 @@ class ControllerProduct extends Controller
 		// echo "<script>var ajaxUrl = '" . $data['ajaxupdateproductstatus'] . "';</script>";
 		// echo "<script>alert(ajaxUrl);</script>";
 		// exit;
-    }
+	}
 
-    public function add()
+	public function add()
 	{
-        $this->document->setTitle('Admin - Add Product');
+		$this->document->setTitle('Admin - Add Product');
 
 		$this->load_model('product');
-		
+
 		// Check if the user has permission to add products
 		if (($this->request->server['REQUEST_METHOD'] == 'POST') && $this->validateForm()) {
 			// echo '<pre>';
@@ -138,34 +138,34 @@ class ControllerProduct extends Controller
 			$this->response->redirect($this->link('product', 'token=' . $this->session->data['token'] . $url, 'SSL'));
 		}
 		$this->getForm();
-    }
+	}
 
-    protected function validateForm()
+	protected function validateForm()
 	{
 		if (!$this->user->hasPermission('modify', 'product')) {
 			$this->error['warning'] = 'Warning: You do not have permission for modification!';
 		}
 		$data = $this->request->post;
-        foreach ($data['product_description'] as $language_id => $value) {
-            if ((utf8_strlen(trim($value['title'])) < 1)) {
-                $this->error['title'][$language_id] = "Title field is missing";
-            }
-            if ((utf8_strlen(trim($value['description'])) < 1)) {
-                $this->error['description'][$language_id] = "Description field is missing";
-            }
-            if ((utf8_strlen(trim($value['short_description'])) < 1)) {
-                $this->error['short_description'][$language_id] = "Short Description field is missing";
-            }
-        }
-        if (!$this->request->get['product_id']) {
-            if ($_FILES["icon"]["name"] == "") {
-                $this->error['icon'] = 'Please upload icon image';
-            }
-        } else {
-            if ($data["icon"] == "") {
-                $this->error['icon'] = 'Please upload icon image';
-            }
-        }
+		foreach ($data['product_description'] as $language_id => $value) {
+			if ((utf8_strlen(trim($value['title'])) < 1)) {
+				$this->error['title'][$language_id] = "Title field is missing";
+			}
+			if ((utf8_strlen(trim($value['description'])) < 1)) {
+				$this->error['description'][$language_id] = "Description field is missing";
+			}
+			if ((utf8_strlen(trim($value['short_description'])) < 1)) {
+				$this->error['short_description'][$language_id] = "Short Description field is missing";
+			}
+		}
+		if (!$this->request->get['product_id']) {
+			if ($_FILES["icon"]["name"] == "") {
+				$this->error['icon'] = 'Please upload icon image';
+			}
+		} else {
+			if ($data["icon"] == "") {
+				$this->error['icon'] = 'Please upload icon image';
+			}
+		}
 		if (isset($this->request->post['product_features_images']) && !empty($this->request->post['product_features_images'])) {
 			foreach ($this->request->post['product_features_images'] as $index => $feature) {
 				if (empty($feature['image']) || utf8_strlen(trim($feature['image'])) < 1) {
@@ -225,10 +225,10 @@ class ControllerProduct extends Controller
 		if ($this->error && ! isset($this->error['warning'])) {
 			$this->error['warning'] = ' Warning: Please check the form carefully for errors!';
 		}
-        // echo "<pre>";
-        // print_r($this->error);  
-        // echo "</pre>";
-        // exit;
+		// echo "<pre>";
+		// print_r($this->error);  
+		// echo "</pre>";
+		// exit;
 		if (! $this->error) {
 			return true;
 		} else {
@@ -264,13 +264,13 @@ class ControllerProduct extends Controller
 	public function delete()
 	{
 		$this->load_model('product');
-		if($this->validateDelete() && isset($this->request->post['product_id'])) {
+		if ($this->validateDelete() && isset($this->request->post['product_id'])) {
 			$this->model_product->deleteProduct($this->request->post['product_id']);
 			$this->session->data['success'] = $this->language->get('Success: You have deleted a product!');
 
 			$this->response->redirect($this->link('product', 'token=' . $this->session->data['token'], 'SSL'));
 		}
-		
+
 		$this->getList();
 	}
 
@@ -300,11 +300,11 @@ class ControllerProduct extends Controller
 		} else {
 			$data['error_short_description'] = '';
 		}
-        if (isset($this->error['icon'])) {
-            $data['error_icon'] = $this->error['icon'];
-        } else {
-            $data['error_icon'] = '';
-        }
+		if (isset($this->error['icon'])) {
+			$data['error_icon'] = $this->error['icon'];
+		} else {
+			$data['error_icon'] = '';
+		}
 		if (isset($this->error['screen_size'])) {
 			$data['error_screen_size'] = $this->error['screen_size'];
 		} else {
@@ -388,13 +388,13 @@ class ControllerProduct extends Controller
 		} else {
 			$data['status'] = true;
 		}
-        if (isset($this->request->post['icon'])) {
-            $data['icon'] = $this->request->post['icon'];
-        } elseif (! empty($product_info)) {
-            $data['icon'] = $product_info['icon'];
-        } else {
-            $data['icon'] = '';
-        }
+		if (isset($this->request->post['icon'])) {
+			$data['icon'] = $this->request->post['icon'];
+		} elseif (! empty($product_info)) {
+			$data['icon'] = $product_info['icon'];
+		} else {
+			$data['icon'] = '';
+		}
 		if (isset($this->request->post['publish_date'])) {
 			$data['publish_date'] = $this->request->post['publish_date'];
 		} elseif (! empty($product_info) && isset($product_info['publish_date'])) {
@@ -509,11 +509,11 @@ class ControllerProduct extends Controller
 			'footer'
 		);
 		$this->response->setOutput($this->render());
-    }
+	}
 
 	public function ajaxupdateproductstatus()
 	{
-		
+
 		$json = array();
 		if ($this->request->server['REQUEST_METHOD'] == 'POST') {
 			$this->load_model('product');
@@ -549,14 +549,14 @@ class ControllerProduct extends Controller
 		$this->response->addHeader('Content-Type: application/json');
 		$this->response->setOutput(json_encode($json));
 	}
-	
+
 	protected function validateDelete()
 	{
 
 		if (!$this->user->hasPermission('modify', 'product')) {
 			$this->error['warning'] = 'Warning: You do not have permission for modification!';
 		}
-		
+
 
 		return !$this->error;
 	}
